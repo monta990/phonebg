@@ -1,0 +1,211 @@
+# Phone Background - GLPI Plugin
+# French (France) Translation
+# Copyright (C) 2025 Edwin Elias Alvarez - Sontechs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phonebg 1.2.0\n"
+"Report-Msgid-Bugs-To: https://sontechs.com\n"
+"POT-Creation-Date: 2025-03-08 00:00+0000\n"
+"PO-Revision-Date: 2025-03-08 00:00+0000\n"
+"Last-Translator: Edwin Elias Alvarez\n"
+"Language-Team: French (France)\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: inc/phone.class.php
+msgid "Fondo Celular"
+msgstr "Fond d'écran du téléphone"
+
+#: inc/phone.class.php
+msgid "Fondo"
+msgstr "Fond d'écran"
+
+#: inc/phone.class.php
+msgid "Generador de fondo de pantalla para celular"
+msgstr "Générateur de fond d'écran pour téléphone"
+
+#: inc/phone.class.php
+msgid "No se encontró una plantilla base."
+msgstr "Aucun modèle de base trouvé."
+
+#: inc/phone.class.php
+msgid "Por favor, sube una imagen PNG base en la configuración del complemento."
+msgstr "Veuillez télécharger une image PNG de base dans les paramètres du plugin."
+
+#: inc/phone.class.php
+#, php-format
+msgid "Generar fondo para: %s"
+msgstr "Générer le fond pour : %s"
+
+#: inc/phone.class.php
+msgid "Descargar fondo"
+msgstr "Télécharger le fond"
+
+#: inc/background.class.php
+msgid "La extensión PHP GD es requerida"
+msgstr "L'extension PHP GD est requise"
+
+#: inc/background.class.php
+msgid "Plantilla no encontrada"
+msgstr "Modèle introuvable"
+
+#: inc/background.class.php
+#, php-format
+msgid "Fuente TTF no encontrada: %s"
+msgstr "Police TTF introuvable : %s"
+
+#: inc/background.class.php
+msgid "No se encontró el directorio del complemento, no se puede verificar la fuente TTF"
+msgstr "Répertoire du plugin introuvable, impossible de vérifier la police TTF"
+
+#: inc/background.class.php
+msgid "No se pudo cargar la imagen base"
+msgstr "Impossible de charger l'image de base"
+
+#: inc/background.class.php
+msgid "No se encontró el directorio del complemento"
+msgstr "Répertoire du plugin introuvable"
+
+#: inc/background.class.php
+msgid "El teléfono no tiene una línea asignada"
+msgstr "Le téléphone n'a pas de ligne assignée"
+
+#: front/download.php
+msgid "Teléfono no válido"
+msgstr "Téléphone invalide"
+
+#: front/download.php
+msgid "No se encontró el teléfono"
+msgstr "Téléphone introuvable"
+
+#: front/download.php
+msgid "No se pudo generar la imagen"
+msgstr "Impossible de générer l'image"
+
+#: front/config.form.php
+msgid "Fondo de pantalla celulares"
+msgstr "Fond d'écran téléphones"
+
+#: front/config.form.php
+msgid "Configuración de fondo para celular"
+msgstr "Configuration du fond d'écran téléphone"
+
+#: front/config.form.php
+msgid "Plantilla actual"
+msgstr "Modèle actuel"
+
+#: front/config.form.php
+msgid "Descargar plantilla actual"
+msgstr "Télécharger le modèle actuel"
+
+#: front/config.form.php
+msgid "Eliminar plantilla"
+msgstr "Supprimer le modèle"
+
+#: front/config.form.php
+msgid "Plantilla eliminada correctamente"
+msgstr "Modèle supprimé avec succès"
+
+#: front/config.form.php
+msgid "No se pudo eliminar la plantilla"
+msgstr "Impossible de supprimer le modèle"
+
+#: front/config.form.php
+msgid "Cargar nueva plantilla"
+msgstr "Charger un nouveau modèle"
+
+#: front/config.form.php
+msgid "Vista previa de la nueva base"
+msgstr "Aperçu du nouveau modèle"
+
+#: front/config.form.php
+msgid "Guardar"
+msgstr "Enregistrer"
+
+#: front/config.form.php
+msgid "Archivo demasiado grande (máx 500 KB)"
+msgstr "Fichier trop volumineux (max 500 Ko)"
+
+#: front/config.form.php
+msgid "Formato inválido, solo PNG"
+msgstr "Format invalide, PNG uniquement"
+
+#: front/config.form.php
+msgid "Fondo guardado correctamente"
+msgstr "Fond d'écran enregistré avec succès"
+
+#: front/config.form.php
+msgid "No se pudo guardar la plantilla"
+msgstr "Impossible d'enregistrer le modèle"
+
+#: front/config.form.php
+msgid "Posiciones de texto"
+msgstr "Positions du texte"
+
+#: front/config.form.php
+msgid "Nombre del equipo"
+msgstr "Nom de l'appareil"
+
+#: front/config.form.php
+msgid "Número de línea"
+msgstr "Numéro de ligne"
+
+#: front/config.form.php
+msgid "Tamaño de fuente (px)"
+msgstr "Taille de police (px)"
+
+#: front/config.form.php
+msgid "Color de fuente"
+msgstr "Couleur de police"
+
+#: front/config.form.php
+msgid "Posiciones guardadas correctamente"
+msgstr "Positions enregistrées avec succès"
+
+#: front/config.form.php
+msgid "Restaurar valores por defecto"
+msgstr "Réinitialiser les valeurs par défaut"
+
+#: front/config.form.php
+msgid "Posiciones restablecidas a valores por defecto"
+msgstr "Positions réinitialisées aux valeurs par défaut"
+
+#: front/config.form.php
+msgid "Arrastra cada etiqueta para definir su posición. X = 0 centra el texto automáticamente."
+msgstr "Faites glisser chaque étiquette pour définir sa position. X = 0 centre le texte automatiquement."
+
+#: front/config.form.php
+msgid "No se pudieron guardar las posiciones"
+msgstr "Impossible d'enregistrer les positions"
+
+#: front/config.form.php
+msgid "Sube una plantilla primero para configurar las posiciones del texto."
+msgstr "Téléchargez d'abord un modèle pour configurer les positions du texte."
+
+#: front/config.form.php
+msgid "Campo"
+msgstr "Champ"
+
+#: front/config.form.php
+msgid "Plantilla"
+msgstr "Modèle"
+
+#: front/config.form.php
+msgid "Posiciones"
+msgstr "Positions"
+
+#: inc/phone.class.php
+msgid "Vista previa"
+msgstr "Aperçu"
+
+#: inc/phone.class.php
+msgid "Vista previa del fondo"
+msgstr "Aperçu du fond d'écran"
+
+#: inc/phone.class.php
+msgid "Cerrar"
+msgstr "Fermer"

@@ -1,0 +1,211 @@
+# Phone Background - GLPI Plugin
+# English (United Kingdom) Translation
+# Copyright (C) 2025 Edwin Elias Alvarez - Sontechs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: phonebg 1.2.0\n"
+"Report-Msgid-Bugs-To: https://sontechs.com\n"
+"POT-Creation-Date: 2025-03-08 00:00+0000\n"
+"PO-Revision-Date: 2025-03-08 00:00+0000\n"
+"Last-Translator: Edwin Elias Alvarez\n"
+"Language-Team: English (United Kingdom)\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: inc/phone.class.php
+msgid "Fondo Celular"
+msgstr "Phone Background"
+
+#: inc/phone.class.php
+msgid "Fondo"
+msgstr "Background"
+
+#: inc/phone.class.php
+msgid "Generador de fondo de pantalla para celular"
+msgstr "Phone Wallpaper Generator"
+
+#: inc/phone.class.php
+msgid "No se encontró una plantilla base."
+msgstr "No base template found."
+
+#: inc/phone.class.php
+msgid "Por favor, sube una imagen PNG base en la configuración del complemento."
+msgstr "Please upload a PNG base image in the plugin settings."
+
+#: inc/phone.class.php
+#, php-format
+msgid "Generar fondo para: %s"
+msgstr "Generate background for: %s"
+
+#: inc/phone.class.php
+msgid "Descargar fondo"
+msgstr "Download background"
+
+#: inc/background.class.php
+msgid "La extensión PHP GD es requerida"
+msgstr "PHP GD extension is required"
+
+#: inc/background.class.php
+msgid "Plantilla no encontrada"
+msgstr "Template not found"
+
+#: inc/background.class.php
+#, php-format
+msgid "Fuente TTF no encontrada: %s"
+msgstr "TTF font not found: %s"
+
+#: inc/background.class.php
+msgid "No se encontró el directorio del complemento, no se puede verificar la fuente TTF"
+msgstr "Plugin directory not found, cannot verify TTF font"
+
+#: inc/background.class.php
+msgid "No se pudo cargar la imagen base"
+msgstr "Could not load base image"
+
+#: inc/background.class.php
+msgid "No se encontró el directorio del complemento"
+msgstr "Plugin directory not found"
+
+#: inc/background.class.php
+msgid "El teléfono no tiene una línea asignada"
+msgstr "Phone has no assigned line"
+
+#: front/download.php
+msgid "Teléfono no válido"
+msgstr "Invalid phone"
+
+#: front/download.php
+msgid "No se encontró el teléfono"
+msgstr "Phone not found"
+
+#: front/download.php
+msgid "No se pudo generar la imagen"
+msgstr "Could not generate image"
+
+#: front/config.form.php
+msgid "Fondo de pantalla celulares"
+msgstr "Phone Wallpaper"
+
+#: front/config.form.php
+msgid "Configuración de fondo para celular"
+msgstr "Phone Background Settings"
+
+#: front/config.form.php
+msgid "Plantilla actual"
+msgstr "Current template"
+
+#: front/config.form.php
+msgid "Descargar plantilla actual"
+msgstr "Download current template"
+
+#: front/config.form.php
+msgid "Eliminar plantilla"
+msgstr "Delete template"
+
+#: front/config.form.php
+msgid "Plantilla eliminada correctamente"
+msgstr "Template deleted successfully"
+
+#: front/config.form.php
+msgid "No se pudo eliminar la plantilla"
+msgstr "Could not delete template"
+
+#: front/config.form.php
+msgid "Cargar nueva plantilla"
+msgstr "Upload new template"
+
+#: front/config.form.php
+msgid "Vista previa de la nueva base"
+msgstr "New template preview"
+
+#: front/config.form.php
+msgid "Guardar"
+msgstr "Save"
+
+#: front/config.form.php
+msgid "Archivo demasiado grande (máx 500 KB)"
+msgstr "File too large (max 500 KB)"
+
+#: front/config.form.php
+msgid "Formato inválido, solo PNG"
+msgstr "Invalid format, PNG only"
+
+#: front/config.form.php
+msgid "Fondo guardado correctamente"
+msgstr "Background saved successfully"
+
+#: front/config.form.php
+msgid "No se pudo guardar la plantilla"
+msgstr "Could not save template"
+
+#: front/config.form.php
+msgid "Posiciones de texto"
+msgstr "Text positions"
+
+#: front/config.form.php
+msgid "Nombre del equipo"
+msgstr "Device name"
+
+#: front/config.form.php
+msgid "Número de línea"
+msgstr "Line number"
+
+#: front/config.form.php
+msgid "Tamaño de fuente (px)"
+msgstr "Font size (px)"
+
+#: front/config.form.php
+msgid "Color de fuente"
+msgstr "Font colour"
+
+#: front/config.form.php
+msgid "Posiciones guardadas correctamente"
+msgstr "Positions saved successfully"
+
+#: front/config.form.php
+msgid "Restaurar valores por defecto"
+msgstr "Reset to defaults"
+
+#: front/config.form.php
+msgid "Posiciones restablecidas a valores por defecto"
+msgstr "Positions reset to defaults"
+
+#: front/config.form.php
+msgid "Arrastra cada etiqueta para definir su posición. X = 0 centra el texto automáticamente."
+msgstr "Drag each label to set its position. X = 0 centres text automatically."
+
+#: front/config.form.php
+msgid "No se pudieron guardar las posiciones"
+msgstr "Could not save positions"
+
+#: front/config.form.php
+msgid "Sube una plantilla primero para configurar las posiciones del texto."
+msgstr "Upload a template first to configure text positions."
+
+#: front/config.form.php
+msgid "Campo"
+msgstr "Field"
+
+#: front/config.form.php
+msgid "Plantilla"
+msgstr "Template"
+
+#: front/config.form.php
+msgid "Posiciones"
+msgstr "Positions"
+
+#: inc/phone.class.php
+msgid "Vista previa"
+msgstr "Preview"
+
+#: inc/phone.class.php
+msgid "Vista previa del fondo"
+msgstr "Background Preview"
+
+#: inc/phone.class.php
+msgid "Cerrar"
+msgstr "Close"

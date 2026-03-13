@@ -6,6 +6,23 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.2.1] — 2026-03-13
+
+### Fixed
+- Position editor: draggable labels now render at the actual configured font size instead of a hardcoded 12 px, giving an accurate visual preview of text proportions on the template.
+- Position editor: changing the font size input now immediately updates the label size in the editor and recalculates its position, keeping X/Y values in sync.
+- Config page: hint text ("PNG · Máx 500 KB") was invisible on dark themes; now inherits the theme text color and is always readable.
+- `resource.send.php`: normalized line endings from CRLF to LF for consistency with the rest of the codebase.
+- Position editor: labels now initialize at their correct saved coordinates when the Posiciones tab is opened (previously they appeared stacked at the top-left corner due to zero dimensions while the tab was hidden).
+- Color picker: replaced GLPI's custom `form-control-color` widget (whose RGB slider did not update values) with a native browser color swatch paired with a hex text input; both stay in sync in real time.
+
+### Improved
+- Image generation: auto-shrink now also applies to the line number text, not just the phone name — prevents long numbers from overflowing the image border.
+- Image generation: distinguished between a phone with no line assigned (`null`) and a phone whose line number is stored but empty, providing a more descriptive warning message in each case.
+- Position editor UX: switching to the Template tab while there are unsaved position or font changes triggers a confirmation dialog.
+
+---
+
 ## [1.2.0] — 2026-03-08
 
 ### Added

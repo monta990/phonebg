@@ -97,10 +97,10 @@ class PluginPhonebgBackground {
          (int)hexdec(substr($hex, 4, 2))
       );
 
-      $name   = $phone->getName();
-      $mobile = self::getPhoneLine($phone);
+      $name        = $phone->getName();
+      $mobileRaw   = self::getPhoneLine($phone);
 
-      if ($mobile === '') {
+      if ($mobileRaw === null) {
          imagedestroy($img);
          Session::addMessageAfterRedirect(
             __('El teléfono no tiene una línea asignada', 'phonebg'),
@@ -110,17 +110,38 @@ class PluginPhonebgBackground {
          return '';
       }
 
+      $mobile = trim($mobileRaw);
+      if ($mobile === '') {
+         imagedestroy($img);
+         Session::addMessageAfterRedirect(
+            __('El número de línea del teléfono está vacío', 'phonebg'),
+            false,
+            WARNING
+         );
+         return '';
+      }
+
+      $imgWidth = imagesx($img);
+
       /* Auto-shrink name font if text is wider than the image */
       $nameSize = max(10, (int)$cfg['name_size']);
       while ($nameSize > 10) {
          $bbox = imagettfbbox($nameSize, 0, $font, $name);
-         if (($bbox[2] - $bbox[0]) < imagesx($img) - 40) {
+         if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
             break;
          }
          $nameSize--;
       }
 
+      /* Auto-shrink mobile font if text is wider than the image */
       $mobileSize = max(10, (int)$cfg['mobile_size']);
+      while ($mobileSize > 10) {
+         $bbox = imagettfbbox($mobileSize, 0, $font, $mobile);
+         if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
+            break;
+         }
+         $mobileSize--;
+      }
 
       self::drawText($img, $nameSize,   (int)$cfg['name_x'],   (int)$cfg['name_y'],   $color, $font, $name);
       self::drawText($img, $mobileSize, (int)$cfg['mobile_x'], (int)$cfg['mobile_y'], $color, $font, $mobile);
@@ -133,7 +154,7 @@ class PluginPhonebgBackground {
       return $out;
    }
 
-   private static function getPhoneLine(Phone $phone): string
+   private static function getPhoneLine(Phone $phone): ?string
    {
       global $DB;
 
@@ -158,7 +179,7 @@ class PluginPhonebgBackground {
       ]);
 
       if (!count($iterator)) {
-         return '';
+         return null;
       }
 
       return (string)$iterator->current()['caller_num'];

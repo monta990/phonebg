@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.2.0\n"
+"Project-Id-Version: phonebg 1.2.1\n"
 "Report-Msgid-Bugs-To: https://sontechs.com\n"
 "POT-Creation-Date: 2025-03-08 00:00+0000\n"
 "PO-Revision-Date: 2025-03-08 00:00+0000\n"
@@ -209,3 +209,15 @@ msgstr "Aperçu du fond d'écran"
 #: inc/phone.class.php
 msgid "Cerrar"
 msgstr "Fermer"
+
+#: inc/background.class.php
+msgid "El número de línea del teléfono está vacío"
+msgstr "Le numéro de ligne du téléphone est vide"
+
+#: front/config.form.php
+msgid "Guardar cambios pendientes"
+msgstr "Enregistrer les modifications en attente"
+
+#: front/config.form.php
+msgid "Hay cambios sin guardar en Posiciones. ¿Continuar sin guardar?"
+msgstr "Il y a des modifications non enregistrées dans Positions. Continuer sans enregistrer ?"

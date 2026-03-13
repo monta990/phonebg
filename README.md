@@ -7,7 +7,6 @@
 <p align="center">
   <strong>Author:</strong> Edwin Elias Alvarez &nbsp;|&nbsp;
   <strong>Company:</strong> <a href="https://sontechs.com">Sontechs</a> &nbsp;|&nbsp;
-  <strong>Version:</strong> 1.2.0 &nbsp;|&nbsp;
   <strong>License:</strong> GPLv2+ &nbsp;|&nbsp;
   <strong>GLPI:</strong> 11.0 – 12.0
 </p>
@@ -85,7 +84,6 @@ Disabling and uninstalling via **Setup → Plugins** drops the `glpi_plugin_phon
 
 GNU General Public License v2 or later. See [LICENSE](LICENSE).
 
----
 ---
 
 <p align="center">

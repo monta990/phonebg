@@ -17,7 +17,7 @@ function plugin_init_phonebg() {
 function plugin_version_phonebg() {
    return [
       'name'         => 'Phone Background',
-      'version'      => '1.2.0',
+      'version'      => '1.2.1',
       'author'       => 'Edwin Elias Alvarez',
       'license'      => 'GPLv2+',
       'homepage'     => 'https://sontechs.com',

@@ -92,7 +92,7 @@ if (isset($_POST['save_positions'])) {
    PluginPhonebgConfig::set('font_color', $color);
 
    Session::addMessageAfterRedirect(__('Posiciones guardadas correctamente', 'phonebg'), false, INFO);
-   Html::redirect($self);
+   Html::redirect($self . '?tab=posiciones');
 }
 
 /* ==========================
@@ -122,6 +122,8 @@ $nameX   = (int)$cfg['name_x'];
 $nameY   = (int)$cfg['name_y'];
 $mobileX = (int)$cfg['mobile_x'];
 $mobileY = (int)$cfg['mobile_y'];
+
+$jsConfirmUnsaved = addslashes(__("Hay cambios sin guardar en Posiciones. ¿Continuar sin guardar?", "phonebg"));
 
 $activeTab = isset($_GET['tab']) && $_GET['tab'] === 'posiciones' ? 'posiciones' : 'plantilla';
 
@@ -192,7 +194,7 @@ echo "<div class='mb-3'>
          <label class='form-label fw-bold'>" . __('Cargar nueva plantilla', 'phonebg') . "</label>
          <input type='file' name='base' class='form-control' accept='image/png'
                 onchange='phonebgPreviewNewBase(this)'>
-         <div class='form-text'>PNG · Máx 500 KB</div>
+         <small class='mt-1 d-block'>PNG · Máx 500 KB</small>
       </div>";
 
 echo "<div id='pb-new-preview-wrap' class='mb-3 d-none'
@@ -239,7 +241,7 @@ if ($hasBase) {
                     style='position:absolute;top:0;left:0;
                            border:2px dashed #c0392b;background:rgba(192,57,43,0.13);
                            padding:3px 8px;cursor:grab;
-                           white-space:nowrap;font-size:12px;font-weight:600;
+                           white-space:nowrap;font-size:" . (int)$cfg['name_size'] . "px;font-weight:600;
                            color:#c0392b;line-height:1.4;border-radius:3px;
                            user-select:none;-webkit-user-select:none'>
                   " . __('Nombre del equipo', 'phonebg') . "
@@ -248,7 +250,7 @@ if ($hasBase) {
                     style='position:absolute;top:0;left:0;
                            border:2px dashed #2980b9;background:rgba(41,128,185,0.13);
                            padding:3px 8px;cursor:grab;
-                           white-space:nowrap;font-size:12px;font-weight:600;
+                           white-space:nowrap;font-size:" . (int)$cfg['mobile_size'] . "px;font-weight:600;
                            color:#2980b9;line-height:1.4;border-radius:3px;
                            user-select:none;-webkit-user-select:none'>
                   " . __('Número de línea', 'phonebg') . "
@@ -293,9 +295,15 @@ if ($hasBase) {
                <tr>
                   <td>" . __('Color de fuente', 'phonebg') . "</td>
                   <td colspan='3'>
-                     <input type='color' name='font_color'
-                            value='" . htmlspecialchars((string)$cfg['font_color'], ENT_QUOTES, 'UTF-8') . "'
-                            class='form-control form-control-color' style='width:60px'>
+                     <div class='d-flex align-items-center gap-2'>
+                        <input type='text' name='font_color' id='inp-font-color-text'
+                               value='" . htmlspecialchars((string)$cfg['font_color'], ENT_QUOTES, 'UTF-8') . "'
+                               class='form-control form-control-sm font-monospace' style='width:100px'
+                               maxlength='7' pattern='#[0-9a-fA-F]{6}' placeholder='#000000'>
+                        <input type='color' id='inp-font-color-swatch'
+                               value='" . htmlspecialchars((string)$cfg['font_color'], ENT_QUOTES, 'UTF-8') . "'
+                               style='width:36px;height:36px;padding:2px;border:1px solid #ccc;border-radius:4px;cursor:pointer;background:none'>
+                     </div>
                   </td>
                </tr>
             </tbody>
@@ -404,6 +412,7 @@ function phonebgPreviewNewBase(input) {
             label.style.cursor = 'grab';
             document.removeEventListener('mousemove', onMove);
             document.removeEventListener('mouseup',   onUp);
+            markDirty();
          }
 
          document.addEventListener('mousemove', onMove);
@@ -422,6 +431,12 @@ function phonebgPreviewNewBase(input) {
             var inp = document.getElementById('inp-' + field + '-' + axis);
             if (inp) inp.addEventListener('input', function() { placeLabel(field); });
          });
+         var sizeInp = document.getElementById('inp-' + field + '-size');
+         if (sizeInp) sizeInp.addEventListener('input', function() {
+            var lbl = document.getElementById('pb-label-' + field);
+            if (lbl) lbl.style.fontSize = Math.max(8, parseInt(this.value) || 8) + 'px';
+            placeLabel(field);
+         });
       });
    }
 
@@ -439,6 +454,55 @@ function phonebgPreviewNewBase(input) {
       tabBtn.addEventListener('shown.bs.tab', function () {
          /* Give browser one frame to render the image */
          setTimeout(tryInit, 50);
+      });
+   }
+
+   /* Unsaved changes warning */
+   var pbDirty = false;
+   var pbForm  = document.querySelector('#phonebg-tab-posiciones form');
+
+   function markDirty() {
+      pbDirty = true;
+   }
+
+   if (pbForm) {
+      pbForm.querySelectorAll('input').forEach(function(inp) {
+         inp.addEventListener('input', markDirty);
+         inp.addEventListener('change', markDirty);
+      });
+      pbForm.addEventListener('submit', function() { pbDirty = false; });
+   }
+
+   var tabPlantillaBtn = document.getElementById('tab-plantilla-btn');
+   if (tabPlantillaBtn) {
+      tabPlantillaBtn.addEventListener('click', function(e) {
+         if (pbDirty) {
+            if (!confirm('{$jsConfirmUnsaved}')) {
+               e.stopImmediatePropagation();
+               e.preventDefault();
+            }
+         }
+      });
+   }
+
+   /* Color swatch ↔ text input sync */
+   var colorText   = document.getElementById('inp-font-color-text');
+   var colorSwatch = document.getElementById('inp-font-color-swatch');
+   if (colorText && colorSwatch) {
+      colorSwatch.addEventListener('input', function() {
+         colorText.value = colorSwatch.value;
+         markDirty();
+      });
+      colorText.addEventListener('input', function() {
+         if (/^#[0-9a-fA-F]{6}$/.test(colorText.value)) {
+            colorSwatch.value = colorText.value;
+         }
+         markDirty();
+      });
+      colorText.addEventListener('change', function() {
+         if (/^#[0-9a-fA-F]{6}$/.test(colorText.value)) {
+            colorSwatch.value = colorText.value;
+         }
       });
    }
 

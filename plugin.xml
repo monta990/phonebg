@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
-   <n>Phone Background</n>
+   <name>Phone Background</name>
    <key>phonebg</key>
    <state>stable</state>
 
@@ -9,8 +9,8 @@
    <description>
       <short>
          <en>Generate personalized PNG wallpapers for corporate phones registered in GLPI.</en>
-         <es>Genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI.</es>
-         <fr>Générez des fonds d'écran PNG personnalisés pour les téléphones d'entreprise enregistrés dans GLPI.</fr>
+         <es>Genera fondos de pantalla PNG personalizados para los telefonos corporativos registrados en GLPI.</es>
+         <fr>Generez des fonds d'ecran PNG personnalises pour les telephones d'entreprise enregistres dans GLPI.</fr>
       </short>
       <long>
          <en>
@@ -28,31 +28,31 @@ and download or preview the generated wallpaper directly from the Phone asset ta
 - Multilingual: es_MX, en_US, en_GB, fr_FR
          </en>
          <es>
-Phone Background superpone el nombre del teléfono y el número de línea asignado sobre una plantilla PNG personalizada.
-Configura las posiciones del texto con un editor visual de arrastrar y soltar, ajusta el tamaño y color de fuente
-por campo, y descarga o previsualiza el fondo generado directamente desde la pestaña del activo Teléfono.
+Phone Background superpone el nombre del telefono y el numero de linea asignado sobre una plantilla PNG personalizada.
+Configura las posiciones del texto con un editor visual de arrastrar y soltar, ajusta el tamano y color de fuente
+por campo, y descarga o previsualiza el fondo generado directamente desde la pestana del activo Telefono.
 
-**Características:**
-- Sube una plantilla PNG personalizada (máx 500 KB)
-- Editor visual de posiciones a tamaño real de imagen
-- Tamaño y color de fuente configurables por campo
-- X = 0 centra el texto horizontalmente de forma automática
+**Caracteristicas:**
+- Sube una plantilla PNG personalizada (max 500 KB)
+- Editor visual de posiciones a tamano real de imagen
+- Tamano y color de fuente configurables por campo
+- X = 0 centra el texto horizontalmente de forma automatica
 - Modal de vista previa antes de descargar
 - Posiciones almacenadas en base de datos, sobreviven actualizaciones
 - Multiidioma: es_MX, en_US, en_GB, fr_FR
          </es>
          <fr>
-Phone Background superpose le nom du téléphone et le numéro de ligne assigné sur un modèle PNG personnalisé.
-Configurez les positions du texte avec un éditeur visuel par glisser-déposer, ajustez la taille et la couleur
-de police par champ, et téléchargez ou prévisualisez le fond d'écran généré directement depuis l'onglet de l'actif Téléphone.
+Phone Background superpose le nom du telephone et le numero de ligne assigne sur un modele PNG personnalise.
+Configurez les positions du texte avec un editeur visuel par glisser-deposer, ajustez la taille et la couleur
+de police par champ, et telechargez ou previsualisez le fond d'ecran genere directement depuis l'onglet Telephone.
 
-**Fonctionnalités :**
-- Chargez un modèle PNG personnalisé (max 500 Ko)
-- Éditeur visuel de positions par glisser-déposer à taille réelle
+**Fonctionnalites :**
+- Chargez un modele PNG personnalise (max 500 Ko)
+- Editeur visuel de positions par glisser-deposer a taille reelle
 - Taille et couleur de police configurables par champ
 - X = 0 centre le texte horizontalement automatiquement
-- Aperçu en modal avant le téléchargement
-- Positions stockées en base de données, survivent aux mises à jour
+- Apercu en modal avant le telechargement
+- Positions stockees en base de donnees, survivent aux mises a jour
 - Multilingue : es_MX, en_US, en_GB, fr_FR
          </fr>
       </long>
@@ -71,7 +71,7 @@ de police par champ, et téléchargez ou prévisualisez le fond d'écran génér
       <version>
          <num>1.2.0</num>
          <compatibility>~11.0.0</compatibility>
-         <download_url>https://github.com/monta990/phonebg/releases/download/1.2.0/phonebg-1_2_0.zip</download_url>
+         <download_url>https://github.com/monta990/phonebg/releases/download/1.2.0/phonebg-1.2.0.zip</download_url>
       </version>
    </versions>
 
@@ -93,14 +93,14 @@ de police par champ, et téléchargez ou prévisualisez le fond d'écran génér
          <tag>asset</tag>
       </en>
       <es>
-         <tag>teléfono</tag>
+         <tag>telefono</tag>
          <tag>fondo de pantalla</tag>
          <tag>imagen</tag>
          <tag>activo</tag>
       </es>
       <fr>
-         <tag>téléphone</tag>
-         <tag>fond d'écran</tag>
+         <tag>telephone</tag>
+         <tag>fond d'ecran</tag>
          <tag>image</tag>
          <tag>actif</tag>
       </fr>

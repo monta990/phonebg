@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <root>
-   <name>Phone Background</name>
+   <n>Phone Background</n>
    <key>phonebg</key>
    <state>stable</state>
 
@@ -10,6 +10,7 @@
       <short>
          <en>Generate personalized PNG wallpapers for corporate phones registered in GLPI.</en>
          <es>Genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI.</es>
+         <fr>Générez des fonds d'écran PNG personnalisés pour les téléphones d'entreprise enregistrés dans GLPI.</fr>
       </short>
       <long>
          <en>
@@ -40,6 +41,20 @@ por campo, y descarga o previsualiza el fondo generado directamente desde la pes
 - Posiciones almacenadas en base de datos, sobreviven actualizaciones
 - Multiidioma: es_MX, en_US, en_GB, fr_FR
          </es>
+         <fr>
+Phone Background superpose le nom du téléphone et le numéro de ligne assigné sur un modèle PNG personnalisé.
+Configurez les positions du texte avec un éditeur visuel par glisser-déposer, ajustez la taille et la couleur
+de police par champ, et téléchargez ou prévisualisez le fond d'écran généré directement depuis l'onglet de l'actif Téléphone.
+
+**Fonctionnalités :**
+- Chargez un modèle PNG personnalisé (max 500 Ko)
+- Éditeur visuel de positions par glisser-déposer à taille réelle
+- Taille et couleur de police configurables par champ
+- X = 0 centre le texte horizontalement automatiquement
+- Aperçu en modal avant le téléchargement
+- Positions stockées en base de données, survivent aux mises à jour
+- Multilingue : es_MX, en_US, en_GB, fr_FR
+         </fr>
       </long>
    </description>
 
@@ -56,7 +71,7 @@ por campo, y descarga o previsualiza el fondo generado directamente desde la pes
       <version>
          <num>1.2.0</num>
          <compatibility>~11.0.0</compatibility>
-         <download_url>https://github.com/monta990/phonebg/releases/download/1.2.0/phonebg-1.2.0.zip</download_url>
+         <download_url>https://github.com/monta990/phonebg/releases/download/1.2.0/phonebg-1_2_0.zip</download_url>
       </version>
    </versions>
 
@@ -83,6 +98,12 @@ por campo, y descarga o previsualiza el fondo generado directamente desde la pes
          <tag>imagen</tag>
          <tag>activo</tag>
       </es>
+      <fr>
+         <tag>téléphone</tag>
+         <tag>fond d'écran</tag>
+         <tag>image</tag>
+         <tag>actif</tag>
+      </fr>
    </tags>
 
    <screenshots>

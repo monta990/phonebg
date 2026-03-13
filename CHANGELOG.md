@@ -9,6 +9,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.2.0] — 2026-03-08
 
 ### Added
+- `plugin.xml` following the GLPI marketplace schema — enables listing in the official GLPI plugin directory. Includes multilingual descriptions (en/es), version history, download URLs pointing to GitHub releases, and language/tag metadata.
 - Configuration page now uses Bootstrap tabs: **Plantilla** (upload/delete) and **Posiciones** (position editor), matching GLPI's native tab style.
 - Preview button in Phone asset tab opens a modal with the generated wallpaper inline before downloading.
 - `download.php` supports `?preview=1` parameter to serve the PNG inline (`Content-Disposition: inline`).

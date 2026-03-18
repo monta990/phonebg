@@ -86,6 +86,13 @@ GNU General Public License v2 or later. See [LICENSE](LICENSE).
 
 ---
 
+## Buy me a coffee :)
+If you like my work, you can support me by a donate here:
+
+<a href="https://www.buymeacoffee.com/monta990" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="51px" width="210px"></a>
+
+---
+
 <p align="center">
   <img src="logo.png" width="128" alt="Logo Plugin Phone Background">
 </p>
@@ -172,3 +179,12 @@ Desactivar y desinstalar desde **Configuración → Complementos** elimina la ta
 ## Licencia
 
 Licencia Pública General GNU v2 o posterior. Ver [LICENSE](LICENSE).
+
+---
+
+## Comprame un cafe :)
+Si te gusta mi trabajo, puedes apoyarme realizando una donación:
+
+<a href="https://www.buymeacoffee.com/monta990" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="51px" width="210px"></a>
+
+---

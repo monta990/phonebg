@@ -6,8 +6,9 @@
 
 <p align="center">
   <strong>Author:</strong> Edwin Elias Alvarez &nbsp;|&nbsp;
+  <strong>Company:</strong> <a href="https://sontechs.com">Sontechs</a> &nbsp;|&nbsp;
   <strong>License:</strong> GPLv2+ &nbsp;|&nbsp;
-  <strong>GLPI:</strong> 11.0 – 12.0
+  <strong>GLPI:</strong> 11.0+
 </p>
 
 ---
@@ -100,9 +101,9 @@ If you like my work, you can support me by a donate here:
 
 <p align="center">
   <strong>Autor:</strong> Edwin Elias Alvarez &nbsp;|&nbsp;
-  <strong>Versión:</strong> 1.2.0 &nbsp;|&nbsp;
+  <strong>Empresa:</strong> <a href="https://sontechs.com">Sontechs</a> &nbsp;|&nbsp;
   <strong>Licencia:</strong> GPLv2+ &nbsp;|&nbsp;
-  <strong>GLPI:</strong> 11.0 – 12.0
+  <strong>GLPI:</strong> 11.0+
 </p>
 
 ---

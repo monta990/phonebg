@@ -80,9 +80,11 @@ if (isset($_POST['save']) && isset($_FILES['base'])) {
  * ========================== */
 if (isset($_POST['save_positions'])) {
 
-   $intFields = ['name_x', 'name_y', 'name_size', 'mobile_x', 'mobile_y', 'mobile_size'];
-   foreach ($intFields as $f) {
+   foreach (['name_x', 'name_y', 'mobile_x', 'mobile_y'] as $f) {
       PluginPhonebgConfig::set($f, max(0, (int)($_POST[$f] ?? 0)));
+   }
+   foreach (['name_size', 'mobile_size'] as $f) {
+      PluginPhonebgConfig::set($f, max(8, (int)($_POST[$f] ?? 8)));
    }
 
    $color = $_POST['font_color'] ?? '#000000';

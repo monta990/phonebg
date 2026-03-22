@@ -29,8 +29,8 @@ header('Content-Length: ' . filesize($path));
 $mtime = filemtime($path);
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime) . ' GMT');
 header('ETag: "' . md5_file($path) . '"');
-header('Cache-Control: private, max-age=3600');
-header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Cache-Control: no-cache, must-revalidate');
+header('Content-Disposition: inline; filename="' . $filename . '"');
 
 readfile($path);
 exit;

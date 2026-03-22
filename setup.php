@@ -17,14 +17,13 @@ function plugin_init_phonebg() {
 function plugin_version_phonebg() {
    return [
       'name'         => 'Phone Background',
-      'version'      => '1.2.1',
+      'version'      => '1.2.2',
       'author'       => 'Edwin Elias Alvarez',
       'license'      => 'GPLv2+',
       'homepage'     => 'https://sontechs.com',
       'requirements' => [
          'glpi' => [
             'min' => '11.0',
-            'max' => '12.0',
          ]
       ]
    ];

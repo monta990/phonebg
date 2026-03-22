@@ -6,6 +6,18 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.2.2] — 2026-03-22
+
+### Fixed
+- README: removed GLPI maximum version (12.0) — GLPI 12 does not exist; compatibility is declared as 11.0+.
+- README (ES): removed leftover `Versión: 1.2.0` badge from the Spanish section.
+- `setup.php`: removed `max` GLPI version requirement — plugin is no longer artificially capped at 12.0.
+- POST handler: `name_size` and `mobile_size` are now saved with `max(8, ...)` instead of `max(0, ...)`, preventing zero or sub-minimum font sizes if the HTML `min=8` attribute is bypassed.
+- `resource.send.php`: `Content-Disposition` changed from `attachment` to `inline` — the endpoint serves the template as an `<img>` source in the editor, not a download.
+- `resource.send.php`: `Cache-Control` changed from `private, max-age=3600` to `no-cache, must-revalidate` — the template can change at any time and should not be served stale.
+
+---
+
 ## [1.2.1] — 2026-03-13
 
 ### Fixed

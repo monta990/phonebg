@@ -20,12 +20,14 @@
 
 Phone Background generates personalized PNG wallpapers for corporate phones registered in GLPI. It overlays the phone's name and assigned line number onto a custom PNG template, and lets each phone record owner download the wallpaper directly from the Phone asset tab.
 
+---
+
 ## Requirements
 
 | Requirement     | Minimum version        |
 |-----------------|------------------------|
-| GLPI            | 11.0                   |
-| PHP             | 8.1                    |
+| GLPI            | ≥ 11.0                 |
+| PHP             | ≥ 8.1                  |
 | PHP extension   | GD (image processing)  |
 
 ## Installation
@@ -136,12 +138,14 @@ Report bugs or request features on the [issue tracker](https://github.com/monta9
 
 Phone Background genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI. Superpone el nombre del teléfono y el número de línea asignado sobre una plantilla PNG personalizable, y permite descargar el fondo directamente desde la pestaña del activo de tipo Teléfono.
 
+---
+
 ## Requisitos
 
 | Requisito       | Versión mínima                  |
 |-----------------|---------------------------------|
-| GLPI            | 11.0                            |
-| PHP             | 8.2                             |
+| GLPI            | ≥ 11.0                          |
+| PHP             | ≥ 8.2                           |
 | Extensión PHP   | GD (procesamiento de imágenes)  |
 
 ## Instalación

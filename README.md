@@ -2,13 +2,16 @@
   <img src="logo.png" width="128" alt="Phone Background Plugin Logo">
 </p>
 
-<h1 align="center">Phone Background — GLPI Plugin</h1>
+<h1 align="center">Phone Background </h1>
+
+<<p align="center">
+  <strong>GLPI plugin — Generates personalized PNG wallpapers for corporate phones registered in GLPI</strong>
+</p>
 
 <p align="center">
-  <strong>Author:</strong> Edwin Elias Alvarez &nbsp;|&nbsp;
-  <strong>Company:</strong> <a href="https://sontechs.com">Sontechs</a> &nbsp;|&nbsp;
-  <strong>License:</strong> GPLv2+ &nbsp;|&nbsp;
-  <strong>GLPI:</strong> 11.0+
+  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
+  <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v2%2B-green?style=flat-square" alt="License"></a>
+  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
 </p>
 
 ---
@@ -80,9 +83,17 @@ phonebg/
 
 Disabling and uninstalling via **Setup → Plugins** drops the `glpi_plugin_phonebg_config` table. The uploaded template and generated files in `files/_plugins/phonebg/` are intentionally preserved.
 
-## License
+---
 
-GNU General Public License v2 or later. See [LICENSE](LICENSE).
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
+---
+
+## Author
+
+**Edwin Elias Alvarez** — [GitHub](https://github.com/monta990)
 
 ---
 
@@ -93,17 +104,30 @@ If you like my work, you can support me by a donate here:
 
 ---
 
+## License
+
+GPL v2 or later. See [LICENSE](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+
+## Issues
+
+Report bugs or request features on the [issue tracker](https://github.com/monta990/phonebg/issues).
+
+---
+
 <p align="center">
   <img src="logo.png" width="128" alt="Logo Plugin Phone Background">
 </p>
 
 <h1 align="center">Phone Background — Plugin para GLPI</h1>
 
+<<<p align="center">
+  <strong>Plugin para GLPI — genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI</strong>
+</p>
+
 <p align="center">
-  <strong>Autor:</strong> Edwin Elias Alvarez &nbsp;|&nbsp;
-  <strong>Empresa:</strong> <a href="https://sontechs.com">Sontechs</a> &nbsp;|&nbsp;
-  <strong>Licencia:</strong> GPLv2+ &nbsp;|&nbsp;
-  <strong>GLPI:</strong> 11.0+
+  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
+  <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v2%2B-green?style=flat-square" alt="License"></a>
+  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
 </p>
 
 ---
@@ -117,7 +141,7 @@ Phone Background genera fondos de pantalla PNG personalizados para los teléfono
 | Requisito       | Versión mínima                  |
 |-----------------|---------------------------------|
 | GLPI            | 11.0                            |
-| PHP             | 8.1                             |
+| PHP             | 8.2                             |
 | Extensión PHP   | GD (procesamiento de imágenes)  |
 
 ## Instalación
@@ -175,15 +199,31 @@ phonebg/
 
 Desactivar y desinstalar desde **Configuración → Complementos** elimina la tabla `glpi_plugin_phonebg_config`. Los archivos de plantilla y los fondos generados en `files/_plugins/phonebg/` se conservan intencionalmente.
 
-## Licencia
+---
 
-Licencia Pública General GNU v2 o posterior. Ver [LICENSE](LICENSE).
+## Cambios
+
+Ver [CHANGELOG.md](CHANGELOG.md).
+
+---
+
+## Autor
+
+**Edwin Elias Alvarez** — [GitHub](https://github.com/monta990)
 
 ---
 
 ## Comprame un cafe :)
-Si te gusta mi trabajo, puedes apoyarme realizando una donación:
+Si te gusta mi trabajo, me puedes apoyar con una donación:
 
 <a href="https://www.buymeacoffee.com/monta990" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="51px" width="210px"></a>
 
 ---
+
+## Licencia
+
+GPL v2 o posterior. Ver [LICENSE](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+
+## Problemas
+
+Reporta errores o solicita funcionalidades en el [issue tracker](https://github.com/monta990/phonebg/issues).

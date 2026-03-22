@@ -4,7 +4,7 @@
 
 <h1 align="center">Phone Background </h1>
 
-<<p align="center">
+<p align="center">
   <strong>GLPI plugin — Generates personalized PNG wallpapers for corporate phones registered in GLPI</strong>
 </p>
 
@@ -120,7 +120,7 @@ Report bugs or request features on the [issue tracker](https://github.com/monta9
 
 <h1 align="center">Phone Background — Plugin para GLPI</h1>
 
-<<<p align="center">
+<p align="center">
   <strong>Plugin para GLPI — genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI</strong>
 </p>
 

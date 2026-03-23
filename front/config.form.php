@@ -28,9 +28,9 @@ if (!is_dir($templatesDir)) {
  * ========================== */
 if (isset($_POST['delete_base']) && $hasBase) {
    if (unlink($baseFile)) {
-      Session::addMessageAfterRedirect(__('Plantilla eliminada correctamente', 'phonebg'), false, INFO);
+      Session::addMessageAfterRedirect(__('Template deleted successfully', 'phonebg'), false, INFO);
    } else {
-      Session::addMessageAfterRedirect(__('No se pudo eliminar la plantilla', 'phonebg'), false, ERROR);
+      Session::addMessageAfterRedirect(__('Could not delete template', 'phonebg'), false, ERROR);
    }
    Html::redirect($self);
 }
@@ -53,22 +53,22 @@ if (isset($_POST['save']) && isset($_FILES['base'])) {
 
    if ($size > $maxSize) {
       Session::addMessageAfterRedirect(
-         __('Archivo demasiado grande (máx 500 KB)', 'phonebg'),
+         __('File too large (max 500 KB)', 'phonebg'),
          false,
          ERROR
       );
    } elseif (!in_array($mime, $allowedMime, true)) {
       Session::addMessageAfterRedirect(
-         __('Formato inválido, solo PNG', 'phonebg'),
+         __('Invalid format, PNG only', 'phonebg'),
          false,
          ERROR
       );
    } else {
       if (move_uploaded_file($tmpFile, $baseFile)) {
          chmod($baseFile, 0644);
-         Session::addMessageAfterRedirect(__('Fondo guardado correctamente', 'phonebg'), false, INFO);
+         Session::addMessageAfterRedirect(__('Background saved successfully', 'phonebg'), false, INFO);
       } else {
-         Session::addMessageAfterRedirect(__('No se pudo guardar la plantilla', 'phonebg'), false, ERROR);
+         Session::addMessageAfterRedirect(__('Could not save template', 'phonebg'), false, ERROR);
       }
    }
 
@@ -93,7 +93,7 @@ if (isset($_POST['save_positions'])) {
    }
    PluginPhonebgConfig::set('font_color', $color);
 
-   Session::addMessageAfterRedirect(__('Posiciones guardadas correctamente', 'phonebg'), false, INFO);
+   Session::addMessageAfterRedirect(__('Positions saved successfully', 'phonebg'), false, INFO);
    Html::redirect($self . '?tab=posiciones');
 }
 
@@ -102,7 +102,7 @@ if (isset($_POST['save_positions'])) {
  * ========================== */
 if (isset($_POST['reset_positions'])) {
    PluginPhonebgConfig::resetToDefaults();
-   Session::addMessageAfterRedirect(__('Posiciones restablecidas a valores por defecto', 'phonebg'), false, INFO);
+   Session::addMessageAfterRedirect(__('Positions reset to default values', 'phonebg'), false, INFO);
    Html::redirect($self);
 }
 
@@ -110,7 +110,7 @@ if (isset($_POST['reset_positions'])) {
  * Page header
  * ========================== */
 Html::header(
-   __('Fondo de pantalla celulares', 'phonebg'),
+   __('Phone Wallpapers', 'phonebg'),
    $self,
    'config',
    'plugins'
@@ -125,7 +125,7 @@ $nameY   = (int)$cfg['name_y'];
 $mobileX = (int)$cfg['mobile_x'];
 $mobileY = (int)$cfg['mobile_y'];
 
-$jsConfirmUnsaved = addslashes(__("Hay cambios sin guardar en Posiciones. ¿Continuar sin guardar?", "phonebg"));
+$jsConfirmUnsaved = addslashes(__("There are unsaved changes in Positions. Continue without saving?", "phonebg"));
 
 $activeTab = isset($_GET['tab']) && $_GET['tab'] === 'posiciones' ? 'posiciones' : 'plantilla';
 
@@ -146,7 +146,7 @@ echo "   <li class='nav-item' role='presentation'>
                     data-bs-toggle='tab'
                     data-bs-target='#phonebg-tab-plantilla'
                     type='button' role='tab'>
-               <i class='ti ti-photo me-1'></i>" . __('Plantilla', 'phonebg') . "
+               <i class='ti ti-photo me-1'></i>" . __('Template', 'phonebg') . "
             </button>
          </li>";
 
@@ -157,7 +157,7 @@ if ($hasBase) {
                     data-bs-toggle='tab'
                     data-bs-target='#phonebg-tab-posiciones'
                     type='button' role='tab'>
-               <i class='ti ti-adjustments-horizontal me-1'></i>" . __('Posiciones', 'phonebg') . "
+               <i class='ti ti-adjustments-horizontal me-1'></i>" . __('Positions', 'phonebg') . "
             </button>
          </li>";
 }
@@ -179,21 +179,21 @@ echo "<div class='card-body'>";
 if ($hasBase) {
    $url = PluginPhonebgPaths::baseUrl();
    echo "<div class='mb-4'>
-            <label class='form-label fw-bold'>" . __('Plantilla actual', 'phonebg') . "</label><br>
+            <label class='form-label fw-bold'>" . __('Current template', 'phonebg') . "</label><br>
             <div style='border:1px solid #ccc;padding:6px;display:inline-block;overflow:auto;max-width:100%'>
-               <a href='{$url}' download title='" . __('Descargar plantilla actual', 'phonebg') . "'>
+               <a href='{$url}' download title='" . __('Download current template', 'phonebg') . "'>
                   <img src='{$url}&t=" . time() . "'
                        style='display:block;width:auto;height:auto;max-width:none;cursor:pointer'>
                </a>
             </div><br><br>
             <button type='submit' name='delete_base' class='btn btn-danger gap-2'>
-               <i class='ti ti-trash'></i>" . __('Eliminar plantilla', 'phonebg') . "
+               <i class='ti ti-trash'></i>" . __('Delete template', 'phonebg') . "
             </button>
          </div>";
 }
 
 echo "<div class='mb-3'>
-         <label class='form-label fw-bold'>" . __('Cargar nueva plantilla', 'phonebg') . "</label>
+         <label class='form-label fw-bold'>" . __('Upload new template', 'phonebg') . "</label>
          <input type='file' name='base' class='form-control' accept='image/png'
                 onchange='phonebgPreviewNewBase(this)'>
          <small class='mt-1 d-block'>PNG · Máx 500 KB</small>
@@ -201,14 +201,14 @@ echo "<div class='mb-3'>
 
 echo "<div id='pb-new-preview-wrap' class='mb-3 d-none'
            style='border:1px dashed #999;padding:6px;display:inline-block;overflow:auto;max-width:100%'>
-         <label class='form-label fw-bold'>" . __('Vista previa de la nueva base', 'phonebg') . "</label><br>
+         <label class='form-label fw-bold'>" . __('Preview new template', 'phonebg') . "</label><br>
          <img id='pb-new-preview' style='display:block;width:auto;height:auto;max-width:none'>
       </div>";
 
 echo "</div>"; /* /card-body */
 echo "<div class='card-footer text-end'>
          <button type='submit' name='save' class='btn btn-primary gap-2'>
-            <i class='ti ti-device-floppy'></i>" . __('Guardar', 'phonebg') . "
+            <i class='ti ti-device-floppy'></i>" . __('Save', 'phonebg') . "
          </button>
       </div>";
 echo "</form>";
@@ -228,7 +228,7 @@ if ($hasBase) {
 
    echo "<p class='text-muted mb-3'>
             <i class='ti ti-hand-move me-1'></i>
-            " . __('Arrastra cada etiqueta para definir su posición. X = 0 centra el texto automáticamente.', 'phonebg') . "
+            " . __('Drag each label to set its position. X = 0 centers the text automatically.', 'phonebg') . "
          </p>";
 
    echo "<div id='pb-editor-outer' style='overflow:auto;max-width:100%;margin-bottom:1rem;border:1px solid #ddd'>
@@ -246,7 +246,7 @@ if ($hasBase) {
                            white-space:nowrap;font-size:" . (int)$cfg['name_size'] . "px;font-weight:600;
                            color:#c0392b;line-height:1.4;border-radius:3px;
                            user-select:none;-webkit-user-select:none'>
-                  " . __('Nombre del equipo', 'phonebg') . "
+                  " . __('Device name', 'phonebg') . "
                </div>
                <div id='pb-label-mobile'
                     style='position:absolute;top:0;left:0;
@@ -255,7 +255,7 @@ if ($hasBase) {
                            white-space:nowrap;font-size:" . (int)$cfg['mobile_size'] . "px;font-weight:600;
                            color:#2980b9;line-height:1.4;border-radius:3px;
                            user-select:none;-webkit-user-select:none'>
-                  " . __('Número de línea', 'phonebg') . "
+                  " . __('Line number', 'phonebg') . "
                </div>
             </div>
          </div>";
@@ -263,15 +263,15 @@ if ($hasBase) {
    echo "<table class='table table-sm table-bordered' style='max-width:520px'>
             <thead class='table-light'>
                <tr>
-                  <th>" . __('Campo', 'phonebg') . "</th>
-                  <th>" . __('Tamaño de fuente (px)', 'phonebg') . "</th>
+                  <th>" . __('Field', 'phonebg') . "</th>
+                  <th>" . __('Font size (px)', 'phonebg') . "</th>
                   <th>X</th>
                   <th>Y</th>
                </tr>
             </thead>
             <tbody>
                <tr>
-                  <td><span style='color:#c0392b'>&#9632;</span> " . __('Nombre del equipo', 'phonebg') . "</td>
+                  <td><span style='color:#c0392b'>&#9632;</span> " . __('Device name', 'phonebg') . "</td>
                   <td><input type='number' name='name_size' id='inp-name-size'
                              value='" . (int)$cfg['name_size'] . "' min='8' max='300'
                              class='form-control form-control-sm' style='width:75px'></td>
@@ -283,7 +283,7 @@ if ($hasBase) {
                              class='form-control form-control-sm' style='width:75px'></td>
                </tr>
                <tr>
-                  <td><span style='color:#2980b9'>&#9632;</span> " . __('Número de línea', 'phonebg') . "</td>
+                  <td><span style='color:#2980b9'>&#9632;</span> " . __('Line number', 'phonebg') . "</td>
                   <td><input type='number' name='mobile_size' id='inp-mobile-size'
                              value='" . (int)$cfg['mobile_size'] . "' min='8' max='300'
                              class='form-control form-control-sm' style='width:75px'></td>
@@ -295,7 +295,7 @@ if ($hasBase) {
                              class='form-control form-control-sm' style='width:75px'></td>
                </tr>
                <tr>
-                  <td>" . __('Color de fuente', 'phonebg') . "</td>
+                  <td>" . __('Font color', 'phonebg') . "</td>
                   <td colspan='3'>
                      <div class='d-flex align-items-center gap-2'>
                         <input type='text' name='font_color' id='inp-font-color-text'
@@ -314,10 +314,10 @@ if ($hasBase) {
    echo "</div>"; /* /card-body */
    echo "<div class='card-footer d-flex justify-content-between align-items-center'>
             <button type='submit' name='reset_positions' class='btn btn-outline-secondary gap-2'>
-               <i class='ti ti-refresh'></i>" . __('Restaurar valores por defecto', 'phonebg') . "
+               <i class='ti ti-refresh'></i>" . __('Reset to defaults', 'phonebg') . "
             </button>
             <button type='submit' name='save_positions' class='btn btn-primary gap-2'>
-               <i class='ti ti-device-floppy'></i>" . __('Guardar', 'phonebg') . "
+               <i class='ti ti-device-floppy'></i>" . __('Save', 'phonebg') . "
             </button>
          </div>";
    echo "</form>";

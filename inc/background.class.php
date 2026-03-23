@@ -11,23 +11,23 @@ class PluginPhonebgBackground {
       $errors = [];
 
       if (!extension_loaded('gd')) {
-         $errors[] = __('La extensión PHP GD es requerida', 'phonebg');
+         $errors[] = __('PHP GD extension is required', 'phonebg');
       }
 
       if (!is_readable(PluginPhonebgPaths::basePath())) {
-         $errors[] = __('Plantilla no encontrada', 'phonebg');
+         $errors[] = __('Template not found', 'phonebg');
       }
 
       try {
          $fontPath = PluginPhonebgPaths::getFontDejaVuSans();
          if (!is_readable($fontPath)) {
             $errors[] = sprintf(
-               __('Fuente TTF no encontrada: %s', 'phonebg'),
+               __('TTF font not found: %s', 'phonebg'),
                $fontPath
             );
          }
       } catch (RuntimeException $e) {
-         $errors[] = __('No se encontró el directorio del complemento, no se puede verificar la fuente TTF', 'phonebg');
+         $errors[] = __('Plugin directory not found, unable to verify TTF font', 'phonebg');
       }
 
       return $errors;
@@ -63,7 +63,7 @@ class PluginPhonebgBackground {
 
       if (!$img instanceof GdImage) {
          Session::addMessageAfterRedirect(
-            __('No se pudo cargar la imagen base', 'phonebg'),
+            __('Could not load base image', 'phonebg'),
             false,
             ERROR
          );
@@ -79,7 +79,7 @@ class PluginPhonebgBackground {
       } catch (RuntimeException $e) {
          imagedestroy($img);
          Session::addMessageAfterRedirect(
-            __('No se encontró el directorio del complemento', 'phonebg'),
+            __('Plugin directory not found', 'phonebg'),
             false,
             ERROR
          );
@@ -103,7 +103,7 @@ class PluginPhonebgBackground {
       if ($mobileRaw === null) {
          imagedestroy($img);
          Session::addMessageAfterRedirect(
-            __('El teléfono no tiene una línea asignada', 'phonebg'),
+            __('The phone has no assigned line', 'phonebg'),
             false,
             WARNING
          );
@@ -114,7 +114,7 @@ class PluginPhonebgBackground {
       if ($mobile === '') {
          imagedestroy($img);
          Session::addMessageAfterRedirect(
-            __('El número de línea del teléfono está vacío', 'phonebg'),
+            __('The phone line number is empty', 'phonebg'),
             false,
             WARNING
          );

@@ -27,7 +27,7 @@ Phone Background generates personalized PNG wallpapers for corporate phones regi
 | Requirement     | Minimum version        |
 |-----------------|------------------------|
 | GLPI            | ≥ 11.0                 |
-| PHP             | ≥ 8.1                  |
+| PHP             | ≥ 8.2                  |
 | PHP extension   | GD (image processing)  |
 
 ## Installation
@@ -120,7 +120,7 @@ Report bugs or request features on the [issue tracker](https://github.com/monta9
   <img src="logo.png" width="128" alt="Logo Plugin Phone Background">
 </p>
 
-<h1 align="center">Phone Background — Plugin para GLPI</h1>
+<h1 align="center">Phone Background</h1>
 
 <p align="center">
   <strong>Plugin para GLPI — genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI</strong>

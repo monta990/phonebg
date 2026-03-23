@@ -1,223 +1,169 @@
-# Phone Background - GLPI Plugin
-# English (United Kingdom) Translation
-# Copyright (C) 2025 Edwin Elias Alvarez - Sontechs
-#
+# phonebg — GLPI plugin
+# Copyright (C) 2025 Edwin Elias Alvarez
+# This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.2.2\n"
-"Report-Msgid-Bugs-To: https://sontechs.com\n"
-"POT-Creation-Date: 2025-03-08 00:00+0000\n"
-"PO-Revision-Date: 2025-03-08 00:00+0000\n"
+"Project-Id-Version: phonebg 1.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-23\n"
+"PO-Revision-Date: 2026-03-23\n"
 "Last-Translator: Edwin Elias Alvarez\n"
-"Language-Team: English (United Kingdom)\n"
+"Language-Team: English (GB)
 "Language: en_GB\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: inc/phone.class.php
-msgid "Fondo Celular"
-msgstr "Phone Background"
+msgid "Background"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "Fondo"
-msgstr "Background"
+msgid "Background preview"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "Generador de fondo de pantalla para celular"
-msgstr "Phone Wallpaper Generator"
+msgid "Background saved successfully"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "No se encontró una plantilla base."
-msgstr "No base template found."
+msgid "Close"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "Por favor, sube una imagen PNG base en la configuración del complemento."
-msgstr "Please upload a PNG base image in the plugin settings."
+msgid "Could not delete template"
+msgstr ""
 
-#: inc/phone.class.php
-#, php-format
-msgid "Generar fondo para: %s"
-msgstr "Generate background for: %s"
+msgid "Could not generate image"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "Descargar fondo"
-msgstr "Download background"
+msgid "Could not load base image"
+msgstr ""
 
-#: inc/background.class.php
-msgid "La extensión PHP GD es requerida"
-msgstr "PHP GD extension is required"
+msgid "Could not save positions"
+msgstr ""
 
-#: inc/background.class.php
-msgid "Plantilla no encontrada"
-msgstr "Template not found"
+msgid "Could not save template"
+msgstr ""
 
-#: inc/background.class.php
-#, php-format
-msgid "Fuente TTF no encontrada: %s"
-msgstr "TTF font not found: %s"
+msgid "Current template"
+msgstr ""
 
-#: inc/background.class.php
-msgid "No se encontró el directorio del complemento, no se puede verificar la fuente TTF"
-msgstr "Plugin directory not found, cannot verify TTF font"
+msgid "Delete template"
+msgstr ""
 
-#: inc/background.class.php
-msgid "No se pudo cargar la imagen base"
-msgstr "Could not load base image"
+msgid "Device name"
+msgstr ""
 
-#: inc/background.class.php
-msgid "No se encontró el directorio del complemento"
-msgstr "Plugin directory not found"
+msgid "Download background"
+msgstr ""
 
-#: inc/background.class.php
-msgid "El teléfono no tiene una línea asignada"
-msgstr "Phone has no assigned line"
+msgid "Download current template"
+msgstr ""
 
-#: front/download.php
-msgid "Teléfono no válido"
-msgstr "Invalid phone"
+msgid "Drag each label to set its position. X = 0 centers the text automatically."
+msgstr ""
 
-#: front/download.php
-msgid "No se encontró el teléfono"
-msgstr "Phone not found"
+msgid "Field"
+msgstr ""
 
-#: front/download.php
-msgid "No se pudo generar la imagen"
-msgstr "Could not generate image"
+msgid "File too large (max 500 KB)"
+msgstr ""
 
-#: front/config.form.php
-msgid "Fondo de pantalla celulares"
-msgstr "Phone Wallpaper"
+msgid "Font color"
+msgstr ""
 
-#: front/config.form.php
-msgid "Configuración de fondo para celular"
-msgstr "Phone Background Settings"
+msgid "Font size (px)"
+msgstr ""
 
-#: front/config.form.php
-msgid "Plantilla actual"
-msgstr "Current template"
+msgid "Generate background for: %s"
+msgstr ""
 
-#: front/config.form.php
-msgid "Descargar plantilla actual"
-msgstr "Download current template"
+msgid "Invalid format, PNG only"
+msgstr ""
 
-#: front/config.form.php
-msgid "Eliminar plantilla"
-msgstr "Delete template"
+msgid "Invalid phone"
+msgstr ""
 
-#: front/config.form.php
-msgid "Plantilla eliminada correctamente"
-msgstr "Template deleted successfully"
+msgid "Line number"
+msgstr ""
 
-#: front/config.form.php
-msgid "No se pudo eliminar la plantilla"
-msgstr "Could not delete template"
+msgid "No base template found."
+msgstr ""
 
-#: front/config.form.php
-msgid "Cargar nueva plantilla"
-msgstr "Upload new template"
+msgid "PHP GD extension is required"
+msgstr ""
 
-#: front/config.form.php
-msgid "Vista previa de la nueva base"
-msgstr "New template preview"
+msgid "Phone Background"
+msgstr ""
 
-#: front/config.form.php
-msgid "Guardar"
-msgstr "Save"
+msgid "Phone Wallpapers"
+msgstr ""
 
-#: front/config.form.php
-msgid "Archivo demasiado grande (máx 500 KB)"
-msgstr "File too large (max 500 KB)"
+msgid "Phone background configuration"
+msgstr ""
 
-#: front/config.form.php
-msgid "Formato inválido, solo PNG"
-msgstr "Invalid format, PNG only"
+msgid "Phone not found"
+msgstr ""
 
-#: front/config.form.php
-msgid "Fondo guardado correctamente"
-msgstr "Background saved successfully"
+msgid "Phone wallpaper generator"
+msgstr ""
 
-#: front/config.form.php
-msgid "No se pudo guardar la plantilla"
-msgstr "Could not save template"
+msgid "Please upload a base PNG image in the plugin settings."
+msgstr ""
 
-#: front/config.form.php
-msgid "Posiciones de texto"
-msgstr "Text positions"
+msgid "Plugin directory not found"
+msgstr ""
 
-#: front/config.form.php
-msgid "Nombre del equipo"
-msgstr "Device name"
+msgid "Plugin directory not found, unable to verify TTF font"
+msgstr ""
 
-#: front/config.form.php
-msgid "Número de línea"
-msgstr "Line number"
+msgid "Positions"
+msgstr ""
 
-#: front/config.form.php
-msgid "Tamaño de fuente (px)"
-msgstr "Font size (px)"
+msgid "Positions reset to default values"
+msgstr ""
 
-#: front/config.form.php
-msgid "Color de fuente"
-msgstr "Font colour"
+msgid "Positions saved successfully"
+msgstr ""
 
-#: front/config.form.php
-msgid "Posiciones guardadas correctamente"
-msgstr "Positions saved successfully"
+msgid "Preview"
+msgstr ""
 
-#: front/config.form.php
-msgid "Restaurar valores por defecto"
-msgstr "Reset to defaults"
+msgid "Preview new template"
+msgstr ""
 
-#: front/config.form.php
-msgid "Posiciones restablecidas a valores por defecto"
-msgstr "Positions reset to defaults"
+msgid "Reset to defaults"
+msgstr ""
 
-#: front/config.form.php
-msgid "Arrastra cada etiqueta para definir su posición. X = 0 centra el texto automáticamente."
-msgstr "Drag each label to set its position. X = 0 centres text automatically."
+msgid "Save"
+msgstr ""
 
-#: front/config.form.php
-msgid "No se pudieron guardar las posiciones"
-msgstr "Could not save positions"
+msgid "Save pending changes"
+msgstr ""
 
-#: front/config.form.php
-msgid "Sube una plantilla primero para configurar las posiciones del texto."
-msgstr "Upload a template first to configure text positions."
+msgid "TTF font not found: %s"
+msgstr ""
 
-#: front/config.form.php
-msgid "Campo"
-msgstr "Field"
+msgid "Template"
+msgstr ""
 
-#: front/config.form.php
-msgid "Plantilla"
-msgstr "Template"
+msgid "Template deleted successfully"
+msgstr ""
 
-#: front/config.form.php
-msgid "Posiciones"
-msgstr "Positions"
+msgid "Template not found"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "Vista previa"
-msgstr "Preview"
+msgid "Text positions"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "Vista previa del fondo"
-msgstr "Background Preview"
+msgid "The phone has no assigned line"
+msgstr ""
 
-#: inc/phone.class.php
-msgid "Cerrar"
-msgstr "Close"
+msgid "The phone line number is empty"
+msgstr ""
 
-#: inc/background.class.php
-msgid "El número de línea del teléfono está vacío"
-msgstr "The phone's line number is empty"
+msgid "There are unsaved changes in Positions. Continue without saving?"
+msgstr ""
 
-#: front/config.form.php
-msgid "Guardar cambios pendientes"
-msgstr "Save pending changes"
+msgid "Upload a template first to configure text positions."
+msgstr ""
 
-#: front/config.form.php
-msgid "Hay cambios sin guardar en Posiciones. ¿Continuar sin guardar?"
-msgstr "There are unsaved changes in Positions. Continue without saving?"
+msgid "Upload new template"
+msgstr ""
+

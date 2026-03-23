@@ -8,7 +8,7 @@ if (!defined('GLPI_ROOT')) {
 class PluginPhonebgPhone extends CommonGLPI {
 
    public static function getTypeName($nb = 0) {
-      return __('Fondo Celular', 'phonebg');
+      return __('Phone Background', 'phonebg');
    }
 
    /* =====================================================
@@ -23,7 +23,7 @@ class PluginPhonebgPhone extends CommonGLPI {
       return [
          1 => "<span class='d-flex align-items-center'>
                   <i class='ti ti-photo me-2'></i>" .
-                  __('Fondo', 'phonebg') .
+                  __('Background', 'phonebg') .
                "</span>"
       ];
    }
@@ -65,7 +65,7 @@ class PluginPhonebgPhone extends CommonGLPI {
                   <i class='fs-2x ti ti-photo'></i>
                </div>
                <h4 class='card-title ms-5 mb-0'>" .
-                  __('Generador de fondo de pantalla para celular', 'phonebg') .
+                  __('Phone wallpaper generator', 'phonebg') .
                "</h4>
             </div>";
 
@@ -74,14 +74,14 @@ class PluginPhonebgPhone extends CommonGLPI {
       if (!$hasBase) {
          echo "<div class='alert alert-warning text-start'>
                   <i class='ti ti-alert-triangle me-2'></i>
-                  <strong>" . __('No se encontró una plantilla base.', 'phonebg') . "</strong><br>
-                  " . __('Por favor, sube una imagen PNG base en la configuración del complemento.', 'phonebg') . "
+                  <strong>" . __('No base template found.', 'phonebg') . "</strong><br>
+                  " . __('Please upload a base PNG image in the plugin settings.', 'phonebg') . "
                </div>";
       }
 
       echo "<p class='text-muted mb-3'>" .
                sprintf(
-                  __('Generar fondo para: %s', 'phonebg'),
+                  __('Generate background for: %s', 'phonebg'),
                   htmlspecialchars($phone_name, ENT_QUOTES, 'UTF-8')
                ) .
             "</p>";
@@ -94,7 +94,7 @@ class PluginPhonebgPhone extends CommonGLPI {
                     " . (!$hasBase ? 'disabled' : '') . "
                     onclick='phonebgOpenPreview(" . $phoneId . ")'>
                <i class='ti ti-eye me-2'></i>
-               " . __('Vista previa', 'phonebg') . "
+               " . __('Preview', 'phonebg') . "
             </button>";
 
       /* Download form */
@@ -104,7 +104,7 @@ class PluginPhonebgPhone extends CommonGLPI {
                        class='btn btn-primary'
                        " . (!$hasBase ? 'disabled' : '') . ">
                   <i class='ti ti-download me-2'></i>
-                  " . __('Descargar fondo', 'phonebg') . "
+                  " . __('Download background', 'phonebg') . "
                </button>
             </form>";
 
@@ -121,7 +121,7 @@ class PluginPhonebgPhone extends CommonGLPI {
                      <div class='modal-header'>
                         <h5 class='modal-title'>
                            <i class='ti ti-photo me-2'></i>" .
-                           __('Vista previa del fondo', 'phonebg') .
+                           __('Background preview', 'phonebg') .
                         "</h5>
                         <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
                      </div>
@@ -137,10 +137,10 @@ class PluginPhonebgPhone extends CommonGLPI {
                            href='{$downloadUrl}?phoneid={$phoneId}'
                            class='btn btn-primary gap-2'>
                            <i class='ti ti-download'></i>
-                           " . __('Descargar fondo', 'phonebg') . "
+                           " . __('Download background', 'phonebg') . "
                         </a>
                         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>
-                           <i class='ti ti-x me-1'></i>" . __('Cerrar', 'phonebg') . "
+                           <i class='ti ti-x me-1'></i>" . __('Close', 'phonebg') . "
                         </button>
                      </div>
                   </div>

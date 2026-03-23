@@ -6,6 +6,17 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.3.0] — 2026-03-23
+
+### Changed
+- **Base language changed from Spanish to English.** All translatable strings (`__()` calls) now use English as the msgid. This means GLPI installations without a matching locale will display English instead of Spanish, which is the correct international default.
+- `es_MX.po`: updated to translate English msgids → Spanish msgstr (full coverage, 51 strings).
+- `fr_FR.po`: updated to translate English msgids → French msgstr (full coverage, 51 strings).
+- `en_US.po` / `en_GB.po`: msgstr intentionally left empty — English msgid is the display string.
+- All `.mo` files recompiled from updated `.po` sources.
+
+---
+
 ## [1.2.2] — 2026-03-22
 
 ### Fixed

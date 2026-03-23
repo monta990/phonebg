@@ -11,14 +11,14 @@ global $CFG_GLPI;
 $phones_id = (int)($_GET['phoneid'] ?? 0);
 
 if ($phones_id <= 0) {
-   Session::addMessageAfterRedirect(__('Teléfono no válido', 'phonebg'), false, ERROR);
+   Session::addMessageAfterRedirect(__('Invalid phone', 'phonebg'), false, ERROR);
    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
 }
 
 $phone = new Phone();
 
 if (!$phone->getFromDB($phones_id)) {
-   Session::addMessageAfterRedirect(__('No se encontró el teléfono', 'phonebg'), false, ERROR);
+   Session::addMessageAfterRedirect(__('Phone not found', 'phonebg'), false, ERROR);
    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
 }
 
@@ -39,7 +39,7 @@ if (!empty($errors)) {
 $file = PluginPhonebgBackground::generatePNG($phone);
 
 if (!is_file($file)) {
-   Session::addMessageAfterRedirect(__('No se pudo generar la imagen', 'phonebg'), false, ERROR);
+   Session::addMessageAfterRedirect(__('Could not generate image', 'phonebg'), false, ERROR);
    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
 }
 

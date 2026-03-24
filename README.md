@@ -12,6 +12,7 @@
   <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
   <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v2%2B-green?style=flat-square" alt="License"></a>
   <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
+  <a href="https://github.com/monta990/responsivas/releases" target="_blank"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/monta990/responsivas/total"></a>
 </p>
 
 ---
@@ -32,9 +33,10 @@ Phone Background generates personalized PNG wallpapers for corporate phones regi
 
 ## Installation
 
-1. Copy the `phonebg/` folder into your GLPI `marketplace/` or `plugins/` directory.
-2. In GLPI, go to **Setup → Plugins** and click **Install**, then **Enable**.
-3. Go to **Setup → Plugins → Phone Background** to upload your PNG template.
+1. Download the latest release `.zip` from [Releases](../../releases)
+2. Copy the `phonebg/` folder into your GLPI `marketplace/` or `plugins/` directory.
+3. In GLPI, go to **Setup → Plugins** and click **Install**, then **Enable**.
+4. Go to **Setup → Plugins → Phone Background** to upload your PNG template.
 
 ## Configuration
 
@@ -130,6 +132,7 @@ Report bugs or request features on the [issue tracker](https://github.com/monta9
   <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
   <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v2%2B-green?style=flat-square" alt="License"></a>
   <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
+  <a href="https://github.com/monta990/responsivas/releases" target="_blank"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/monta990/responsivas/total"></a>
 </p>
 
 ---
@@ -150,9 +153,10 @@ Phone Background genera fondos de pantalla PNG personalizados para los teléfono
 
 ## Instalación
 
-1. Copia la carpeta `phonebg/` en el directorio `marketplace/` o `plugins/` de tu instalación de GLPI.
-2. En GLPI ve a **Configuración → Complementos** y haz clic en **Instalar** y luego en **Activar**.
-3. Ve a **Configuración → Complementos → Phone Background** para subir tu plantilla PNG.
+1. Descarga el `.zip` de la última versión desde [Releases](../../releases)
+2. Copia la carpeta `phonebg/` en el directorio `marketplace/` o `plugins/` de tu instalación de GLPI.
+3. En GLPI ve a **Configuración → Complementos** y haz clic en **Instalar** y luego en **Activar**.
+4. Ve a **Configuración → Complementos → Phone Background** para subir tu plantilla PNG.
 
 ## Configuración
 

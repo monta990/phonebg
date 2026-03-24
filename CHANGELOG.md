@@ -1,7 +1,7 @@
-# Changelog — Phone Background (phonebg)
+# Changelog — Phone Background
 
 All notable changes to this project are documented in this file.
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---

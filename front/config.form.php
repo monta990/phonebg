@@ -12,15 +12,30 @@ $self = Plugin::getWebDir('phonebg') . '/front/config.form.php';
 /* ==========================
  * Constants
  * ========================== */
-$maxSize     = 500 * 1024;
-$allowedMime = ['image/png'];
-$baseFile    = PluginPhonebgPaths::basePath();
-$hasBase     = is_readable($baseFile);
+$maxSize      = 500 * 1024;
+$maxFontSize  = 2 * 1024 * 1024;
+$allowedMime  = ['image/png'];
+$baseFile     = PluginPhonebgPaths::basePath();
+$hasBase      = is_readable($baseFile);
 
-/* Ensure storage directory exists */
-$templatesDir = PluginPhonebgPaths::filesDir() . '/templates';
-if (!is_dir($templatesDir)) {
-   mkdir($templatesDir, 0755, true);
+/* Ensure storage directories exist */
+foreach (['templates', 'fonts'] as $sub) {
+   $d = PluginPhonebgPaths::filesDir() . '/' . $sub;
+   if (!is_dir($d)) {
+      mkdir($d, 0755, true);
+   }
+}
+
+/* Copy bundled font on first access if fonts dir is empty */
+$fontsDir = PluginPhonebgPaths::fontsDir();
+if (!file_exists($fontsDir . '/DejaVuSans.ttf')) {
+   foreach (GLPI_PLUGINS_DIRECTORIES as $pdir) {
+      $src = $pdir . '/phonebg/fonts/DejaVuSans.ttf';
+      if (is_readable($src)) {
+         copy($src, $fontsDir . '/DejaVuSans.ttf');
+         break;
+      }
+   }
 }
 
 /* ==========================
@@ -76,6 +91,97 @@ if (isset($_POST['save']) && isset($_FILES['base'])) {
 }
 
 /* ==========================
+ * POST: upload font
+ * ========================== */
+if (isset($_POST['upload_font']) && isset($_FILES['font_file'])) {
+
+   if (!is_uploaded_file($_FILES['font_file']['tmp_name'])) {
+      Html::redirect($self . '?tab=fonts');
+   }
+
+   $tmpFile  = $_FILES['font_file']['tmp_name'];
+   $origName = basename($_FILES['font_file']['name']);
+   $size     = $_FILES['font_file']['size'];
+
+   /* Validate extension */
+   $ext = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
+   if (!in_array($ext, ['ttf', 'otf'], true)) {
+      Session::addMessageAfterRedirect(
+         __('Invalid font format, TTF or OTF only', 'phonebg'),
+         false,
+         ERROR
+      );
+      Html::redirect($self . '?tab=fonts');
+   }
+
+   /* Validate size */
+   if ($size > $maxFontSize) {
+      Session::addMessageAfterRedirect(
+         __('Font file too large (max 2 MB)', 'phonebg'),
+         false,
+         ERROR
+      );
+      Html::redirect($self . '?tab=fonts');
+   }
+
+   /* Validate magic bytes: TTF = 00 01 00 00 or 74 72 75 65, OTF = 4F 54 54 4F */
+   $handle = fopen($tmpFile, 'rb');
+   $magic  = fread($handle, 4);
+   fclose($handle);
+   $validMagic = in_array($magic, [
+      "\x00\x01\x00\x00",  // TrueType
+      "\x74\x72\x75\x65",  // true
+      "\x4F\x54\x54\x4F",  // OTTO (OTF/CFF)
+   ], true);
+
+   if (!$validMagic) {
+      Session::addMessageAfterRedirect(
+         __('Invalid font format, TTF or OTF only', 'phonebg'),
+         false,
+         ERROR
+      );
+      Html::redirect($self . '?tab=fonts');
+   }
+
+   /* Sanitize filename */
+   $safeName = preg_replace('/[^a-zA-Z0-9_\-.]/', '_', $origName);
+   $destPath = $fontsDir . '/' . $safeName;
+
+   if (move_uploaded_file($tmpFile, $destPath)) {
+      chmod($destPath, 0644);
+      Session::addMessageAfterRedirect(__('Font saved successfully', 'phonebg'), false, INFO);
+   } else {
+      Session::addMessageAfterRedirect(__('Could not save font', 'phonebg'), false, ERROR);
+   }
+
+   Html::redirect($self . '?tab=fonts');
+}
+
+/* ==========================
+ * POST: delete font
+ * ========================== */
+if (isset($_POST['delete_font'])) {
+   $fontName = basename((string)$_POST['delete_font']);
+   $fontPath = $fontsDir . '/' . $fontName;
+
+   if ($fontName === 'DejaVuSans.ttf') {
+      Session::addMessageAfterRedirect(__('The default font cannot be deleted', 'phonebg'), false, WARNING);
+   } elseif (is_file($fontPath) && preg_match('/\.(ttf|otf)$/i', $fontPath)) {
+      if (unlink($fontPath)) {
+         /* If deleted font was selected, reset to default */
+         if (PluginPhonebgConfig::get('font_file') === $fontName) {
+            PluginPhonebgConfig::set('font_file', 'DejaVuSans.ttf');
+         }
+         Session::addMessageAfterRedirect(__('Font deleted successfully', 'phonebg'), false, INFO);
+      } else {
+         Session::addMessageAfterRedirect(__('Could not delete font', 'phonebg'), false, ERROR);
+      }
+   }
+
+   Html::redirect($self . '?tab=fonts');
+}
+
+/* ==========================
  * POST: save positions
  * ========================== */
 if (isset($_POST['save_positions'])) {
@@ -92,6 +198,14 @@ if (isset($_POST['save_positions'])) {
       $color = '#000000';
    }
    PluginPhonebgConfig::set('font_color', $color);
+
+   /* Save font selection */
+   $selFont = basename((string)($_POST['font_file'] ?? 'DejaVuSans.ttf'));
+   $availFonts = PluginPhonebgPaths::listFonts();
+   if (!in_array($selFont, $availFonts, true)) {
+      $selFont = 'DejaVuSans.ttf';
+   }
+   PluginPhonebgConfig::set('font_file', $selFont);
 
    Session::addMessageAfterRedirect(__('Positions saved successfully', 'phonebg'), false, INFO);
    Html::redirect($self . '?tab=posiciones');
@@ -118,7 +232,8 @@ Html::header(
 
 Html::displayMessageAfterRedirect();
 
-$cfg = PluginPhonebgConfig::getAll();
+$cfg        = PluginPhonebgConfig::getAll();
+$availFonts = PluginPhonebgPaths::listFonts();
 
 $nameX   = (int)$cfg['name_x'];
 $nameY   = (int)$cfg['name_y'];
@@ -127,7 +242,8 @@ $mobileY = (int)$cfg['mobile_y'];
 
 $jsConfirmUnsaved = addslashes(__("There are unsaved changes in Positions. Continue without saving?", "phonebg"));
 
-$activeTab = isset($_GET['tab']) && $_GET['tab'] === 'posiciones' ? 'posiciones' : 'plantilla';
+$validTabs  = ['plantilla', 'posiciones', 'fonts'];
+$activeTab  = in_array($_GET['tab'] ?? '', $validTabs, true) ? $_GET['tab'] : 'plantilla';
 
 /* ============================================================
  * CARD with nav-tabs header
@@ -162,13 +278,23 @@ if ($hasBase) {
          </li>";
 }
 
+echo "   <li class='nav-item' role='presentation'>
+            <button class='nav-link" . ($activeTab === 'fonts' ? ' active' : '') . "'
+                    id='tab-fonts-btn'
+                    data-bs-toggle='tab'
+                    data-bs-target='#phonebg-tab-fonts'
+                    type='button' role='tab'>
+               <i class='ti ti-typography me-1'></i>" . __('Fonts', 'phonebg') . "
+            </button>
+         </li>";
+
 echo "   </ul>
       </div>";
 
 echo "<div class='tab-content'>";
 
 /* ============================================================
- * TAB 1 — Plantilla
+ * TAB 1 — Template
  * ============================================================ */
 echo "<div class='tab-pane fade" . ($activeTab === 'plantilla' ? ' show active' : '') . "'
           id='phonebg-tab-plantilla' role='tabpanel'>";
@@ -179,30 +305,33 @@ echo "<div class='card-body'>";
 if ($hasBase) {
    $url = PluginPhonebgPaths::baseUrl();
    echo "<div class='mb-4'>
-            <label class='form-label fw-bold'>" . __('Current template', 'phonebg') . "</label><br>
-            <div style='border:1px solid #ccc;padding:6px;display:inline-block;overflow:auto;max-width:100%'>
+            <label class='form-label fw-semibold'>" . __('Current template', 'phonebg') . "</label>
+            <div class='border rounded overflow-auto d-inline-block mb-3' style='max-width:100%'>
                <a href='{$url}' download title='" . __('Download current template', 'phonebg') . "'>
                   <img src='{$url}&t=" . time() . "'
                        style='display:block;width:auto;height:auto;max-width:none;cursor:pointer'>
                </a>
-            </div><br><br>
-            <button type='submit' name='delete_base' class='btn btn-danger gap-2'>
-               <i class='ti ti-trash'></i>" . __('Delete template', 'phonebg') . "
-            </button>
+            </div>
+            <div>
+               <button type='submit' name='delete_base' class='btn btn-outline-danger gap-2'>
+                  <i class='ti ti-trash'></i>" . __('Delete template', 'phonebg') . "
+               </button>
+            </div>
          </div>";
 }
 
 echo "<div class='mb-3'>
-         <label class='form-label fw-bold'>" . __('Upload new template', 'phonebg') . "</label>
+         <label class='form-label fw-semibold'>" . __('Upload new template', 'phonebg') . "</label>
          <input type='file' name='base' class='form-control' accept='image/png'
                 onchange='phonebgPreviewNewBase(this)'>
-         <small class='mt-1 d-block'>PNG · Máx 500 KB</small>
+         <div class='small mt-1'>" . __('Accepted format: PNG · Max 500 KB', 'phonebg') . "</div>
       </div>";
 
-echo "<div id='pb-new-preview-wrap' class='mb-3 d-none'
-           style='border:1px dashed #999;padding:6px;display:inline-block;overflow:auto;max-width:100%'>
-         <label class='form-label fw-bold'>" . __('Preview new template', 'phonebg') . "</label><br>
-         <img id='pb-new-preview' style='display:block;width:auto;height:auto;max-width:none'>
+echo "<div id='pb-new-preview-wrap' class='mb-3 d-none'>
+         <label class='form-label fw-semibold'>" . __('Preview new template', 'phonebg') . "</label>
+         <div class='border rounded overflow-auto d-inline-block' style='max-width:100%'>
+            <img id='pb-new-preview' style='display:block;width:auto;height:auto;max-width:none'>
+         </div>
       </div>";
 
 echo "</div>"; /* /card-body */
@@ -215,7 +344,7 @@ echo "</form>";
 echo "</div>"; /* /tab-pane plantilla */
 
 /* ============================================================
- * TAB 2 — Posiciones
+ * TAB 2 — Positions
  * ============================================================ */
 if ($hasBase) {
    $baseUrl = PluginPhonebgPaths::baseUrl();
@@ -226,12 +355,11 @@ if ($hasBase) {
    echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
    echo "<div class='card-body'>";
 
-   echo "<p class='text-muted mb-3'>
-            <i class='ti ti-hand-move me-1'></i>
-            " . __('Drag each label to set its position. X = 0 centers the text automatically.', 'phonebg') . "
-         </p>";
+   echo "<p class='small mb-3'><i class='ti ti-hand-move me-1'></i>"
+      . __('Drag each label to set its position. X = 0 centers the text automatically.', 'phonebg') .
+         "</p>";
 
-   echo "<div id='pb-editor-outer' style='overflow:auto;max-width:100%;margin-bottom:1rem;border:1px solid #ddd'>
+   echo "<div id='pb-editor-outer' class='border rounded overflow-auto mb-3'>
             <div id='pb-editor-wrap'
                  style='position:relative;display:inline-block;line-height:0;
                         user-select:none;-webkit-user-select:none'>
@@ -260,18 +388,21 @@ if ($hasBase) {
             </div>
          </div>";
 
-   echo "<table class='table table-sm table-bordered' style='max-width:520px'>
+   echo "<table class='table table-sm table-hover align-middle' style='max-width:560px'>
             <thead class='table-light'>
                <tr>
-                  <th>" . __('Field', 'phonebg') . "</th>
-                  <th>" . __('Font size (px)', 'phonebg') . "</th>
-                  <th>X</th>
-                  <th>Y</th>
+                  <th class='fw-semibold'>" . __('Field', 'phonebg') . "</th>
+                  <th class='fw-semibold'>" . __('Font size (px)', 'phonebg') . "</th>
+                  <th class='fw-semibold'>X</th>
+                  <th class='fw-semibold'>Y</th>
                </tr>
             </thead>
             <tbody>
                <tr>
-                  <td><span style='color:#c0392b'>&#9632;</span> " . __('Device name', 'phonebg') . "</td>
+                  <td>
+                     <span class='badge' style='background:#c0392b'>&nbsp;</span>
+                     <span class='ms-1'>" . __('Device name', 'phonebg') . "</span>
+                  </td>
                   <td><input type='number' name='name_size' id='inp-name-size'
                              value='" . (int)$cfg['name_size'] . "' min='8' max='300'
                              class='form-control form-control-sm' style='width:75px'></td>
@@ -283,7 +414,10 @@ if ($hasBase) {
                              class='form-control form-control-sm' style='width:75px'></td>
                </tr>
                <tr>
-                  <td><span style='color:#2980b9'>&#9632;</span> " . __('Line number', 'phonebg') . "</td>
+                  <td>
+                     <span class='badge' style='background:#2980b9'>&nbsp;</span>
+                     <span class='ms-1'>" . __('Line number', 'phonebg') . "</span>
+                  </td>
                   <td><input type='number' name='mobile_size' id='inp-mobile-size'
                              value='" . (int)$cfg['mobile_size'] . "' min='8' max='300'
                              class='form-control form-control-sm' style='width:75px'></td>
@@ -304,9 +438,28 @@ if ($hasBase) {
                                maxlength='7' pattern='#[0-9a-fA-F]{6}' placeholder='#000000'>
                         <input type='color' id='inp-font-color-swatch'
                                value='" . htmlspecialchars((string)$cfg['font_color'], ENT_QUOTES, 'UTF-8') . "'
-                               style='width:36px;height:36px;padding:2px;border:1px solid #ccc;border-radius:4px;cursor:pointer;background:none'>
+                               class='border rounded'
+                               style='width:36px;height:31px;padding:2px;cursor:pointer;background:none'>
                      </div>
                   </td>
+               </tr>
+               <tr>
+                  <td>" . __('Font', 'phonebg') . "</td>
+                  <td colspan='3'>";
+
+   if (!empty($availFonts)) {
+      echo "<select name='font_file' id='inp-font-file' class='form-select form-select-sm' style='max-width:260px'>";
+      foreach ($availFonts as $fname) {
+         $sel = ($cfg['font_file'] === $fname) ? " selected" : '';
+         echo "<option value='" . htmlspecialchars($fname, ENT_QUOTES) . "'{$sel}>"
+            . htmlspecialchars($fname, ENT_QUOTES) . "</option>";
+      }
+      echo "</select>";
+   } else {
+      echo "<span class='small'>" . __('No fonts uploaded yet', 'phonebg') . "</span>";
+   }
+
+   echo "         </td>
                </tr>
             </tbody>
          </table>";
@@ -323,6 +476,84 @@ if ($hasBase) {
    echo "</form>";
    echo "</div>"; /* /tab-pane posiciones */
 }
+
+/* ============================================================
+ * TAB 3 — Fonts
+ * ============================================================ */
+echo "<div class='tab-pane fade" . ($activeTab === 'fonts' ? ' show active' : '') . "'
+          id='phonebg-tab-fonts' role='tabpanel'>";
+echo "<div class='card-body'>";
+
+/* ---- Section: Upload ---- */
+echo "<div class='mb-4'>
+         <p class='fw-semibold mb-1'>" . __('Upload font', 'phonebg') . "</p>
+         <p class='small mb-2'>" . __('Accepted formats: TTF · OTF · Max 2 MB', 'phonebg') . "</p>";
+
+echo "<form method='post' action='{$self}' enctype='multipart/form-data'>
+         " . Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]) . "
+         <div class='input-group' style='max-width:480px'>
+            <input type='file' name='font_file' class='form-control' accept='.ttf,.otf'>
+            <button type='submit' name='upload_font' class='btn btn-primary gap-1'>
+               <i class='ti ti-upload'></i>" . __('Upload', 'phonebg') . "
+            </button>
+         </div>
+      </form>";
+echo "</div>"; /* /upload section */
+
+/* ---- Section: Installed fonts ---- */
+echo "<div>
+         <p class='fw-semibold mb-1'>" . __('Installed fonts', 'phonebg') . "</p>
+         <p class='small mb-3'>" . __('Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted.', 'phonebg') . "</p>";
+
+if (!empty($availFonts)) {
+   echo "<table class='table table-sm table-hover mb-0' style='max-width:560px'>
+            <thead class='table-light'>
+               <tr>
+                  <th>" . __('Font file', 'phonebg') . "</th>
+                  <th>" . __('Description', 'phonebg') . "</th>
+                  <th style='width:60px'></th>
+               </tr>
+            </thead><tbody>";
+   foreach ($availFonts as $fname) {
+      $isDefault = ($fname === 'DejaVuSans.ttf');
+      echo "<tr>
+               <td class='align-middle'>
+                  <i class='ti ti-typography me-1 text-body-secondary'></i>" . htmlspecialchars($fname, ENT_QUOTES) . "
+               </td>
+               <td class='align-middle small mb-0'>";
+      if ($isDefault) {
+         echo "<i class='ti ti-lock me-1'></i>" . __('Default fallback font — cannot be deleted', 'phonebg');
+      } else {
+         echo "<i class='ti ti-user me-1'></i>" . __('User uploaded font', 'phonebg');
+      }
+      echo "   </td>
+               <td class='align-middle text-end'>";
+      if ($isDefault) {
+         echo "<button type='button' class='btn btn-sm btn-outline-secondary' disabled
+                       title='" . htmlspecialchars(__('The default font cannot be deleted', 'phonebg'), ENT_QUOTES) . "'>
+                  <i class='ti ti-lock'></i>
+               </button>";
+      } else {
+         echo "<form method='post' action='{$self}' style='display:inline'>
+                  " . Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]) . "
+                  <input type='hidden' name='delete_font' value='" . htmlspecialchars($fname, ENT_QUOTES) . "'>
+                  <button type='submit' class='btn btn-sm btn-outline-danger'
+                          onclick=\"return confirm('" . addslashes(__('Delete this font?', 'phonebg')) . "')\">
+                     <i class='ti ti-trash'></i>
+                  </button>
+               </form>";
+      }
+      echo "   </td>
+            </tr>";
+   }
+   echo "</tbody></table>";
+} else {
+   echo "<p class='small'>" . __('No fonts uploaded yet', 'phonebg') . "</p>";
+}
+
+echo "</div>"; /* /installed fonts section */
+echo "</div>"; /* /card-body */
+echo "</div>"; /* /tab-pane fonts */
 
 echo "</div>"; /* /tab-content */
 echo "</div>"; /* /card */
@@ -341,12 +572,12 @@ function phonebgPreviewNewBase(input) {
    preview.src = '';
    if (!input.files[0]) return;
    if (input.files[0].type !== 'image/png') {
-      alert('Formato inválido. Solo se permite PNG.');
+      alert('Invalid format. PNG only.');
       input.value = '';
       return;
    }
    if (input.files[0].size > 500 * 1024) {
-      alert('El archivo supera el tamaño máximo permitido (500 KB).');
+      alert('File exceeds maximum allowed size (500 KB).');
       input.value = '';
       return;
    }
@@ -450,11 +681,10 @@ function phonebgPreviewNewBase(input) {
       }
    }
 
-   /* Re-init when switching to Posiciones tab (img may not have rendered yet) */
+   /* Re-init when switching to Posiciones tab */
    var tabBtn = document.getElementById('tab-posiciones-btn');
    if (tabBtn) {
       tabBtn.addEventListener('shown.bs.tab', function () {
-         /* Give browser one frame to render the image */
          setTimeout(tryInit, 50);
       });
    }
@@ -468,9 +698,9 @@ function phonebgPreviewNewBase(input) {
    }
 
    if (pbForm) {
-      pbForm.querySelectorAll('input').forEach(function(inp) {
-         inp.addEventListener('input', markDirty);
-         inp.addEventListener('change', markDirty);
+      pbForm.querySelectorAll('input, select').forEach(function(el) {
+         el.addEventListener('input', markDirty);
+         el.addEventListener('change', markDirty);
       });
       pbForm.addEventListener('submit', function() { pbDirty = false; });
    }

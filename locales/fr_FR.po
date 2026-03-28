@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.3.0\n"
+"Project-Id-Version: phonebg 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-23\n"
 "PO-Revision-Date: 2026-03-23\n"
@@ -34,9 +34,6 @@ msgstr "Impossible de générer l'image"
 
 msgid "Could not load base image"
 msgstr "Impossible de charger l'image de base"
-
-msgid "Could not save positions"
-msgstr "Impossible d'enregistrer les positions"
 
 msgid "Could not save template"
 msgstr "Impossible d'enregistrer le modèle"
@@ -95,9 +92,6 @@ msgstr "Fond d'écran du téléphone"
 msgid "Phone Wallpapers"
 msgstr "Fond d'écran téléphones"
 
-msgid "Phone background configuration"
-msgstr "Configuration du fond d'écran téléphone"
-
 msgid "Phone not found"
 msgstr "Téléphone introuvable"
 
@@ -134,9 +128,6 @@ msgstr "Réinitialiser les valeurs par défaut"
 msgid "Save"
 msgstr "Enregistrer"
 
-msgid "Save pending changes"
-msgstr "Enregistrer les modifications en attente"
-
 msgid "TTF font not found: %s"
 msgstr "Police TTF introuvable : %s"
 
@@ -149,9 +140,6 @@ msgstr "Modèle supprimé avec succès"
 msgid "Template not found"
 msgstr "Modèle introuvable"
 
-msgid "Text positions"
-msgstr "Positions du texte"
-
 msgid "The phone has no assigned line"
 msgstr "Le téléphone n'a pas de ligne assignée"
 
@@ -161,9 +149,68 @@ msgstr "Le numéro de ligne du téléphone est vide"
 msgid "There are unsaved changes in Positions. Continue without saving?"
 msgstr "Il y a des modifications non enregistrées dans Positions. Continuer sans enregistrer ?"
 
-msgid "Upload a template first to configure text positions."
-msgstr "Téléchargez d'abord un modèle pour configurer les positions du texte."
-
 msgid "Upload new template"
 msgstr "Charger un nouveau modèle"
 
+msgid "Fonts"
+msgstr "Polices"
+
+msgid "Installed fonts"
+msgstr "Polices installées"
+
+msgid "Upload font"
+msgstr "Télécharger une police"
+
+msgid "Font saved successfully"
+msgstr "Police enregistrée avec succès"
+
+msgid "Could not save font"
+msgstr "Impossible d'enregistrer la police"
+
+msgid "Font deleted successfully"
+msgstr "Police supprimée avec succès"
+
+msgid "Could not delete font"
+msgstr "Impossible de supprimer la police"
+
+msgid "Invalid font format, TTF or OTF only"
+msgstr "Format de police invalide, TTF ou OTF uniquement"
+
+msgid "Font file too large (max 2 MB)"
+msgstr "Fichier de police trop volumineux (max 2 Mo)"
+
+msgid "Font"
+msgstr "Police"
+
+msgid "Font file"
+msgstr "Fichier de police"
+
+msgid "No fonts uploaded yet"
+msgstr "Aucune police chargée"
+
+msgid "Delete this font?"
+msgstr "Supprimer cette police ?"
+
+msgid "The default font cannot be deleted"
+msgstr "La police par défaut ne peut pas être supprimée"
+
+msgid "Default fallback font — cannot be deleted"
+msgstr "Police de secours par défaut — ne peut pas être supprimée"
+
+msgid "User uploaded font"
+msgstr "Police téléchargée par l'utilisateur"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Accepted formats: TTF · OTF · Max 2 MB"
+msgstr "Formats acceptés : TTF · OTF · Max 2 Mo"
+
+msgid "Accepted format: PNG · Max 500 KB"
+msgstr "Format accepté : PNG · Max 500 Ko"
+
+msgid "Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted."
+msgstr "La police intégrée (DejaVu Sans) est toujours disponible en secours et ne peut pas être supprimée."
+
+msgid "Upload"
+msgstr "Télécharger"

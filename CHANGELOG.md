@@ -1,18 +1,40 @@
-# Changelog — Phone Background
+---
+
+# Changelog — Phone Background (phonebg)
 
 All notable changes to this project are documented in this file.
-Format based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
+
+---
+
+## [1.4.0] — 2026-03-27
+
+### Added
+- **Custom font support.** Users can upload TrueType (TTF) or OpenType (OTF) fonts from a new **Fonts** tab in the plugin settings. Uploaded fonts are stored in `files/_plugins/phonebg/fonts/` and survive plugin upgrades.
+- Font selector in the **Positions** tab — choose any installed font from a dropdown; the selection is applied to both text fields when generating the wallpaper.
+- Font validation: file size (max 2 MB), extension allowlist (`.ttf`, `.otf`), and magic-byte check (`00 01 00 00`, `true`, `OTTO`) to reject non-font binaries regardless of filename.
+- Font delete button in the Fonts tab. If the active font is deleted, the config automatically falls back to `DejaVuSans.ttf`.
+- `plugin_phonebg_install()` now creates the `fonts/` storage directory and copies the bundled `DejaVuSans.ttf` there so it always appears in the selector.
+- 13 new translatable strings across all locales (es_MX full, fr_FR full, en_US/en_GB base).
+
+### Changed
+- `PluginPhonebgPaths`: added `fontsDir()`, `listFonts()`, and `getFontPath(string $filename)`. The old `getFontDejaVuSans()` is replaced — font resolution now goes through `getFontPath()` which checks the user fonts directory first and falls back to the bundled font.
+- `PluginPhonebgConfig`: added `font_file` key with default `DejaVuSans.ttf`.
+- Positions tab dirty-change detection now also watches `<select>` elements.
 
 ---
 
 ## [1.3.0] — 2026-03-23
 
 ### Changed
-- **Base language changed from Spanish to English.** All translatable strings (`__()` calls) now use English as the msgid. This means GLPI installations without a matching locale will display English instead of Spanish, which is the correct international default.
+- **Base language changed from Spanish to English.** All translatable strings (`__()` calls) now use English as the msgid. GLPI installations without a matching locale now display English instead of Spanish.
 - `es_MX.po`: updated to translate English msgids → Spanish msgstr (full coverage, 51 strings).
 - `fr_FR.po`: updated to translate English msgids → French msgstr (full coverage, 51 strings).
 - `en_US.po` / `en_GB.po`: msgstr intentionally left empty — English msgid is the display string.
+- **License upgraded from GPLv2+ to GPLv3+** to align with GLPI 11's own license. `LICENSE` file replaced with the full GPL v3 text. References updated in `setup.php`, `plugin.xml`, README, and file structure comments.
+- README: added GitHub Downloads badge; installation section now references the Releases page; license links updated to GPL v3.
+- `setup.php`: added `php.min = 8.2` requirement to match GLPI 11's minimum PHP version.
 - All `.mo` files recompiled from updated `.po` sources.
 
 ---

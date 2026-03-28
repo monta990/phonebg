@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.3.0\n"
+"Project-Id-Version: phonebg 1.4.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-23\n"
 "PO-Revision-Date: 2026-03-23\n"
@@ -32,9 +32,6 @@ msgid "Could not generate image"
 msgstr ""
 
 msgid "Could not load base image"
-msgstr ""
-
-msgid "Could not save positions"
 msgstr ""
 
 msgid "Could not save template"
@@ -94,9 +91,6 @@ msgstr ""
 msgid "Phone Wallpapers"
 msgstr ""
 
-msgid "Phone background configuration"
-msgstr ""
-
 msgid "Phone not found"
 msgstr ""
 
@@ -133,9 +127,6 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "Save pending changes"
-msgstr ""
-
 msgid "TTF font not found: %s"
 msgstr ""
 
@@ -148,9 +139,6 @@ msgstr ""
 msgid "Template not found"
 msgstr ""
 
-msgid "Text positions"
-msgstr ""
-
 msgid "The phone has no assigned line"
 msgstr ""
 
@@ -160,9 +148,68 @@ msgstr ""
 msgid "There are unsaved changes in Positions. Continue without saving?"
 msgstr ""
 
-msgid "Upload a template first to configure text positions."
-msgstr ""
-
 msgid "Upload new template"
 msgstr ""
 
+msgid "Fonts"
+msgstr ""
+
+msgid "Installed fonts"
+msgstr ""
+
+msgid "Upload font"
+msgstr ""
+
+msgid "Font saved successfully"
+msgstr ""
+
+msgid "Could not save font"
+msgstr ""
+
+msgid "Font deleted successfully"
+msgstr ""
+
+msgid "Could not delete font"
+msgstr ""
+
+msgid "Invalid font format, TTF or OTF only"
+msgstr ""
+
+msgid "Font file too large (max 2 MB)"
+msgstr ""
+
+msgid "Font"
+msgstr ""
+
+msgid "Font file"
+msgstr ""
+
+msgid "No fonts uploaded yet"
+msgstr ""
+
+msgid "Delete this font?"
+msgstr ""
+
+msgid "The default font cannot be deleted"
+msgstr ""
+
+msgid "Default fallback font — cannot be deleted"
+msgstr ""
+
+msgid "User uploaded font"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Accepted formats: TTF · OTF · Max 2 MB"
+msgstr ""
+
+msgid "Accepted format: PNG · Max 500 KB"
+msgstr ""
+
+msgid "Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted."
+msgstr ""
+
+msgid "Upload"
+msgstr ""

@@ -11,13 +11,14 @@ class PluginPhonebgConfig {
 
    /** Default values — used when no row exists in the table */
    private static array $defaults = [
-      'name_x'     => 0,         // 0 = auto-center
+      'name_x'     => 0,
       'name_y'     => 500,
       'name_size'  => 60,
-      'mobile_x'   => 0,         // 0 = auto-center
+      'mobile_x'   => 0,
       'mobile_y'   => 590,
       'mobile_size'=> 60,
       'font_color' => '#000000',
+      'font_file'  => 'DejaVuSans.ttf',
    ];
 
    /* -------------------------------------------------------

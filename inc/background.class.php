@@ -19,7 +19,7 @@ class PluginPhonebgBackground {
       }
 
       try {
-         $fontPath = PluginPhonebgPaths::getFontDejaVuSans();
+         $fontPath = PluginPhonebgPaths::getFontPath();
          if (!is_readable($fontPath)) {
             $errors[] = sprintf(
                __('TTF font not found: %s', 'phonebg'),
@@ -74,8 +74,11 @@ class PluginPhonebgBackground {
       imagesavealpha($img, true);
       imagealphablending($img, true);
 
+      /* Load layout config */
+      $cfg = PluginPhonebgConfig::getAll();
+
       try {
-         $font = PluginPhonebgPaths::getFontDejaVuSans();
+         $font = PluginPhonebgPaths::getFontPath((string)($cfg['font_file'] ?? 'DejaVuSans.ttf'));
       } catch (RuntimeException $e) {
          imagedestroy($img);
          Session::addMessageAfterRedirect(
@@ -85,9 +88,6 @@ class PluginPhonebgBackground {
          );
          return '';
       }
-
-      /* Load layout config */
-      $cfg = PluginPhonebgConfig::getAll();
 
       $hex   = ltrim((string)($cfg['font_color'] ?? '#000000'), '#');
       $color = imagecolorallocate(

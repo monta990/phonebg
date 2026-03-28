@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue" alt="GLPI compatibility"></a>
-  <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v2%2B-green" alt="License"></a>
-  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple" alt="PHP"></a>
+  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v3%2B-green?style=flat-square" alt="License"></a>
+  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
   <a href="https://github.com/monta990/phonebg/releases" target="_blank"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/monta990/phonebg/total"></a>
 </p>
 
@@ -44,12 +44,17 @@ Phone Background generates personalized PNG wallpapers for corporate phones regi
 
 Upload a PNG image (max 500 KB) that will serve as the wallpaper background. The image can be any resolution — the plugin adapts to it automatically.
 
+### Fonts tab
+
+The **Fonts** tab lets you upload custom TrueType (TTF) or OpenType (OTF) fonts that will be available for the wallpaper text. Uploaded fonts are stored in `files/_plugins/phonebg/fonts/` and survive plugin upgrades. The bundled `DejaVuSans.ttf` is always available as a fallback.
+
 ### Positions tab
 
 The **Positions** tab (visible once a template has been uploaded) provides a full-size visual drag-and-drop editor:
 
 - Drag the **Device name** and **Line number** labels directly over the template to position them.
 - Adjust font size (px) and font color per field using the table inputs.
+- Select the **font** to use from the dropdown (populated from uploaded fonts).
 - **X = 0** centers the text horizontally regardless of image width.
 - Click **Save** to persist the settings, or **Reset to defaults** to restore the original values.
 
@@ -79,7 +84,7 @@ phonebg/
 ├── locales/                    # i18n: es_MX, en_US, en_GB, fr_FR
 ├── logo.png                    # Plugin icon (128×128, transparent background)
 ├── setup.php                   # Registration, hooks, install/uninstall
-├── LICENSE                     # GPLv2
+├── LICENSE                     # GPLv3
 └── README.md                   # This file
 ```
 
@@ -110,7 +115,7 @@ If you like my work, you can support me by a donate here:
 
 ## License
 
-GPL v2 or later. See [LICENSE](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+GPL v3 or later. See [LICENSE](https://www.gnu.org/licenses/gpl-3.0.html).
 
 ## Issues
 
@@ -129,9 +134,9 @@ Report bugs or request features on the [issue tracker](https://github.com/monta9
 </p>
 
 <p align="center">
-  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue" alt="GLPI compatibility"></a>
-  <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v2%2B-green" alt="License"></a>
-  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple" alt="PHP"></a>
+  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
+  <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v3%2B-green?style=flat-square" alt="License"></a>
+  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
   <a href="https://github.com/monta990/phonebg/releases" target="_blank"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/monta990/phonebg/total"></a>
 </p>
 
@@ -164,12 +169,11 @@ Phone Background genera fondos de pantalla PNG personalizados para los teléfono
 
 Sube una imagen PNG (máx 500 KB) que servirá como fondo del wallpaper. La imagen puede ser de cualquier resolución; el plugin se adapta automáticamente.
 
-### Pestaña Posiciones
-
-La pestaña **Posiciones** (visible una vez que existe una plantilla) ofrece un editor visual completo con arrastrar y soltar:
+### Pestaña Posiciones (visible una vez que existe una plantilla) ofrece un editor visual completo con arrastrar y soltar:
 
 - Arrastra las etiquetas **Nombre del equipo** y **Número de línea** directamente sobre la plantilla para posicionarlas.
 - Ajusta el tamaño de fuente (px) y el color de fuente por campo usando los inputs de la tabla.
+- Selecciona la **fuente** a utilizar desde el desplegable (poblado con las fuentes cargadas).
 - **X = 0** centra el texto horizontalmente sin importar el ancho de la imagen.
 - Haz clic en **Guardar** para persistir la configuración, o en **Restaurar valores por defecto** para regresar a los valores originales.
 
@@ -199,7 +203,7 @@ phonebg/
 ├── locales/                    # i18n: es_MX, en_US, en_GB, fr_FR
 ├── logo.png                    # Ícono del plugin (128×128, fondo transparente)
 ├── setup.php                   # Registro, hooks, instalación/desinstalación
-├── LICENSE                     # GPLv2
+├── LICENSE                     # GPLv3
 └── README.md                   # Este archivo
 ```
 
@@ -230,7 +234,7 @@ Si te gusta mi trabajo, me puedes apoyar con una donación:
 
 ## Licencia
 
-GPL v2 o posterior. Ver [LICENSE](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html).
+GPL v3 o posterior. Ver [LICENSE](https://www.gnu.org/licenses/gpl-3.0.html).
 
 ## Problemas
 

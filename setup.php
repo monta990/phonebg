@@ -17,9 +17,9 @@ function plugin_init_phonebg() {
 function plugin_version_phonebg() {
    return [
       'name'         => 'Phone Background',
-      'version'      => '1.3.0',
+      'version'      => '1.4.0',
       'author'       => 'Edwin Elias Alvarez',
-      'license'      => 'GPLv2+',
+      'license'      => 'GPLv3+',
       'homepage'     => 'https://sontechs.com',
       'requirements' => [
          'glpi' => [
@@ -33,10 +33,26 @@ function plugin_version_phonebg() {
 }
 
 function plugin_phonebg_install() {
-   $dir = GLPI_DOC_DIR . '/_plugins/phonebg/templates';
-   if (!is_dir($dir)) {
-      mkdir($dir, 0755, true);
+   /* Create storage directories */
+   foreach (['templates', 'fonts'] as $sub) {
+      $dir = GLPI_DOC_DIR . '/_plugins/phonebg/' . $sub;
+      if (!is_dir($dir)) {
+         mkdir($dir, 0755, true);
+      }
    }
+
+   /* Copy bundled DejaVuSans.ttf to user fonts dir (if not already there) */
+   $dest = GLPI_DOC_DIR . '/_plugins/phonebg/fonts/DejaVuSans.ttf';
+   if (!file_exists($dest)) {
+      foreach (GLPI_PLUGINS_DIRECTORIES as $pdir) {
+         $src = $pdir . '/phonebg/fonts/DejaVuSans.ttf';
+         if (is_readable($src)) {
+            copy($src, $dest);
+            break;
+         }
+      }
+   }
+
    PluginPhonebgConfig::createTable();
    return true;
 }

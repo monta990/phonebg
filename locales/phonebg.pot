@@ -213,3 +213,9 @@ msgstr ""
 
 msgid "Upload"
 msgstr ""
+
+msgid "Font name"
+msgstr ""
+
+msgid "File"
+msgstr ""

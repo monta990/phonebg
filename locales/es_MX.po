@@ -214,3 +214,9 @@ msgstr "La fuente incluida (DejaVu Sans) siempre está disponible como respaldo 
 
 msgid "Upload"
 msgstr "Subir"
+
+msgid "Font name"
+msgstr "Nombre de fuente"
+
+msgid "File"
+msgstr "Archivo"

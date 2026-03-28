@@ -214,3 +214,9 @@ msgstr "La police intégrée (DejaVu Sans) est toujours disponible en secours et
 
 msgid "Upload"
 msgstr "Télécharger"
+
+msgid "Font name"
+msgstr "Nom de la police"
+
+msgid "File"
+msgstr "Fichier"

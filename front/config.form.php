@@ -168,6 +168,7 @@ if (isset($_POST['delete_font'])) {
       Session::addMessageAfterRedirect(__('The default font cannot be deleted', 'phonebg'), false, WARNING);
    } elseif (is_file($fontPath) && preg_match('/\.(ttf|otf)$/i', $fontPath)) {
       if (unlink($fontPath)) {
+         PluginPhonebgPaths::deleteFontMeta($fontName);
          /* If deleted font was selected, reset to default */
          if (PluginPhonebgConfig::get('font_file') === $fontName) {
             PluginPhonebgConfig::set('font_file', 'DejaVuSans.ttf');
@@ -200,9 +201,9 @@ if (isset($_POST['save_positions'])) {
    PluginPhonebgConfig::set('font_color', $color);
 
    /* Save font selection */
-   $selFont = basename((string)($_POST['font_file'] ?? 'DejaVuSans.ttf'));
+   $selFont    = basename((string)($_POST['font_file'] ?? 'DejaVuSans.ttf'));
    $availFonts = PluginPhonebgPaths::listFonts();
-   if (!in_array($selFont, $availFonts, true)) {
+   if (!array_key_exists($selFont, $availFonts)) {
       $selFont = 'DejaVuSans.ttf';
    }
    PluginPhonebgConfig::set('font_file', $selFont);
@@ -448,11 +449,11 @@ if ($hasBase) {
                   <td colspan='3'>";
 
    if (!empty($availFonts)) {
-      echo "<select name='font_file' id='inp-font-file' class='form-select form-select-sm' style='max-width:260px'>";
-      foreach ($availFonts as $fname) {
+      echo "<select name='font_file' id='inp-font-file' class='form-select form-select-sm' style='max-width:300px'>";
+      foreach ($availFonts as $fname => $displayName) {
          $sel = ($cfg['font_file'] === $fname) ? " selected" : '';
          echo "<option value='" . htmlspecialchars($fname, ENT_QUOTES) . "'{$sel}>"
-            . htmlspecialchars($fname, ENT_QUOTES) . "</option>";
+            . htmlspecialchars($displayName, ENT_QUOTES) . "</option>";
       }
       echo "</select>";
    } else {
@@ -506,21 +507,23 @@ echo "<div>
          <p class='small mb-3'>" . __('Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted.', 'phonebg') . "</p>";
 
 if (!empty($availFonts)) {
-   echo "<table class='table table-sm table-hover mb-0' style='max-width:560px'>
+   echo "<table class='table table-sm table-hover mb-0' style='max-width:600px'>
             <thead class='table-light'>
                <tr>
-                  <th>" . __('Font file', 'phonebg') . "</th>
+                  <th>" . __('Font name', 'phonebg') . "</th>
+                  <th>" . __('File', 'phonebg') . "</th>
                   <th>" . __('Description', 'phonebg') . "</th>
                   <th style='width:60px'></th>
                </tr>
             </thead><tbody>";
-   foreach ($availFonts as $fname) {
+   foreach ($availFonts as $fname => $displayName) {
       $isDefault = ($fname === 'DejaVuSans.ttf');
       echo "<tr>
+               <td class='align-middle fw-semibold'>" . htmlspecialchars($displayName, ENT_QUOTES) . "</td>
                <td class='align-middle'>
-                  <i class='ti ti-typography me-1 text-body-secondary'></i>" . htmlspecialchars($fname, ENT_QUOTES) . "
+                  <code class='small'>" . htmlspecialchars($fname, ENT_QUOTES) . "</code>
                </td>
-               <td class='align-middle small mb-0'>";
+               <td class='align-middle small'>";
       if ($isDefault) {
          echo "<i class='ti ti-lock me-1'></i>" . __('Default fallback font — cannot be deleted', 'phonebg');
       } else {

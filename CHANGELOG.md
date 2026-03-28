@@ -1,13 +1,3 @@
----
-
-# Changelog — Phone Background (phonebg)
-
-All notable changes to this project are documented in this file.
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-Versioning follows [Semantic Versioning](https://semver.org/).
-
----
-
 ## [1.4.0] — 2026-03-27
 
 ### Added
@@ -22,6 +12,14 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - `PluginPhonebgPaths`: added `fontsDir()`, `listFonts()`, and `getFontPath(string $filename)`. The old `getFontDejaVuSans()` is replaced — font resolution now goes through `getFontPath()` which checks the user fonts directory first and falls back to the bundled font.
 - `PluginPhonebgConfig`: added `font_file` key with default `DejaVuSans.ttf`.
 - Positions tab dirty-change detection now also watches `<select>` elements.
+
+---
+
+# Changelog — Phone Background (phonebg)
+
+All notable changes to this project are documented in this file.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 

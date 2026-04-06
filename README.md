@@ -42,7 +42,7 @@ Phone Background generates personalized PNG wallpapers for corporate phones regi
 
 ### Template tab
 
-Upload a PNG image (max 500 KB) that will serve as the wallpaper background. The image can be any resolution — the plugin adapts to it automatically.
+Upload a PNG image (max 500 KB) that will serve as the wallpaper background. The image can be any resolution and the plugin adapts to it automatically. For server security and stability, template dimensions are limited to a maximum of 8000x8000 pixels (which covers all standard devices, including 8K resolutions).
 
 ### Fonts tab
 
@@ -64,6 +64,7 @@ Positions are stored in the `glpi_plugin_phonebg_config` database table and surv
 
 1. Open any **Phone** asset in GLPI.
 2. Click the **Background** tab.
+   Note on permissions: For security and privacy reasons, only GLPI Administrators, Technicians, or the specific User assigned to the phone can generate and preview/download the background.
 3. Click **Preview** to see the generated wallpaper inline, or **Download background** to save the PNG file.
 
 ## File structure
@@ -120,122 +121,3 @@ GPL v3 or later. See [LICENSE](https://www.gnu.org/licenses/gpl-3.0.html).
 ## Issues
 
 Report bugs or request features on the [issue tracker](https://github.com/monta990/phonebg/issues).
-
----
-
-<p align="center">
-  <img src="logo.png" width="128" alt="Logo Plugin Phone Background">
-</p>
-
-<h1 align="center">Phone Background</h1>
-
-<p align="center">
-  <strong>Plugin para GLPI — genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI</strong>
-</p>
-
-<p align="center">
-  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
-  <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v3%2B-green?style=flat-square" alt="License"></a>
-  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
-  <a href="https://github.com/monta990/phonebg/releases" target="_blank"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/monta990/phonebg/total"></a>
-</p>
-
----
-
-## Descripción
-
-Phone Background genera fondos de pantalla PNG personalizados para los teléfonos corporativos registrados en GLPI. Superpone el nombre del teléfono y el número de línea asignado sobre una plantilla PNG personalizable, y permite descargar el fondo directamente desde la pestaña del activo de tipo Teléfono.
-
----
-
-## Requisitos
-
-| Requisito       | Versión mínima                  |
-|-----------------|---------------------------------|
-| GLPI            | ≥ 11.0                          |
-| PHP             | ≥ 8.2                           |
-| Extensión PHP   | GD (procesamiento de imágenes)  |
-
-## Instalación
-
-1. Descarga el `.zip` de la última versión desde [Releases](../../releases)
-2. Copia la carpeta `phonebg/` en el directorio `marketplace/` o `plugins/` de tu instalación de GLPI.
-3. En GLPI ve a **Configuración → Complementos** y haz clic en **Instalar** y luego en **Activar**.
-4. Ve a **Configuración → Complementos → Phone Background** para subir tu plantilla PNG.
-
-## Configuración
-
-### Pestaña Plantilla
-
-Sube una imagen PNG (máx 500 KB) que servirá como fondo del wallpaper. La imagen puede ser de cualquier resolución; el plugin se adapta automáticamente.
-
-### Pestaña Posiciones (visible una vez que existe una plantilla) ofrece un editor visual completo con arrastrar y soltar:
-
-- Arrastra las etiquetas **Nombre del equipo** y **Número de línea** directamente sobre la plantilla para posicionarlas.
-- Ajusta el tamaño de fuente (px) y el color de fuente por campo usando los inputs de la tabla.
-- Selecciona la **fuente** a utilizar desde el desplegable (poblado con las fuentes cargadas).
-- **X = 0** centra el texto horizontalmente sin importar el ancho de la imagen.
-- Haz clic en **Guardar** para persistir la configuración, o en **Restaurar valores por defecto** para regresar a los valores originales.
-
-Las posiciones se almacenan en la tabla `glpi_plugin_phonebg_config` y sobreviven actualizaciones del plugin.
-
-## Uso
-
-1. Abre cualquier activo de tipo **Teléfono** en GLPI.
-2. Haz clic en la pestaña **Fondo**.
-3. Haz clic en **Vista previa** para ver el fondo generado en pantalla, o en **Descargar fondo** para guardar el PNG.
-
-## Estructura de archivos
-
-```
-phonebg/
-├── fonts/
-│   └── DejaVuSans.ttf          # Fuente TrueType incluida
-├── front/
-│   ├── config.form.php         # Página de configuración con pestañas
-│   ├── download.php            # Endpoint de generación, descarga y vista previa
-│   └── resource.send.php       # Servidor autenticado de la imagen plantilla
-├── inc/
-│   ├── background.class.php    # Lógica de generación de imagen con GD
-│   ├── config.class.php        # Configuración de diseño respaldada en BD
-│   ├── paths.class.php         # Rutas y URLs centralizadas
-│   └── phone.class.php         # Integración de la pestaña en el activo Teléfono
-├── locales/                    # i18n: es_MX, en_US, en_GB, fr_FR
-├── logo.png                    # Ícono del plugin (128×128, fondo transparente)
-├── setup.php                   # Registro, hooks, instalación/desinstalación
-├── LICENSE                     # GPLv3
-└── README.md                   # Este archivo
-```
-
-## Desinstalación
-
-Desactivar y desinstalar desde **Configuración → Complementos** elimina la tabla `glpi_plugin_phonebg_config`. Los archivos de plantilla y los fondos generados en `files/_plugins/phonebg/` se conservan intencionalmente.
-
----
-
-## Cambios
-
-Ver [CHANGELOG.md](CHANGELOG.md).
-
----
-
-## Autor
-
-**Edwin Elias Alvarez** — [GitHub](https://github.com/monta990)
-
----
-
-## Comprame un cafe :)
-Si te gusta mi trabajo, me puedes apoyar con una donación:
-
-<a href="https://www.buymeacoffee.com/monta990" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height="51px" width="210px"></a>
-
----
-
-## Licencia
-
-GPL v3 o posterior. Ver [LICENSE](https://www.gnu.org/licenses/gpl-3.0.html).
-
-## Problemas
-
-Reporta errores o solicita funcionalidades en el [issue tracker](https://github.com/monta990/phonebg/issues).

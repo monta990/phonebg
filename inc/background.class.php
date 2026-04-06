@@ -1,187 +1,211 @@
 <?php
 declare(strict_types=1);
+if (!defined('GLPI_ROOT')) {
+    die('Direct access not allowed');
+}
 
 class PluginPhonebgBackground {
+    /**
+     * Validate plugin requirements before generating an image.
+     */
+    public static function checkRequirements(): array
+    {
+        $errors = [];
+        if (!extension_loaded('gd')) {
+            $errors[] = __('PHP GD extension is required', 'phonebg');
+        }
+        if (!is_readable(PluginPhonebgPaths::basePath())) {
+            $errors[] = __('Template not found', 'phonebg');
+        }
+        try {
+            $fontPath = PluginPhonebgPaths::getFontPath();
+            if (!is_readable($fontPath)) {
+                $errors[] = sprintf(
+                    __('TTF font not found: %s', 'phonebg'),
+                    $fontPath
+                );
+            }
+        } catch (RuntimeException $e) {
+            $errors[] = __('Plugin directory not found, unable to verify TTF font', 'phonebg');
+        }
+        return $errors;
+    }
 
-   /**
-    * Validate plugin requirements before generating an image.
-    */
-   public static function checkRequirements(): array
-   {
-      $errors = [];
+    /**
+     * Draw text on image.
+     * If $x <= 0 the text is horizontally centered.
+     */
+    private static function drawText(
+        GdImage $img,
+        int $size,
+        int $x,
+        int $y,
+        int $color,
+        string $font,
+        string $text
+    ): void {
+        if ($x <= 0) {
+            $bbox = imagettfbbox($size, 0, $font, $text);
+            $tw = $bbox[2] - $bbox[0];
+            $x = (int)((imagesx($img) - $tw) / 2);
+        }
+        imagettftext($img, $size, 0, $x, $y, $color, $font, $text);
+    }
 
-      if (!extension_loaded('gd')) {
-         $errors[] = __('PHP GD extension is required', 'phonebg');
-      }
+    /**
+     * Generate the wallpaper PNG for the given phone and return its temp path.
+     */
+    public static function generatePNG(Phone $phone): string
+    {
+        $templatePath = PluginPhonebgPaths::basePath();
 
-      if (!is_readable(PluginPhonebgPaths::basePath())) {
-         $errors[] = __('Template not found', 'phonebg');
-      }
-
-      try {
-         $fontPath = PluginPhonebgPaths::getFontPath();
-         if (!is_readable($fontPath)) {
-            $errors[] = sprintf(
-               __('TTF font not found: %s', 'phonebg'),
-               $fontPath
+        /* -------------------------------------------------------
+         * SEGURIDAD: Anti-DoS por descompresión de imagen
+         * Verificamos dimensiones antes de cargar en RAM.
+         * 8000x8000 permite hasta resoluciones 8K (dinámico para cualquier celular real),
+         * pero evita que un PNG malicioso de 500KB consuma gigabytes de RAM al descomprimirse.
+         * ------------------------------------------------------- */
+        $imgInfo = @getimagesize($templatePath);
+        if ($imgInfo === false) {
+            Session::addMessageAfterRedirect(__('Could not read base image dimensions.', 'phonebg'), false, ERROR);
+            return '';
+        }
+        $max_dimension = 8000;
+        if ($imgInfo[0] > $max_dimension || $imgInfo[1] > $max_dimension) {
+            Session::addMessageAfterRedirect(
+                sprintf(
+                    __('Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons.', 'phonebg'),
+                    $imgInfo[0], $imgInfo[1], $max_dimension
+                ),
+                false,
+                ERROR
             );
-         }
-      } catch (RuntimeException $e) {
-         $errors[] = __('Plugin directory not found, unable to verify TTF font', 'phonebg');
-      }
+            return '';
+        }
 
-      return $errors;
-   }
+        $img = @imagecreatefrompng($templatePath);
+        if (!$img instanceof GdImage) {
+            Session::addMessageAfterRedirect(
+                __('Could not load base image', 'phonebg'),
+                false,
+                ERROR
+            );
+            return '';
+        }
 
-   /**
-    * Draw text on image.
-    * If $x <= 0 the text is horizontally centered.
-    */
-   private static function drawText(
-      GdImage $img,
-      int     $size,
-      int     $x,
-      int     $y,
-      int     $color,
-      string  $font,
-      string  $text
-   ): void {
-      if ($x <= 0) {
-         $bbox  = imagettfbbox($size, 0, $font, $text);
-         $tw    = $bbox[2] - $bbox[0];
-         $x     = (int)((imagesx($img) - $tw) / 2);
-      }
-      imagettftext($img, $size, 0, $x, $y, $color, $font, $text);
-   }
+        imagealphablending($img, false);
+        imagesavealpha($img, true);
+        imagealphablending($img, true);
 
-   /**
-    * Generate the wallpaper PNG for the given phone and return its temp path.
-    */
-   public static function generatePNG(Phone $phone): string
-   {
-      $img = @imagecreatefrompng(PluginPhonebgPaths::basePath());
+        /* Load layout config */
+        $cfg = PluginPhonebgConfig::getAll();
+        try {
+            $font = PluginPhonebgPaths::getFontPath((string)($cfg['font_file'] ?? 'DejaVuSans.ttf'));
+        } catch (RuntimeException $e) {
+            imagedestroy($img);
+            Session::addMessageAfterRedirect(
+                __('Plugin directory not found', 'phonebg'),
+                false,
+                ERROR
+            );
+            return '';
+        }
 
-      if (!$img instanceof GdImage) {
-         Session::addMessageAfterRedirect(
-            __('Could not load base image', 'phonebg'),
-            false,
-            ERROR
-         );
-         return '';
-      }
+        $hex = ltrim((string)($cfg['font_color'] ?? '#000000'), '#');
+        $color = imagecolorallocate(
+            $img,
+            (int)hexdec(substr($hex, 0, 2)),
+            (int)hexdec(substr($hex, 2, 2)),
+            (int)hexdec(substr($hex, 4, 2))
+        );
 
-      imagealphablending($img, false);
-      imagesavealpha($img, true);
-      imagealphablending($img, true);
+        $name = $phone->getName();
+        $mobileRaw = self::getPhoneLine($phone);
+        
+        if ($mobileRaw === null) {
+            imagedestroy($img);
+            Session::addMessageAfterRedirect(
+                __('The phone has no assigned line', 'phonebg'),
+                false,
+                WARNING
+            );
+            return '';
+        }
+        
+        $mobile = trim($mobileRaw);
+        if ($mobile === '') {
+            imagedestroy($img);
+            Session::addMessageAfterRedirect(
+                __('The phone line number is empty', 'phonebg'),
+                false,
+                WARNING
+            );
+            return '';
+        }
 
-      /* Load layout config */
-      $cfg = PluginPhonebgConfig::getAll();
+        $imgWidth = imagesx($img);
 
-      try {
-         $font = PluginPhonebgPaths::getFontPath((string)($cfg['font_file'] ?? 'DejaVuSans.ttf'));
-      } catch (RuntimeException $e) {
-         imagedestroy($img);
-         Session::addMessageAfterRedirect(
-            __('Plugin directory not found', 'phonebg'),
-            false,
-            ERROR
-         );
-         return '';
-      }
+        /* Auto-shrink name font if text is wider than the image */
+        $nameSize = max(10, (int)$cfg['name_size']);
+        while ($nameSize > 10) {
+            $bbox = imagettfbbox($nameSize, 0, $font, $name);
+            if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
+                break;
+            }
+            $nameSize--;
+        }
 
-      $hex   = ltrim((string)($cfg['font_color'] ?? '#000000'), '#');
-      $color = imagecolorallocate(
-         $img,
-         (int)hexdec(substr($hex, 0, 2)),
-         (int)hexdec(substr($hex, 2, 2)),
-         (int)hexdec(substr($hex, 4, 2))
-      );
+        /* Auto-shrink mobile font if text is wider than the image */
+        $mobileSize = max(10, (int)$cfg['mobile_size']);
+        while ($mobileSize > 10) {
+            $bbox = imagettfbbox($mobileSize, 0, $font, $mobile);
+            if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
+                break;
+            }
+            $mobileSize--;
+        }
 
-      $name        = $phone->getName();
-      $mobileRaw   = self::getPhoneLine($phone);
+        self::drawText($img, $nameSize, (int)$cfg['name_x'], (int)$cfg['name_y'], $color, $font, $name);
+        self::drawText($img, $mobileSize, (int)$cfg['mobile_x'], (int)$cfg['mobile_y'], $color, $font, $mobile);
 
-      if ($mobileRaw === null) {
-         imagedestroy($img);
-         Session::addMessageAfterRedirect(
-            __('The phone has no assigned line', 'phonebg'),
-            false,
-            WARNING
-         );
-         return '';
-      }
+        $out = GLPI_TMP_DIR . '/background_' . $phone->getID() . '_' . uniqid() . '.png';
+        imagepng($img, $out, 6);
+        imagedestroy($img);
+        
+        return $out;
+    }
 
-      $mobile = trim($mobileRaw);
-      if ($mobile === '') {
-         imagedestroy($img);
-         Session::addMessageAfterRedirect(
-            __('The phone line number is empty', 'phonebg'),
-            false,
-            WARNING
-         );
-         return '';
-      }
+    /**
+     * Get the phone line number from GLPI database
+     */
+    private static function getPhoneLine(Phone $phone): ?string
+    {
+        global $DB;
+        $iterator = $DB->request([
+            'SELECT' => ['glpi_lines.caller_num'],
+            'FROM'   => 'glpi_items_lines',
+            'INNER JOIN' => [
+                'glpi_lines' => [
+                    'ON' => [
+                        'glpi_items_lines' => 'lines_id',
+                        'glpi_lines'       => 'id',
+                    ]
+                ]
+            ],
+            'WHERE'  => [
+                'glpi_items_lines.itemtype'  => 'Phone',
+                'glpi_items_lines.items_id'  => (int)$phone->getID(),
+                'glpi_lines.is_deleted'      => 0,
+            ],
+            'ORDER'  => 'glpi_lines.id',
+            'LIMIT'  => 1,
+        ]);
 
-      $imgWidth = imagesx($img);
+        if (!count($iterator)) {
+            return null;
+        }
 
-      /* Auto-shrink name font if text is wider than the image */
-      $nameSize = max(10, (int)$cfg['name_size']);
-      while ($nameSize > 10) {
-         $bbox = imagettfbbox($nameSize, 0, $font, $name);
-         if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
-            break;
-         }
-         $nameSize--;
-      }
-
-      /* Auto-shrink mobile font if text is wider than the image */
-      $mobileSize = max(10, (int)$cfg['mobile_size']);
-      while ($mobileSize > 10) {
-         $bbox = imagettfbbox($mobileSize, 0, $font, $mobile);
-         if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
-            break;
-         }
-         $mobileSize--;
-      }
-
-      self::drawText($img, $nameSize,   (int)$cfg['name_x'],   (int)$cfg['name_y'],   $color, $font, $name);
-      self::drawText($img, $mobileSize, (int)$cfg['mobile_x'], (int)$cfg['mobile_y'], $color, $font, $mobile);
-
-      $out = GLPI_TMP_DIR . '/background_' . $phone->getID() . '_' . uniqid() . '.png';
-
-      imagepng($img, $out, 6);
-      imagedestroy($img);
-
-      return $out;
-   }
-
-   private static function getPhoneLine(Phone $phone): ?string
-   {
-      global $DB;
-
-      $iterator = $DB->request([
-         'SELECT'     => ['glpi_lines.caller_num'],
-         'FROM'       => 'glpi_items_lines',
-         'INNER JOIN' => [
-            'glpi_lines' => [
-               'ON' => [
-                  'glpi_items_lines' => 'lines_id',
-                  'glpi_lines'       => 'id',
-               ]
-            ]
-         ],
-         'WHERE' => [
-            'glpi_items_lines.itemtype' => 'Phone',
-            'glpi_items_lines.items_id' => (int)$phone->getID(),
-            'glpi_lines.is_deleted'     => 0,
-         ],
-         'ORDER' => 'glpi_lines.id',
-         'LIMIT' => 1,
-      ]);
-
-      if (!count($iterator)) {
-         return null;
-      }
-
-      return (string)$iterator->current()['caller_num'];
-   }
+        $row = $iterator->current();
+        return $row['caller_num'] ?? null;
+    }
 }

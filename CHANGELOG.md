@@ -7,12 +7,14 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [1.4.1] - 2024-10-24
+## [1.4.1] - 2026-04-05
 
 ### Added
 **Security**
 - Strict access control on download: Added permission validation in front/download.php. Only administrators, technicians (with access to the asset's entity), or the specific user assigned to the phone can now generate and download the wallpaper. (Fixes potential unauthorized cross-entity access / IDOR).
 - DoS prevention on image processing: Implemented dimension validation in inc/background.class.php using getimagesize() before loading the template into memory with GD. Images exceeding 8000x8000 pixels are now rejected (a generous limit for any real device), preventing Denial of Service attacks via RAM exhaustion caused by highly compressed malicious PNG files.
+
+---
 
 ## [1.4.0] — 2026-03-27
 
@@ -28,14 +30,6 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - `PluginPhonebgPaths`: added `fontsDir()`, `listFonts()`, and `getFontPath(string $filename)`. The old `getFontDejaVuSans()` is replaced — font resolution now goes through `getFontPath()` which checks the user fonts directory first and falls back to the bundled font.
 - `PluginPhonebgConfig`: added `font_file` key with default `DejaVuSans.ttf`.
 - Positions tab dirty-change detection now also watches `<select>` elements.
-
----
-
-# Changelog — Phone Background (phonebg)
-
-All notable changes to this project are documented in this file.
-Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 

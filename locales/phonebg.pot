@@ -219,3 +219,12 @@ msgstr ""
 
 msgid "File"
 msgstr ""
+
+msgid "You are not authorized to access this phone background."
+msgstr ""
+
+msgid "Could not read base image dimensions."
+msgstr ""
+
+msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
+msgstr ""

@@ -220,3 +220,12 @@ msgstr "Nom de la police"
 
 msgid "File"
 msgstr "Fichier"
+
+msgid "You are not authorized to access this phone background."
+msgstr "Vous n'êtes pas autorisé à accéder à ce fond d'écran."
+
+msgid "Could not read base image dimensions."
+msgstr "Impossible de lire les dimensions de l'image de base."
+
+msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
+msgstr "Les dimensions de l'image (%1$d x %2$d) dépassent le maximum autorisé (%3$d x %3$d) pour des raisons de sécurité."

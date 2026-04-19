@@ -51,7 +51,7 @@ if (!empty($errors)) {
  * ========================= */
  $file = PluginPhonebgBackground::generatePNG($phone);
 if (!is_file($file)) {
-    Session::addMessageAfterRedirect(__('Could not generate image', 'phonebg'), false, ERROR);
+    /* generatePNG already added a specific message; just redirect */
     Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
 }
 

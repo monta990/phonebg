@@ -23,6 +23,7 @@ and download or preview the generated wallpaper directly from the Phone asset ta
 - Visual drag-and-drop position editor at real image size
 - Per-field font size and color configuration
 - X = 0 auto-centers text horizontally
+- Two configurable custom text labels with enable/disable toggle
 - Custom font upload (TTF/OTF) with automatic name detection
 - Inline preview modal before downloading
 - Positions stored in database, survive upgrades
@@ -38,6 +39,7 @@ por campo, y descarga o previsualiza el fondo generado directamente desde la pes
 - Editor visual de posiciones a tamano real de imagen
 - Tamano y color de fuente configurables por campo
 - X = 0 centra el texto horizontalmente de forma automatica
+- Dos etiquetas de texto personalizadas con interruptor de activar/desactivar
 - Carga de fuentes personalizadas (TTF/OTF) con deteccion automatica de nombre
 - Modal de vista previa antes de descargar
 - Posiciones almacenadas en base de datos, sobreviven actualizaciones
@@ -53,6 +55,7 @@ de police par champ, et telechargez ou previsualisez le fond d'ecran genere dire
 - Editeur visuel de positions par glisser-deposer a taille reelle
 - Taille et couleur de police configurables par champ
 - X = 0 centre le texte horizontalement automatiquement
+- Deux etiquettes de texte personnalisees avec commutateur activer/desactiver
 - Chargement de polices personnalisees (TTF/OTF) avec detection automatique du nom
 - Apercu en modal avant le telechargement
 - Positions stockees en base de donnees, survivent aux mises a jour
@@ -71,6 +74,11 @@ de police par champ, et telechargez ou previsualisez le fond d'ecran genere dire
    </authors>
 
    <versions>
+      <version>
+         <num>1.4.2</num>
+         <compatibility>~11.0.0</compatibility>
+         <download_url>https://github.com/monta990/phonebg/releases/download/1.4.2/phonebg-1.4.2.zip</download_url>
+      </version>
       <version>
          <num>1.4.1</num>
          <compatibility>~11.0.0</compatibility>

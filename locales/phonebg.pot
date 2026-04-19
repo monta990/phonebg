@@ -228,3 +228,15 @@ msgstr ""
 
 msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
 msgstr ""
+
+msgid "Label 1"
+msgstr ""
+
+msgid "Label 2"
+msgstr ""
+
+msgid "Label text"
+msgstr ""
+
+msgid "Enable"
+msgstr ""

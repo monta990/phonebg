@@ -208,6 +208,19 @@ if (isset($_POST['save_positions'])) {
    }
    PluginPhonebgConfig::set('font_file', $selFont);
 
+   /* Custom labels */
+   PluginPhonebgConfig::set('label1_enabled', isset($_POST['label1_enabled']) ? '1' : '0');
+   PluginPhonebgConfig::set('label2_enabled', isset($_POST['label2_enabled']) ? '1' : '0');
+   foreach (['label1_text', 'label2_text'] as $f) {
+      PluginPhonebgConfig::set($f, substr(strip_tags((string)($_POST[$f] ?? '')), 0, 150));
+   }
+   foreach (['label1_x', 'label1_y', 'label2_x', 'label2_y'] as $f) {
+      PluginPhonebgConfig::set($f, max(0, (int)($_POST[$f] ?? 0)));
+   }
+   foreach (['label1_size', 'label2_size'] as $f) {
+      PluginPhonebgConfig::set($f, max(8, (int)($_POST[$f] ?? 8)));
+   }
+
    Session::addMessageAfterRedirect(__('Positions saved successfully', 'phonebg'), false, INFO);
    Html::redirect($self . '?tab=posiciones');
 }
@@ -240,6 +253,15 @@ $nameX   = (int)$cfg['name_x'];
 $nameY   = (int)$cfg['name_y'];
 $mobileX = (int)$cfg['mobile_x'];
 $mobileY = (int)$cfg['mobile_y'];
+
+$label1X       = (int)($cfg['label1_x'] ?? 0);
+$label1Y       = (int)($cfg['label1_y'] ?? 650);
+$label2X       = (int)($cfg['label2_x'] ?? 0);
+$label2Y       = (int)($cfg['label2_y'] ?? 720);
+$label1Enabled = ($cfg['label1_enabled'] ?? '0') === '1';
+$label2Enabled = ($cfg['label2_enabled'] ?? '0') === '1';
+$label1Text    = htmlspecialchars((string)($cfg['label1_text'] ?? ''), ENT_QUOTES, 'UTF-8');
+$label2Text    = htmlspecialchars((string)($cfg['label2_text'] ?? ''), ENT_QUOTES, 'UTF-8');
 
 $jsConfirmUnsaved = addslashes(__("There are unsaved changes in Positions. Continue without saving?", "phonebg"));
 
@@ -386,6 +408,26 @@ if ($hasBase) {
                            user-select:none;-webkit-user-select:none'>
                   " . __('Line number', 'phonebg') . "
                </div>
+               <div id='pb-label-label1'
+                    style='position:absolute;top:0;left:0;
+                           border:2px dashed #27ae60;background:rgba(39,174,96,0.13);
+                           padding:3px 8px;cursor:grab;
+                           white-space:nowrap;font-size:" . (int)($cfg['label1_size'] ?? 40) . "px;font-weight:600;
+                           color:#27ae60;line-height:1.4;border-radius:3px;
+                           user-select:none;-webkit-user-select:none;
+                           display:" . ($label1Enabled ? 'block' : 'none') . "'>
+                  " . ($label1Text !== '' ? $label1Text : __('Label 1', 'phonebg')) . "
+               </div>
+               <div id='pb-label-label2'
+                    style='position:absolute;top:0;left:0;
+                           border:2px dashed #8e44ad;background:rgba(142,68,173,0.13);
+                           padding:3px 8px;cursor:grab;
+                           white-space:nowrap;font-size:" . (int)($cfg['label2_size'] ?? 40) . "px;font-weight:600;
+                           color:#8e44ad;line-height:1.4;border-radius:3px;
+                           user-select:none;-webkit-user-select:none;
+                           display:" . ($label2Enabled ? 'block' : 'none') . "'>
+                  " . ($label2Text !== '' ? $label2Text : __('Label 2', 'phonebg')) . "
+               </div>
             </div>
          </div>";
 
@@ -427,6 +469,62 @@ if ($hasBase) {
                              class='form-control form-control-sm' style='width:75px'></td>
                   <td><input type='number' name='mobile_y' id='inp-mobile-y'
                              value='{$mobileY}' min='0'
+                             class='form-control form-control-sm' style='width:75px'></td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class='d-flex flex-column gap-1'>
+                        <div class='d-flex align-items-center gap-2'>
+                           <input type='checkbox' name='label1_enabled' id='chk-label1'
+                                  class='form-check-input m-0' value='1'" . ($label1Enabled ? " checked" : "") . ">
+                           <label for='chk-label1' class='mb-0 d-flex align-items-center gap-1'>
+                              <span class='badge' style='background:#27ae60'>&nbsp;</span>
+                              <span>" . __('Label 1', 'phonebg') . "</span>
+                           </label>
+                        </div>
+                        <input type='text' name='label1_text' id='inp-label1-text'
+                               value='{$label1Text}'
+                               placeholder='" . htmlspecialchars(__('Label text', 'phonebg'), ENT_QUOTES, 'UTF-8') . "'
+                               maxlength='150'
+                               class='form-control form-control-sm' style='width:200px'>
+                     </div>
+                  </td>
+                  <td><input type='number' name='label1_size' id='inp-label1-size'
+                             value='" . (int)($cfg['label1_size'] ?? 40) . "' min='8' max='300'
+                             class='form-control form-control-sm' style='width:75px'></td>
+                  <td><input type='number' name='label1_x' id='inp-label1-x'
+                             value='{$label1X}' min='0'
+                             class='form-control form-control-sm' style='width:75px'></td>
+                  <td><input type='number' name='label1_y' id='inp-label1-y'
+                             value='{$label1Y}' min='0'
+                             class='form-control form-control-sm' style='width:75px'></td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class='d-flex flex-column gap-1'>
+                        <div class='d-flex align-items-center gap-2'>
+                           <input type='checkbox' name='label2_enabled' id='chk-label2'
+                                  class='form-check-input m-0' value='1'" . ($label2Enabled ? " checked" : "") . ">
+                           <label for='chk-label2' class='mb-0 d-flex align-items-center gap-1'>
+                              <span class='badge' style='background:#8e44ad'>&nbsp;</span>
+                              <span>" . __('Label 2', 'phonebg') . "</span>
+                           </label>
+                        </div>
+                        <input type='text' name='label2_text' id='inp-label2-text'
+                               value='{$label2Text}'
+                               placeholder='" . htmlspecialchars(__('Label text', 'phonebg'), ENT_QUOTES, 'UTF-8') . "'
+                               maxlength='150'
+                               class='form-control form-control-sm' style='width:200px'>
+                     </div>
+                  </td>
+                  <td><input type='number' name='label2_size' id='inp-label2-size'
+                             value='" . (int)($cfg['label2_size'] ?? 40) . "' min='8' max='300'
+                             class='form-control form-control-sm' style='width:75px'></td>
+                  <td><input type='number' name='label2_x' id='inp-label2-x'
+                             value='{$label2X}' min='0'
+                             class='form-control form-control-sm' style='width:75px'></td>
+                  <td><input type='number' name='label2_y' id='inp-label2-y'
+                             value='{$label2Y}' min='0'
                              class='form-control form-control-sm' style='width:75px'></td>
                </tr>
                <tr>
@@ -599,7 +697,9 @@ function phonebgPreviewNewBase(input) {
 
    var savedCoords = {
       name:   { x: {$nameX},   y: {$nameY}   },
-      mobile: { x: {$mobileX}, y: {$mobileY} }
+      mobile: { x: {$mobileX}, y: {$mobileY} },
+      label1: { x: {$label1X}, y: {$label1Y} },
+      label2: { x: {$label2X}, y: {$label2Y} }
    };
 
    function placeLabel(field) {
@@ -659,10 +759,14 @@ function phonebgPreviewNewBase(input) {
    function initEditor() {
       placeLabel('name');
       placeLabel('mobile');
+      placeLabel('label1');
+      placeLabel('label2');
       makeDraggable('name');
       makeDraggable('mobile');
+      makeDraggable('label1');
+      makeDraggable('label2');
 
-      ['name', 'mobile'].forEach(function(field) {
+      ['name', 'mobile', 'label1', 'label2'].forEach(function(field) {
          ['x', 'y'].forEach(function(axis) {
             var inp = document.getElementById('inp-' + field + '-' + axis);
             if (inp) inp.addEventListener('input', function() { placeLabel(field); });
@@ -673,6 +777,25 @@ function phonebgPreviewNewBase(input) {
             if (lbl) lbl.style.fontSize = Math.max(8, parseInt(this.value) || 8) + 'px';
             placeLabel(field);
          });
+      });
+
+      ['label1', 'label2'].forEach(function(field) {
+         var chk = document.getElementById('chk-' + field);
+         var lbl = document.getElementById('pb-label-' + field);
+         var inp = document.getElementById('inp-' + field + '-text');
+         if (chk && lbl) {
+            chk.addEventListener('change', function() {
+               lbl.style.display = chk.checked ? 'block' : 'none';
+               markDirty();
+            });
+         }
+         if (inp && lbl) {
+            inp.addEventListener('input', function() {
+               lbl.textContent = inp.value || inp.placeholder;
+               placeLabel(field);
+               markDirty();
+            });
+         }
       });
    }
 

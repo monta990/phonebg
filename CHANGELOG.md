@@ -7,6 +7,18 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.4.2] — 2026-04-19
+
+### Added
+- **Custom labels.** Two fully configurable text labels (Label 1, Label 2) can be overlaid on the wallpaper. Each label has its own text content, X/Y position, font size, and an enable/disable toggle in the **Positions** tab. Disabled labels are excluded from image generation entirely.
+- **Improved no-line warning.** When a phone has no assigned line, the download correctly aborts. The user-facing warning is now the only message shown — previously `download.php` also added a redundant generic "Could not generate image" error on top of the specific warning, causing two conflicting messages to appear.
+
+### Changed
+- 4 new translatable strings added across all locales (es_MX, fr_FR, en_US, en_GB): `Label 1`, `Label 2`, `Label text`, `Enable`.
+- `PluginPhonebgConfig`: added 10 new config keys with defaults — `label1_enabled` / `label2_enabled` (default `0`), `label1_text` / `label2_text` (default empty), `label1_x` / `label2_x` (default `0`), `label1_y` / `label2_y` (defaults `650` / `720`), `label1_size` / `label2_size` (default `40`).
+
+---
+
 ## [1.4.1] — 2026-04-05
 
 ### Added

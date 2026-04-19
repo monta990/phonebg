@@ -8,7 +8,7 @@ msgstr ""
 "POT-Creation-Date: 2026-03-23\n"
 "PO-Revision-Date: 2026-03-23\n"
 "Last-Translator: Edwin Elias Alvarez\n"
-"Language-Team: French
+"Language-Team: French\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -229,3 +229,15 @@ msgstr "Impossible de lire les dimensions de l'image de base."
 
 msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
 msgstr "Les dimensions de l'image (%1$d x %2$d) dépassent le maximum autorisé (%3$d x %3$d) pour des raisons de sécurité."
+
+msgid "Label 1"
+msgstr "Étiquette 1"
+
+msgid "Label 2"
+msgstr "Étiquette 2"
+
+msgid "Label text"
+msgstr "Texte de l'étiquette"
+
+msgid "Enable"
+msgstr "Activer"

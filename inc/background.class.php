@@ -121,7 +121,7 @@ class PluginPhonebgBackground {
 
         $name = $phone->getName();
         $mobileRaw = self::getPhoneLine($phone);
-        
+
         if ($mobileRaw === null) {
             imagedestroy($img);
             Session::addMessageAfterRedirect(
@@ -131,7 +131,7 @@ class PluginPhonebgBackground {
             );
             return '';
         }
-        
+
         $mobile = trim($mobileRaw);
         if ($mobile === '') {
             imagedestroy($img);
@@ -155,7 +155,8 @@ class PluginPhonebgBackground {
             $nameSize--;
         }
 
-        /* Auto-shrink mobile font if text is wider than the image */
+        self::drawText($img, $nameSize, (int)$cfg['name_x'], (int)$cfg['name_y'], $color, $font, $name);
+
         $mobileSize = max(10, (int)$cfg['mobile_size']);
         while ($mobileSize > 10) {
             $bbox = imagettfbbox($mobileSize, 0, $font, $mobile);
@@ -164,9 +165,27 @@ class PluginPhonebgBackground {
             }
             $mobileSize--;
         }
-
-        self::drawText($img, $nameSize, (int)$cfg['name_x'], (int)$cfg['name_y'], $color, $font, $name);
         self::drawText($img, $mobileSize, (int)$cfg['mobile_x'], (int)$cfg['mobile_y'], $color, $font, $mobile);
+
+        /* Custom labels */
+        foreach ([1, 2] as $n) {
+            if (($cfg["label{$n}_enabled"] ?? '0') !== '1') {
+                continue;
+            }
+            $labelText = trim((string)($cfg["label{$n}_text"] ?? ''));
+            if ($labelText === '') {
+                continue;
+            }
+            $labelSize = max(10, (int)($cfg["label{$n}_size"] ?? 40));
+            while ($labelSize > 10) {
+                $bbox = imagettfbbox($labelSize, 0, $font, $labelText);
+                if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
+                    break;
+                }
+                $labelSize--;
+            }
+            self::drawText($img, $labelSize, (int)($cfg["label{$n}_x"] ?? 0), (int)($cfg["label{$n}_y"] ?? 0), $color, $font, $labelText);
+        }
 
         $out = GLPI_TMP_DIR . '/background_' . $phone->getID() . '_' . uniqid() . '.png';
         imagepng($img, $out, 6);

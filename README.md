@@ -19,7 +19,7 @@
 
 ## Overview
 
-Phone Background generates personalized PNG wallpapers for corporate phones registered in GLPI. It overlays the phone's name and assigned line number onto a custom PNG template, and lets each phone record owner download the wallpaper directly from the Phone asset tab.
+Phone Background generates personalized PNG wallpapers for corporate phones registered in GLPI. It overlays the phone's name, assigned line number, and up to two configurable custom text labels onto a custom PNG template. Each phone record owner can download the wallpaper directly from the Phone asset tab.
 
 ---
 
@@ -52,10 +52,11 @@ The **Fonts** tab lets you upload custom TrueType (TTF) or OpenType (OTF) fonts 
 
 The **Positions** tab (visible once a template has been uploaded) provides a full-size visual drag-and-drop editor:
 
-- Drag the **Device name** and **Line number** labels directly over the template to position them.
+- Drag the **Device name**, **Line number**, **Label 1**, and **Label 2** handles directly over the template to position them.
 - Adjust font size (px) and font color per field using the table inputs.
 - Select the **font** to use from the dropdown (populated from uploaded fonts).
 - **X = 0** centers the text horizontally regardless of image width.
+- **Label 1 / Label 2**: enter custom static text, enable the toggle, and position the label. Disabled labels are not rendered.
 - Click **Save** to persist the settings, or **Reset to defaults** to restore the original values.
 
 Positions are stored in the `glpi_plugin_phonebg_config` database table and survive plugin upgrades.

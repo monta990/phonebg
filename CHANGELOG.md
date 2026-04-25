@@ -7,6 +7,24 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.0] — 2026-04-24
+
+### Added
+- **Twig templates.** HTML output migrated from inline PHP `echo` strings to Twig templates (`templates/config_form.html.twig`, `templates/phone_tab.html.twig`). All business logic, POST handlers, and redirects remain in PHP — only the HTML layer moved to Twig.
+- **`inc/renderer.class.php`** (`PluginPhonebgRenderer`): helper class that resolves template paths relative to `GLPI_ROOT` (handles both `plugins/` and `marketplace/` installation locations) and wraps `TemplateRenderer::getInstance()`.
+- **GLPI 10.0+ compatibility.** Plugin now works with GLPI 10.0, 11.x, and is ready for 12+. `TemplateRenderer` (used internally by this plugin since this version) has been available since GLPI 10.0.0.
+
+### Changed
+- Minimum GLPI version lowered from `11.0` to `10.0`.
+- Minimum PHP version lowered from `8.2` to `8.0` (actual minimum imposed by `mixed` return type and `GdImage` type hint).
+- `plugin.xml`: added `1.5.0` version entry with `>=10.0` compatibility range.
+
+### Upgrade notes
+- **Safe to upgrade from any previous version.** No database changes — `glpi_plugin_phonebg_config` table is unchanged. No data migration needed. All existing configuration, uploaded templates, and uploaded fonts are preserved.
+- New files added: `inc/renderer.class.php`, `templates/config_form.html.twig`, `templates/phone_tab.html.twig`. No files removed.
+
+---
+
 ## [1.4.2] — 2026-04-19
 
 ### Added

@@ -9,9 +9,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
+  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-10.0%2B-blue?style=flat-square" alt="GLPI compatibility"></a>
   <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v3%2B-green?style=flat-square" alt="License"></a>
-  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.2-purple?style=flat-square" alt="PHP"></a>
+  <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.0-purple?style=flat-square" alt="PHP"></a>
   <a href="https://github.com/monta990/phonebg/releases" target="_blank"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/monta990/phonebg/total"></a>
 </p>
 
@@ -27,8 +27,8 @@ Phone Background generates personalized PNG wallpapers for corporate phones regi
 
 | Requirement     | Minimum version        |
 |-----------------|------------------------|
-| GLPI            | ≥ 11.0                 |
-| PHP             | ≥ 8.2                  |
+| GLPI            | ≥ 10.0                 |
+| PHP             | ≥ 8.0                  |
 | PHP extension   | GD (image processing)  |
 
 ## Installation
@@ -75,14 +75,18 @@ phonebg/
 ├── fonts/
 │   └── DejaVuSans.ttf          # Bundled TrueType font
 ├── front/
-│   ├── config.form.php         # Admin settings page (tabbed)
+│   ├── config.form.php         # Admin settings page — POST handlers + data prep
 │   ├── download.php            # PNG generation, download & preview endpoint
 │   └── resource.send.php       # Authenticated template image server
 ├── inc/
 │   ├── background.class.php    # GD image generation logic
 │   ├── config.class.php        # DB-backed layout configuration
 │   ├── paths.class.php         # Centralized paths & URLs
-│   └── phone.class.php         # Phone asset tab integration
+│   ├── phone.class.php         # Phone asset tab integration
+│   └── renderer.class.php      # Twig template renderer helper
+├── templates/
+│   ├── config_form.html.twig   # Admin settings page HTML
+│   └── phone_tab.html.twig     # Phone asset tab HTML + preview modal
 ├── locales/                    # i18n: es_MX, en_US, en_GB, fr_FR
 ├── logo.png                    # Plugin icon (128×128, transparent background)
 ├── setup.php                   # Registration, hooks, install/uninstall

@@ -1,0 +1,594 @@
+{# phonebg — Config form (tabs: Template / Positions / Fonts) #}
+
+<div class="card mt-2 shadow-sm">
+
+   <div class="card-header py-0 position-relative" style="min-height:52px">
+      <div class="ribbon ribbon-bookmark ribbon-top ribbon-start bg-blue s-1" style="z-index:2">
+         <i class="fs-2x ti ti-settings"></i>
+      </div>
+      <ul class="nav nav-tabs card-header-tabs ms-5" role="tablist">
+
+         <li class="nav-item" role="presentation">
+            <button class="nav-link{{ active_tab == 'plantilla' ? ' active' : '' }}"
+                    id="tab-plantilla-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#phonebg-tab-plantilla"
+                    type="button" role="tab">
+               <i class="ti ti-photo me-1"></i>{{ __('Template', 'phonebg') }}
+            </button>
+         </li>
+
+         {% if has_base %}
+         <li class="nav-item" role="presentation">
+            <button class="nav-link{{ active_tab == 'posiciones' ? ' active' : '' }}"
+                    id="tab-posiciones-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#phonebg-tab-posiciones"
+                    type="button" role="tab">
+               <i class="ti ti-adjustments-horizontal me-1"></i>{{ __('Positions', 'phonebg') }}
+            </button>
+         </li>
+         {% endif %}
+
+         <li class="nav-item" role="presentation">
+            <button class="nav-link{{ active_tab == 'fonts' ? ' active' : '' }}"
+                    id="tab-fonts-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#phonebg-tab-fonts"
+                    type="button" role="tab">
+               <i class="ti ti-typography me-1"></i>{{ __('Fonts', 'phonebg') }}
+            </button>
+         </li>
+
+      </ul>
+   </div>{# /card-header #}
+
+   <div class="tab-content">
+
+      {# ======================================================
+         TAB 1 — Template
+         ====================================================== #}
+      <div class="tab-pane fade{{ active_tab == 'plantilla' ? ' show active' : '' }}"
+           id="phonebg-tab-plantilla" role="tabpanel">
+         <form method="post" action="{{ self_url }}" enctype="multipart/form-data">
+            <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            <div class="card-body">
+
+               {% if has_base %}
+               <div class="mb-4">
+                  <label class="form-label fw-semibold">{{ __('Current template', 'phonebg') }}</label>
+                  <div class="border rounded overflow-auto d-inline-block mb-3" style="max-width:100%">
+                     <a href="{{ base_url }}" download title="{{ __('Download current template', 'phonebg') }}">
+                        <img src="{{ base_url_ts }}"
+                             style="display:block;width:auto;height:auto;max-width:none;cursor:pointer">
+                     </a>
+                  </div>
+                  <div>
+                     <button type="submit" name="delete_base" class="btn btn-outline-danger gap-2">
+                        <i class="ti ti-trash"></i>{{ __('Delete template', 'phonebg') }}
+                     </button>
+                  </div>
+               </div>
+               {% endif %}
+
+               <div class="mb-3">
+                  <label class="form-label fw-semibold">{{ __('Upload new template', 'phonebg') }}</label>
+                  <input type="file" name="base" class="form-control" accept="image/png"
+                         onchange="phonebgPreviewNewBase(this)">
+                  <div class="small mt-1">{{ __('Accepted format: PNG · Max 500 KB', 'phonebg') }}</div>
+               </div>
+
+               <div id="pb-new-preview-wrap" class="mb-3 d-none">
+                  <label class="form-label fw-semibold">{{ __('Preview new template', 'phonebg') }}</label>
+                  <div class="border rounded overflow-auto d-inline-block" style="max-width:100%">
+                     <img id="pb-new-preview" style="display:block;width:auto;height:auto;max-width:none">
+                  </div>
+               </div>
+
+            </div>{# /card-body #}
+            <div class="card-footer text-end">
+               <button type="submit" name="save" class="btn btn-primary gap-2">
+                  <i class="ti ti-device-floppy"></i>{{ __('Save', 'phonebg') }}
+               </button>
+            </div>
+         </form>
+      </div>{# /tab-pane plantilla #}
+
+      {# ======================================================
+         TAB 2 — Positions (only when base template exists)
+         ====================================================== #}
+      {% if has_base %}
+      <div class="tab-pane fade{{ active_tab == 'posiciones' ? ' show active' : '' }}"
+           id="phonebg-tab-posiciones" role="tabpanel">
+         <form method="post" action="{{ self_url }}">
+            <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            <div class="card-body">
+
+               <p class="small mb-3">
+                  <i class="ti ti-hand-move me-1"></i>
+                  {{ __('Drag each label to set its position. X = 0 centers the text automatically.', 'phonebg') }}
+               </p>
+
+               <div id="pb-editor-outer" class="border rounded overflow-auto mb-3">
+                  <div id="pb-editor-wrap"
+                       style="position:relative;display:inline-block;line-height:0;user-select:none;-webkit-user-select:none">
+                     <img id="pb-template-img"
+                          src="{{ base_url_ts }}"
+                          draggable="false"
+                          style="display:block;width:auto;height:auto;max-width:none;pointer-events:none">
+                     <div id="pb-label-name"
+                          style="position:absolute;top:0;left:0;border:2px dashed #c0392b;background:rgba(192,57,43,0.13);padding:3px 8px;cursor:grab;white-space:nowrap;font-size:{{ cfg.name_size }}px;font-weight:600;color:#c0392b;line-height:1.4;border-radius:3px;user-select:none;-webkit-user-select:none">
+                        {{ __('Device name', 'phonebg') }}
+                     </div>
+                     <div id="pb-label-mobile"
+                          style="position:absolute;top:0;left:0;border:2px dashed #2980b9;background:rgba(41,128,185,0.13);padding:3px 8px;cursor:grab;white-space:nowrap;font-size:{{ cfg.mobile_size }}px;font-weight:600;color:#2980b9;line-height:1.4;border-radius:3px;user-select:none;-webkit-user-select:none">
+                        {{ __('Line number', 'phonebg') }}
+                     </div>
+                     <div id="pb-label-label1"
+                          style="position:absolute;top:0;left:0;border:2px dashed #27ae60;background:rgba(39,174,96,0.13);padding:3px 8px;cursor:grab;white-space:nowrap;font-size:{{ cfg.label1_size }}px;font-weight:600;color:#27ae60;line-height:1.4;border-radius:3px;user-select:none;-webkit-user-select:none;display:{{ label1_enabled ? 'block' : 'none' }}">
+                        {{ label1_text != '' ? label1_text : __('Label 1', 'phonebg') }}
+                     </div>
+                     <div id="pb-label-label2"
+                          style="position:absolute;top:0;left:0;border:2px dashed #8e44ad;background:rgba(142,68,173,0.13);padding:3px 8px;cursor:grab;white-space:nowrap;font-size:{{ cfg.label2_size }}px;font-weight:600;color:#8e44ad;line-height:1.4;border-radius:3px;user-select:none;-webkit-user-select:none;display:{{ label2_enabled ? 'block' : 'none' }}">
+                        {{ label2_text != '' ? label2_text : __('Label 2', 'phonebg') }}
+                     </div>
+                  </div>
+               </div>{# /pb-editor-outer #}
+
+               <table class="table table-sm table-hover align-middle" style="max-width:560px">
+                  <thead class="table-light">
+                     <tr>
+                        <th class="fw-semibold">{{ __('Field', 'phonebg') }}</th>
+                        <th class="fw-semibold">{{ __('Font size (px)', 'phonebg') }}</th>
+                        <th class="fw-semibold">X</th>
+                        <th class="fw-semibold">Y</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+
+                     {# Device name row #}
+                     <tr>
+                        <td>
+                           <span class="badge" style="background:#c0392b">&nbsp;</span>
+                           <span class="ms-1">{{ __('Device name', 'phonebg') }}</span>
+                        </td>
+                        <td>
+                           <input type="number" name="name_size" id="inp-name-size"
+                                  value="{{ cfg.name_size }}" min="8" max="300"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="name_x" id="inp-name-x"
+                                  value="{{ name_x }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="name_y" id="inp-name-y"
+                                  value="{{ name_y }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                     </tr>
+
+                     {# Line number row #}
+                     <tr>
+                        <td>
+                           <span class="badge" style="background:#2980b9">&nbsp;</span>
+                           <span class="ms-1">{{ __('Line number', 'phonebg') }}</span>
+                        </td>
+                        <td>
+                           <input type="number" name="mobile_size" id="inp-mobile-size"
+                                  value="{{ cfg.mobile_size }}" min="8" max="300"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="mobile_x" id="inp-mobile-x"
+                                  value="{{ mobile_x }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="mobile_y" id="inp-mobile-y"
+                                  value="{{ mobile_y }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                     </tr>
+
+                     {# Label 1 row #}
+                     <tr>
+                        <td>
+                           <div class="d-flex flex-column gap-1">
+                              <div class="d-flex align-items-center gap-2">
+                                 <input type="checkbox" name="label1_enabled" id="chk-label1"
+                                        class="form-check-input m-0" value="1"
+                                        {% if label1_enabled %}checked{% endif %}>
+                                 <label for="chk-label1" class="mb-0 d-flex align-items-center gap-1">
+                                    <span class="badge" style="background:#27ae60">&nbsp;</span>
+                                    <span>{{ __('Label 1', 'phonebg') }}</span>
+                                 </label>
+                              </div>
+                              <input type="text" name="label1_text" id="inp-label1-text"
+                                     value="{{ label1_text }}"
+                                     placeholder="{{ __('Label text', 'phonebg') }}"
+                                     maxlength="150"
+                                     class="form-control form-control-sm" style="width:200px">
+                           </div>
+                        </td>
+                        <td>
+                           <input type="number" name="label1_size" id="inp-label1-size"
+                                  value="{{ cfg.label1_size }}" min="8" max="300"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="label1_x" id="inp-label1-x"
+                                  value="{{ label1_x }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="label1_y" id="inp-label1-y"
+                                  value="{{ label1_y }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                     </tr>
+
+                     {# Label 2 row #}
+                     <tr>
+                        <td>
+                           <div class="d-flex flex-column gap-1">
+                              <div class="d-flex align-items-center gap-2">
+                                 <input type="checkbox" name="label2_enabled" id="chk-label2"
+                                        class="form-check-input m-0" value="1"
+                                        {% if label2_enabled %}checked{% endif %}>
+                                 <label for="chk-label2" class="mb-0 d-flex align-items-center gap-1">
+                                    <span class="badge" style="background:#8e44ad">&nbsp;</span>
+                                    <span>{{ __('Label 2', 'phonebg') }}</span>
+                                 </label>
+                              </div>
+                              <input type="text" name="label2_text" id="inp-label2-text"
+                                     value="{{ label2_text }}"
+                                     placeholder="{{ __('Label text', 'phonebg') }}"
+                                     maxlength="150"
+                                     class="form-control form-control-sm" style="width:200px">
+                           </div>
+                        </td>
+                        <td>
+                           <input type="number" name="label2_size" id="inp-label2-size"
+                                  value="{{ cfg.label2_size }}" min="8" max="300"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="label2_x" id="inp-label2-x"
+                                  value="{{ label2_x }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                        <td>
+                           <input type="number" name="label2_y" id="inp-label2-y"
+                                  value="{{ label2_y }}" min="0"
+                                  class="form-control form-control-sm" style="width:75px">
+                        </td>
+                     </tr>
+
+                     {# Font color row #}
+                     <tr>
+                        <td>{{ __('Font color', 'phonebg') }}</td>
+                        <td colspan="3">
+                           <div class="d-flex align-items-center gap-2">
+                              <input type="text" name="font_color" id="inp-font-color-text"
+                                     value="{{ cfg.font_color }}"
+                                     class="form-control form-control-sm font-monospace" style="width:100px"
+                                     maxlength="7" pattern="#[0-9a-fA-F]{6}" placeholder="#000000">
+                              <input type="color" id="inp-font-color-swatch"
+                                     value="{{ cfg.font_color }}"
+                                     class="border rounded"
+                                     style="width:36px;height:31px;padding:2px;cursor:pointer;background:none">
+                           </div>
+                        </td>
+                     </tr>
+
+                     {# Font selection row #}
+                     <tr>
+                        <td>{{ __('Font', 'phonebg') }}</td>
+                        <td colspan="3">
+                           {% if avail_fonts is not empty %}
+                           <select name="font_file" id="inp-font-file"
+                                   class="form-select form-select-sm" style="max-width:300px">
+                              {% for fname, display_name in avail_fonts %}
+                              <option value="{{ fname }}"{% if cfg.font_file == fname %} selected{% endif %}>
+                                 {{ display_name }}
+                              </option>
+                              {% endfor %}
+                           </select>
+                           {% else %}
+                           <span class="small">{{ __('No fonts uploaded yet', 'phonebg') }}</span>
+                           {% endif %}
+                        </td>
+                     </tr>
+
+                  </tbody>
+               </table>
+
+            </div>{# /card-body #}
+            <div class="card-footer d-flex justify-content-between align-items-center">
+               <button type="submit" name="reset_positions" class="btn btn-outline-secondary gap-2">
+                  <i class="ti ti-refresh"></i>{{ __('Reset to defaults', 'phonebg') }}
+               </button>
+               <button type="submit" name="save_positions" class="btn btn-primary gap-2">
+                  <i class="ti ti-device-floppy"></i>{{ __('Save', 'phonebg') }}
+               </button>
+            </div>
+         </form>
+      </div>{# /tab-pane posiciones #}
+      {% endif %}
+
+      {# ======================================================
+         TAB 3 — Fonts
+         ====================================================== #}
+      <div class="tab-pane fade{{ active_tab == 'fonts' ? ' show active' : '' }}"
+           id="phonebg-tab-fonts" role="tabpanel">
+         <div class="card-body">
+
+            <div class="mb-4">
+               <p class="fw-semibold mb-1">{{ __('Upload font', 'phonebg') }}</p>
+               <p class="small mb-2">{{ __('Accepted formats: TTF · OTF · Max 2 MB', 'phonebg') }}</p>
+               <form method="post" action="{{ self_url }}" enctype="multipart/form-data">
+                  <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+                  <div class="input-group" style="max-width:480px">
+                     <input type="file" name="font_file" class="form-control" accept=".ttf,.otf">
+                     <button type="submit" name="upload_font" class="btn btn-primary gap-1">
+                        <i class="ti ti-upload"></i>{{ __('Upload', 'phonebg') }}
+                     </button>
+                  </div>
+               </form>
+            </div>
+
+            <div>
+               <p class="fw-semibold mb-1">{{ __('Installed fonts', 'phonebg') }}</p>
+               <p class="small mb-3">{{ __('Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted.', 'phonebg') }}</p>
+
+               {% if avail_fonts is not empty %}
+               <table class="table table-sm table-hover mb-0" style="max-width:600px">
+                  <thead class="table-light">
+                     <tr>
+                        <th>{{ __('Font name', 'phonebg') }}</th>
+                        <th>{{ __('File', 'phonebg') }}</th>
+                        <th>{{ __('Description', 'phonebg') }}</th>
+                        <th style="width:60px"></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for fname, display_name in avail_fonts %}
+                     {% set is_default = (fname == 'DejaVuSans.ttf') %}
+                     <tr>
+                        <td class="align-middle fw-semibold">{{ display_name }}</td>
+                        <td class="align-middle"><code class="small">{{ fname }}</code></td>
+                        <td class="align-middle small">
+                           {% if is_default %}
+                           <i class="ti ti-lock me-1"></i>{{ __('Default fallback font — cannot be deleted', 'phonebg') }}
+                           {% else %}
+                           <i class="ti ti-user me-1"></i>{{ __('User uploaded font', 'phonebg') }}
+                           {% endif %}
+                        </td>
+                        <td class="align-middle text-end">
+                           {% if is_default %}
+                           <button type="button" class="btn btn-sm btn-outline-secondary" disabled
+                                   title="{{ __('The default font cannot be deleted', 'phonebg') }}">
+                              <i class="ti ti-lock"></i>
+                           </button>
+                           {% else %}
+                           <form method="post" action="{{ self_url }}" style="display:inline">
+                              <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+                              <input type="hidden" name="delete_font" value="{{ fname }}">
+                              <button type="submit" class="btn btn-sm btn-outline-danger"
+                                      onclick="return confirm({{ __('Delete this font?', 'phonebg')|json_encode }})">
+                                 <i class="ti ti-trash"></i>
+                              </button>
+                           </form>
+                           {% endif %}
+                        </td>
+                     </tr>
+                     {% endfor %}
+                  </tbody>
+               </table>
+               {% else %}
+               <p class="small">{{ __('No fonts uploaded yet', 'phonebg') }}</p>
+               {% endif %}
+            </div>
+
+         </div>{# /card-body #}
+      </div>{# /tab-pane fonts #}
+
+   </div>{# /tab-content #}
+</div>{# /card #}
+
+{# JavaScript — only emitted when a base template is uploaded #}
+{% if has_base %}
+<script>
+function phonebgPreviewNewBase(input) {
+   var wrap    = document.getElementById('pb-new-preview-wrap');
+   var preview = document.getElementById('pb-new-preview');
+   wrap.classList.add('d-none');
+   preview.src = '';
+   if (!input.files[0]) return;
+   if (input.files[0].type !== 'image/png') {
+      alert('Invalid format. PNG only.');
+      input.value = '';
+      return;
+   }
+   if (input.files[0].size > 500 * 1024) {
+      alert('File exceeds maximum allowed size (500 KB).');
+      input.value = '';
+      return;
+   }
+   var reader = new FileReader();
+   reader.onload = function(e) {
+      preview.src = e.target.result;
+      wrap.classList.remove('d-none');
+   };
+   reader.readAsDataURL(input.files[0]);
+}
+
+(function () {
+   var img = document.getElementById('pb-template-img');
+   if (!img) return;
+
+   var savedCoords = {
+      name:   { x: {{ name_x }},   y: {{ name_y }}   },
+      mobile: { x: {{ mobile_x }}, y: {{ mobile_y }} },
+      label1: { x: {{ label1_x }}, y: {{ label1_y }} },
+      label2: { x: {{ label2_x }}, y: {{ label2_y }} }
+   };
+
+   function placeLabel(field) {
+      var label = document.getElementById('pb-label-' + field);
+      var wrap  = document.getElementById('pb-editor-wrap');
+      if (!label || !wrap) return;
+      var realX = parseInt(document.getElementById('inp-' + field + '-x').value) || 0;
+      var realY = parseInt(document.getElementById('inp-' + field + '-y').value) || 0;
+      var dispY = realY - label.offsetHeight;
+      var dispX;
+      if (realX <= 0) {
+         dispX = Math.round((wrap.offsetWidth - label.offsetWidth) / 2);
+      } else {
+         dispX = realX;
+      }
+      label.style.left = Math.max(0, dispX) + 'px';
+      label.style.top  = Math.max(0, dispY) + 'px';
+   }
+
+   function makeDraggable(field) {
+      var label = document.getElementById('pb-label-' + field);
+      if (!label) return;
+      label.addEventListener('mousedown', function (e) {
+         e.preventDefault();
+         e.stopPropagation();
+         var startMX   = e.clientX;
+         var startMY   = e.clientY;
+         var startLeft = label.offsetLeft;
+         var startTop  = label.offsetTop;
+         var wrap      = document.getElementById('pb-editor-wrap');
+         label.style.cursor = 'grabbing';
+         function onMove(ev) {
+            ev.preventDefault();
+            var newLeft = Math.max(0, Math.min(wrap.offsetWidth  - label.offsetWidth,  startLeft + ev.clientX - startMX));
+            var newTop  = Math.max(0, Math.min(wrap.offsetHeight - label.offsetHeight, startTop  + ev.clientY - startMY));
+            label.style.left = newLeft + 'px';
+            label.style.top  = newTop  + 'px';
+            document.getElementById('inp-' + field + '-x').value = Math.round(newLeft);
+            document.getElementById('inp-' + field + '-y').value = Math.round(newTop + label.offsetHeight);
+         }
+         function onUp() {
+            label.style.cursor = 'grab';
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup',   onUp);
+            markDirty();
+         }
+         document.addEventListener('mousemove', onMove);
+         document.addEventListener('mouseup',   onUp);
+      });
+   }
+
+   function initEditor() {
+      placeLabel('name');
+      placeLabel('mobile');
+      placeLabel('label1');
+      placeLabel('label2');
+      makeDraggable('name');
+      makeDraggable('mobile');
+      makeDraggable('label1');
+      makeDraggable('label2');
+
+      ['name', 'mobile', 'label1', 'label2'].forEach(function(field) {
+         ['x', 'y'].forEach(function(axis) {
+            var inp = document.getElementById('inp-' + field + '-' + axis);
+            if (inp) inp.addEventListener('input', function() { placeLabel(field); });
+         });
+         var sizeInp = document.getElementById('inp-' + field + '-size');
+         if (sizeInp) sizeInp.addEventListener('input', function() {
+            var lbl = document.getElementById('pb-label-' + field);
+            if (lbl) lbl.style.fontSize = Math.max(8, parseInt(this.value) || 8) + 'px';
+            placeLabel(field);
+         });
+      });
+
+      ['label1', 'label2'].forEach(function(field) {
+         var chk = document.getElementById('chk-' + field);
+         var lbl = document.getElementById('pb-label-' + field);
+         var inp = document.getElementById('inp-' + field + '-text');
+         if (chk && lbl) {
+            chk.addEventListener('change', function() {
+               lbl.style.display = chk.checked ? 'block' : 'none';
+               markDirty();
+            });
+         }
+         if (inp && lbl) {
+            inp.addEventListener('input', function() {
+               lbl.textContent = inp.value || inp.placeholder;
+               placeLabel(field);
+               markDirty();
+            });
+         }
+      });
+   }
+
+   function tryInit() {
+      if (img.complete && img.naturalHeight > 0) {
+         initEditor();
+      } else {
+         img.addEventListener('load', initEditor);
+      }
+   }
+
+   var tabBtn = document.getElementById('tab-posiciones-btn');
+   if (tabBtn) {
+      tabBtn.addEventListener('shown.bs.tab', function () {
+         setTimeout(tryInit, 50);
+      });
+   }
+
+   var pbDirty = false;
+   var pbForm  = document.querySelector('#phonebg-tab-posiciones form');
+
+   function markDirty() { pbDirty = true; }
+
+   if (pbForm) {
+      pbForm.querySelectorAll('input, select').forEach(function(el) {
+         el.addEventListener('input', markDirty);
+         el.addEventListener('change', markDirty);
+      });
+      pbForm.addEventListener('submit', function() { pbDirty = false; });
+   }
+
+   var tabPlantillaBtn = document.getElementById('tab-plantilla-btn');
+   if (tabPlantillaBtn) {
+      tabPlantillaBtn.addEventListener('click', function(e) {
+         if (pbDirty) {
+            if (!confirm({{ js_confirm|raw }})) {
+               e.stopImmediatePropagation();
+               e.preventDefault();
+            }
+         }
+      });
+   }
+
+   var colorText   = document.getElementById('inp-font-color-text');
+   var colorSwatch = document.getElementById('inp-font-color-swatch');
+   if (colorText && colorSwatch) {
+      colorSwatch.addEventListener('input', function() {
+         colorText.value = colorSwatch.value;
+         markDirty();
+      });
+      colorText.addEventListener('input', function() {
+         if (/^#[0-9a-fA-F]{6}$/.test(colorText.value)) {
+            colorSwatch.value = colorText.value;
+         }
+         markDirty();
+      });
+      colorText.addEventListener('change', function() {
+         if (/^#[0-9a-fA-F]{6}$/.test(colorText.value)) {
+            colorSwatch.value = colorText.value;
+         }
+      });
+   }
+
+   tryInit();
+})();
+</script>
+{% endif %}

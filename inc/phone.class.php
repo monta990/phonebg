@@ -12,7 +12,7 @@ class PluginPhonebgPhone extends CommonGLPI {
    }
 
    /* =====================================================
-    * TAB (GLPI 11 requires array return)
+    * TAB (array return required by GLPI 11+, accepted by 10+)
     * ===================================================== */
    public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0): array
    {
@@ -50,137 +50,22 @@ class PluginPhonebgPhone extends CommonGLPI {
       $basefile    = PluginPhonebgPaths::basePath();
       $hasBase     = is_readable($basefile);
       $downloadUrl = Plugin::getWebDir('phonebg') . '/front/download.php';
-      $previewUrl  = $downloadUrl . '?phoneid=' . (int)$phone->getID() . '&preview=1';
       $phoneId     = (int)$phone->getID();
-      $modalId     = 'pb-preview-modal-' . $phoneId;
+      $previewUrl  = $downloadUrl . '?phoneid=' . $phoneId . '&preview=1';
 
       Html::displayMessageAfterRedirect();
 
-      $phone_name = $phone->getName();
-
-      echo "<div class='card mt-3 shadow-sm'>";
-
-      echo "<div class='card-header pt-2 position-relative'>
-               <div class='ribbon ribbon-bookmark ribbon-top ribbon-start bg-blue s-1'>
-                  <i class='fs-2x ti ti-photo'></i>
-               </div>
-               <h4 class='card-title ms-5 mb-0'>" .
-                  __('Phone wallpaper generator', 'phonebg') .
-               "</h4>
-            </div>";
-
-      echo "<div class='card-body text-center'>";
-
-      if (!$hasBase) {
-         echo "<div class='alert alert-warning text-start'>
-                  <i class='ti ti-alert-triangle me-2'></i>
-                  <strong>" . __('No base template found.', 'phonebg') . "</strong><br>
-                  " . __('Please upload a base PNG image in the plugin settings.', 'phonebg') . "
-               </div>";
-      }
-
-      echo "<p class='text-muted mb-3'>" .
-               sprintf(
-                  __('Generate background for: %s', 'phonebg'),
-                  htmlspecialchars($phone_name, ENT_QUOTES, 'UTF-8')
-               ) .
-            "</p>";
-
-      echo "<div class='mt-4 d-flex justify-content-center gap-3'>";
-
-      /* Preview button */
-      echo "<button type='button'
-                    class='btn btn-outline-secondary'
-                    " . (!$hasBase ? 'disabled' : '') . "
-                    onclick='phonebgOpenPreview(" . $phoneId . ")'>
-               <i class='ti ti-eye me-2'></i>
-               " . __('Preview', 'phonebg') . "
-            </button>";
-
-      /* Download form */
-      echo "<form method='get' action='{$downloadUrl}' style='display:inline'>
-               <input type='hidden' name='phoneid' value='{$phoneId}'>
-               <button type='submit'
-                       class='btn btn-primary'
-                       " . (!$hasBase ? 'disabled' : '') . ">
-                  <i class='ti ti-download me-2'></i>
-                  " . __('Download background', 'phonebg') . "
-               </button>
-            </form>";
-
-      echo "</div>"; /* /d-flex */
-
-      echo "</div></div>"; /* /card-body /card */
-
-      /* =====================================================
-       * Preview modal
-       * ===================================================== */
-      echo "<div class='modal fade' id='{$modalId}' tabindex='-1' aria-hidden='true'>
-               <div class='modal-dialog modal-dialog-centered modal-lg'>
-                  <div class='modal-content'>
-                     <div class='modal-header'>
-                        <h5 class='modal-title'>
-                           <i class='ti ti-photo me-2'></i>" .
-                           __('Background preview', 'phonebg') .
-                        "</h5>
-                        <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
-                     </div>
-                     <div class='modal-body text-center' id='pb-modal-body-{$phoneId}'>
-                        <div class='pb-modal-spinner'>
-                           <div class='spinner-border text-primary' role='status'>
-                              <span class='visually-hidden'>Cargando...</span>
-                           </div>
-                        </div>
-                     </div>
-                     <div class='modal-footer'>
-                        <a id='pb-modal-download-{$phoneId}'
-                           href='{$downloadUrl}?phoneid={$phoneId}'
-                           class='btn btn-primary gap-2'>
-                           <i class='ti ti-download'></i>
-                           " . __('Download background', 'phonebg') . "
-                        </a>
-                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>
-                           <i class='ti ti-x me-1'></i>" . __('Close', 'phonebg') . "
-                        </button>
-                     </div>
-                  </div>
-               </div>
-            </div>";
-
-      /* JS */
-      $safePreviewUrl = htmlspecialchars($previewUrl, ENT_QUOTES, 'UTF-8');
-      echo <<<HTML
-<script>
-function phonebgOpenPreview(phoneId) {
-   var modalEl  = document.getElementById('pb-preview-modal-' + phoneId);
-   var body     = document.getElementById('pb-modal-body-' + phoneId);
-   var previewUrl = '{$safePreviewUrl}';
-
-   /* Reset body to spinner */
-   body.innerHTML = '<div class="pb-modal-spinner"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-
-   var modal = new bootstrap.Modal(modalEl);
-   modal.show();
-
-   /* Load image after modal is visible */
-   modalEl.addEventListener('shown.bs.modal', function handler() {
-      modalEl.removeEventListener('shown.bs.modal', handler);
-      var img = new Image();
-      img.onload = function() {
-         body.innerHTML = '';
-         img.style.maxWidth  = '100%';
-         img.style.height    = 'auto';
-         img.style.display   = 'block';
-         img.style.margin    = '0 auto';
-         body.appendChild(img);
-      };
-      img.onerror = function() {
-         body.innerHTML = '<div class="alert alert-danger">No se pudo cargar la vista previa.</div>';
-      };
-      img.src = previewUrl + '&t=' + Date.now();
-   });
-}
-</script>
-HTML;
+      echo PluginPhonebgRenderer::render('phone_tab.html.twig', [
+         'has_base'        => $hasBase,
+         'phone_id'        => $phoneId,
+         'phone_line_label' => sprintf(
+            __('Generate background for: %s', 'phonebg'),
+            $phone->getName()
+         ),
+         'download_url'    => $downloadUrl,
+         'preview_url'     => $previewUrl,
+         'preview_url_js'  => json_encode($previewUrl),
+         'modal_id'        => 'pb-preview-modal-' . $phoneId,
+      ]);
    }
 }

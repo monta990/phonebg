@@ -14,19 +14,20 @@ function plugin_init_phonebg() {
    );
 }
 
-function plugin_version_phonebg() {
+function plugin_version_phonebg()
+{
    return [
       'name'         => 'Phone Background',
-      'version'      => '1.4.2',
+      'version'      => '1.5.0',
       'author'       => 'Edwin Elias Alvarez',
+      'homepage'     => 'https://github.com/monta990/phonebg',
       'license'      => 'GPLv3+',
-      'homepage'     => 'https://sontechs.com',
       'requirements' => [
          'glpi' => [
-            'min' => '11.0',
+            'min' => '10.0',
          ],
          'php'  => [
-            'min' => '8.2',
+            'min' => '8.0',
          ],
       ]
    ];

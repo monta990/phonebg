@@ -102,7 +102,7 @@ class PluginPhonebgBackground {
         try {
             $font = PluginPhonebgPaths::getFontPath((string)($cfg['font_file'] ?? 'DejaVuSans.ttf'));
         } catch (RuntimeException $e) {
-            imagedestroy($img);
+            unset($img);
             Session::addMessageAfterRedirect(
                 __('Plugin directory not found', 'phonebg'),
                 false,
@@ -123,7 +123,7 @@ class PluginPhonebgBackground {
         $mobileRaw = self::getPhoneLine($phone);
 
         if ($mobileRaw === null) {
-            imagedestroy($img);
+            unset($img);
             Session::addMessageAfterRedirect(
                 __('The phone has no assigned line', 'phonebg'),
                 false,
@@ -134,7 +134,7 @@ class PluginPhonebgBackground {
 
         $mobile = trim($mobileRaw);
         if ($mobile === '') {
-            imagedestroy($img);
+            unset($img);
             Session::addMessageAfterRedirect(
                 __('The phone line number is empty', 'phonebg'),
                 false,
@@ -189,7 +189,7 @@ class PluginPhonebgBackground {
 
         $out = GLPI_TMP_DIR . '/background_' . $phone->getID() . '_' . uniqid() . '.png';
         imagepng($img, $out, 6);
-        imagedestroy($img);
+        unset($img);
         
         return $out;
     }

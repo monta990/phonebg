@@ -1,0 +1,246 @@
+# phonebg — GLPI plugin
+# Copyright (C) 2025 Edwin Elias Alvarez
+# This file is distributed under the same license as the phonebg package.
+msgid ""
+msgstr ""
+"Project-Id-Version: phonebg 1.5.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-03\n"
+"PO-Revision-Date: 2026-05-03\n"
+"Last-Translator: Edwin Elias Alvarez\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Background"
+msgstr "Fond d'écran"
+
+msgid "Background preview"
+msgstr "Aperçu du fond d'écran"
+
+msgid "Background saved successfully"
+msgstr "Fond d'écran enregistré avec succès"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Could not delete template"
+msgstr "Impossible de supprimer le modèle"
+
+msgid "Could not generate image"
+msgstr "Impossible de générer l'image"
+
+msgid "Could not load base image"
+msgstr "Impossible de charger l'image de base"
+
+msgid "Could not save template"
+msgstr "Impossible d'enregistrer le modèle"
+
+msgid "Current template"
+msgstr "Modèle actuel"
+
+msgid "Delete template"
+msgstr "Supprimer le modèle"
+
+msgid "Device name"
+msgstr "Nom de l'appareil"
+
+msgid "Download background"
+msgstr "Télécharger le fond"
+
+msgid "Download current template"
+msgstr "Télécharger le modèle actuel"
+
+msgid "Drag each label to set its position. X = 0 centers the text automatically."
+msgstr "Faites glisser chaque étiquette pour définir sa position. X = 0 centre le texte automatiquement."
+
+msgid "Field"
+msgstr "Champ"
+
+msgid "File too large (max 500 KB)"
+msgstr "Fichier trop volumineux (max 500 Ko)"
+
+msgid "Font color"
+msgstr "Couleur de police"
+
+msgid "Font size (px)"
+msgstr "Taille de police (px)"
+
+msgid "Generate background for: %s"
+msgstr "Générer le fond pour : %s"
+
+msgid "Invalid format, PNG only"
+msgstr "Format invalide, PNG uniquement"
+
+msgid "Invalid phone"
+msgstr "Téléphone invalide"
+
+msgid "Line number"
+msgstr "Numéro de ligne"
+
+msgid "No base template found."
+msgstr "Aucun modèle de base trouvé."
+
+msgid "PHP GD extension is required"
+msgstr "L'extension PHP GD est requise"
+
+msgid "Phone Background"
+msgstr "Fond d'écran du téléphone"
+
+msgid "Phone Wallpapers"
+msgstr "Fond d'écran téléphones"
+
+msgid "Phone not found"
+msgstr "Téléphone introuvable"
+
+msgid "Phone wallpaper generator"
+msgstr "Générateur de fond d'écran pour téléphone"
+
+msgid "Please upload a base PNG image in the plugin settings."
+msgstr "Veuillez télécharger une image PNG de base dans les paramètres du plugin."
+
+msgid "Plugin directory not found"
+msgstr "Répertoire du plugin introuvable"
+
+msgid "Plugin directory not found, unable to verify TTF font"
+msgstr "Répertoire du plugin introuvable, impossible de vérifier la police TTF"
+
+msgid "Positions"
+msgstr "Positions"
+
+msgid "Positions reset to default values"
+msgstr "Positions réinitialisées aux valeurs par défaut"
+
+msgid "Positions saved successfully"
+msgstr "Positions enregistrées avec succès"
+
+msgid "Preview"
+msgstr "Aperçu"
+
+msgid "Preview new template"
+msgstr "Aperçu du nouveau modèle"
+
+msgid "Reset to defaults"
+msgstr "Réinitialiser les valeurs par défaut"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "TTF font not found: %s"
+msgstr "Police TTF introuvable : %s"
+
+msgid "Template"
+msgstr "Modèle"
+
+msgid "Template deleted successfully"
+msgstr "Modèle supprimé avec succès"
+
+msgid "Template not found"
+msgstr "Modèle introuvable"
+
+msgid "The phone has no assigned line"
+msgstr "Le téléphone n'a pas de ligne assignée"
+
+msgid "The phone line number is empty"
+msgstr "Le numéro de ligne du téléphone est vide"
+
+msgid "There are unsaved changes in Positions. Continue without saving?"
+msgstr "Il y a des modifications non enregistrées dans Positions. Continuer sans enregistrer ?"
+
+msgid "Upload new template"
+msgstr "Charger un nouveau modèle"
+
+msgid "Fonts"
+msgstr "Polices"
+
+msgid "Installed fonts"
+msgstr "Polices installées"
+
+msgid "Upload font"
+msgstr "Télécharger une police"
+
+msgid "Font saved successfully"
+msgstr "Police enregistrée avec succès"
+
+msgid "Could not save font"
+msgstr "Impossible d'enregistrer la police"
+
+msgid "Font deleted successfully"
+msgstr "Police supprimée avec succès"
+
+msgid "Could not delete font"
+msgstr "Impossible de supprimer la police"
+
+msgid "Invalid font format, TTF or OTF only"
+msgstr "Format de police invalide, TTF ou OTF uniquement"
+
+msgid "Font file too large (max 2 MB)"
+msgstr "Fichier de police trop volumineux (max 2 Mo)"
+
+msgid "Font"
+msgstr "Police"
+
+msgid "Font file"
+msgstr "Fichier de police"
+
+msgid "No fonts uploaded yet"
+msgstr "Aucune police chargée"
+
+msgid "Delete this font?"
+msgstr "Supprimer cette police ?"
+
+msgid "The default font cannot be deleted"
+msgstr "La police par défaut ne peut pas être supprimée"
+
+msgid "Default fallback font — cannot be deleted"
+msgstr "Police de secours par défaut — ne peut pas être supprimée"
+
+msgid "User uploaded font"
+msgstr "Police téléchargée par l'utilisateur"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Accepted formats: TTF · OTF · Max 2 MB"
+msgstr "Formats acceptés : TTF · OTF · Max 2 Mo"
+
+msgid "Accepted format: PNG · Max 500 KB"
+msgstr "Format accepté : PNG · Max 500 Ko"
+
+msgid "Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted."
+msgstr "La police intégrée (DejaVu Sans) est toujours disponible en secours et ne peut pas être supprimée."
+
+msgid "Upload"
+msgstr "Télécharger"
+
+msgid "Font name"
+msgstr "Nom de la police"
+
+msgid "File"
+msgstr "Fichier"
+
+msgid "You are not authorized to access this phone background."
+msgstr "Vous n'êtes pas autorisé à accéder à ce fond d'écran."
+
+msgid "Could not read base image dimensions."
+msgstr "Impossible de lire les dimensions de l'image de base."
+
+msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
+msgstr "Les dimensions de l'image (%1$d x %2$d) dépassent le maximum autorisé (%3$d x %3$d) pour des raisons de sécurité."
+
+msgid "Image too large (%1$d x %2$d px). Maximum 20 megapixels allowed."
+msgstr "Immagine troppo grande (%1$d x %2$d px). Massimo 20 megapixel consentiti."
+
+msgid "Label 1"
+msgstr "Étiquette 1"
+
+msgid "Label 2"
+msgstr "Étiquette 2"
+
+msgid "Label text"
+msgstr "Texte de l'étiquette"
+
+msgid "Enable"
+msgstr "Activer"

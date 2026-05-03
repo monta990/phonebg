@@ -3,10 +3,10 @@
 # This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.4.0\n"
+"Project-Id-Version: phonebg 1.5.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23\n"
-"PO-Revision-Date: 2026-03-23\n"
+"POT-Creation-Date: 2026-05-03\n"
+"PO-Revision-Date: 2026-05-03\n"
 "Last-Translator: Edwin Elias Alvarez\n"
 "Language-Team: phonebg\n"
 "MIME-Version: 1.0\n"
@@ -227,6 +227,9 @@ msgid "Could not read base image dimensions."
 msgstr ""
 
 msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
+msgstr ""
+
+msgid "Image too large (%1$d x %2$d px). Maximum 20 megapixels allowed."
 msgstr ""
 
 msgid "Label 1"

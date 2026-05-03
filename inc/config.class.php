@@ -9,6 +9,8 @@ class PluginPhonebgConfig {
 
    const TABLE = 'glpi_plugin_phonebg_config';
 
+   private static ?array $_cache = null;
+
    /** Default values — used when no row exists in the table */
    private static array $defaults = [
       'name_x'         => 0,
@@ -52,6 +54,9 @@ class PluginPhonebgConfig {
 
    public static function getAll(): array
    {
+      if (self::$_cache !== null) {
+         return self::$_cache;
+      }
       global $DB;
       $result = self::$defaults;
       $iter   = $DB->request(['FROM' => self::TABLE]);
@@ -60,7 +65,7 @@ class PluginPhonebgConfig {
             $result[$row['name']] = $row['value'];
          }
       }
-      return $result;
+      return self::$_cache = $result;
    }
 
    /* -------------------------------------------------------
@@ -70,23 +75,38 @@ class PluginPhonebgConfig {
    public static function set(string $name, mixed $value): void
    {
       global $DB;
-      $exists = count($DB->request([
-         'SELECT' => ['id'],
-         'FROM'   => self::TABLE,
-         'WHERE'  => ['name' => $name],
-         'LIMIT'  => 1,
-      ]));
-      if ($exists) {
-         $DB->update(self::TABLE, ['value' => (string)$value], ['name' => $name]);
-      } else {
-         $DB->insert(self::TABLE, ['name' => $name, 'value' => (string)$value]);
+      $DB->doQuery(sprintf(
+         "INSERT INTO `%s` (`name`, `value`) VALUES ('%s', '%s') ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)",
+         self::TABLE,
+         $DB->escape($name),
+         $DB->escape((string)$value)
+      ));
+      self::$_cache = null;
+   }
+
+   public static function saveAll(array $data): void
+   {
+      global $DB;
+      if (empty($data)) {
+         return;
       }
+      $rows = [];
+      foreach ($data as $name => $value) {
+         $rows[] = sprintf("('%s', '%s')", $DB->escape((string)$name), $DB->escape((string)$value));
+      }
+      $DB->doQuery(sprintf(
+         "INSERT INTO `%s` (`name`, `value`) VALUES %s ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)",
+         self::TABLE,
+         implode(', ', $rows)
+      ));
+      self::$_cache = null;
    }
 
    public static function resetToDefaults(): void
    {
       global $DB;
       $DB->delete(self::TABLE, [1]);
+      self::$_cache = null;
    }
 
    public static function getDefaults(): array

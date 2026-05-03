@@ -32,6 +32,26 @@ class PluginPhonebgBackground {
     }
 
     /**
+     * Shrink $size until $text fits within $maxWidth pixels.
+     * Uses a proportional estimate first, then at most a few fine-tune steps.
+     */
+    private static function fitFontSize(string $font, string $text, int $size, int $maxWidth): int
+    {
+        $bbox = imagettfbbox($size, 0, $font, $text);
+        if ($bbox === false || ($bbox[2] - $bbox[0]) <= $maxWidth) {
+            return $size;
+        }
+        $tw   = $bbox[2] - $bbox[0];
+        $size = max(10, (int)floor($size * $maxWidth / $tw));
+        $bbox = imagettfbbox($size, 0, $font, $text);
+        while ($bbox !== false && $size > 10 && ($bbox[2] - $bbox[0]) > $maxWidth) {
+            $size--;
+            $bbox = imagettfbbox($size, 0, $font, $text);
+        }
+        return $size;
+    }
+
+    /**
      * Draw text on image.
      * If $x <= 0 the text is horizontally centered.
      */
@@ -46,8 +66,11 @@ class PluginPhonebgBackground {
     ): void {
         if ($x <= 0) {
             $bbox = imagettfbbox($size, 0, $font, $text);
-            $tw = $bbox[2] - $bbox[0];
-            $x = (int)((imagesx($img) - $tw) / 2);
+            if ($bbox !== false) {
+                $x = (int)((imagesx($img) - ($bbox[2] - $bbox[0])) / 2);
+            } else {
+                $x = 0;
+            }
         }
         imagettftext($img, $size, 0, $x, $y, $color, $font, $text);
     }
@@ -82,8 +105,16 @@ class PluginPhonebgBackground {
             );
             return '';
         }
+        if ($imgInfo[0] * $imgInfo[1] > 20_000_000) {
+            Session::addMessageAfterRedirect(
+                sprintf(__('Image too large (%1$d x %2$d px). Maximum 20 megapixels allowed.', 'phonebg'), $imgInfo[0], $imgInfo[1]),
+                false,
+                ERROR
+            );
+            return '';
+        }
 
-        $img = @imagecreatefrompng($templatePath);
+        $img = imagecreatefrompng($templatePath);
         if (!$img instanceof GdImage) {
             Session::addMessageAfterRedirect(
                 __('Could not load base image', 'phonebg'),
@@ -143,28 +174,12 @@ class PluginPhonebgBackground {
             return '';
         }
 
-        $imgWidth = imagesx($img);
+        $maxWidth = imagesx($img) - 40;
 
-        /* Auto-shrink name font if text is wider than the image */
-        $nameSize = max(10, (int)$cfg['name_size']);
-        while ($nameSize > 10) {
-            $bbox = imagettfbbox($nameSize, 0, $font, $name);
-            if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
-                break;
-            }
-            $nameSize--;
-        }
-
+        $nameSize = self::fitFontSize($font, $name, max(10, (int)$cfg['name_size']), $maxWidth);
         self::drawText($img, $nameSize, (int)$cfg['name_x'], (int)$cfg['name_y'], $color, $font, $name);
 
-        $mobileSize = max(10, (int)$cfg['mobile_size']);
-        while ($mobileSize > 10) {
-            $bbox = imagettfbbox($mobileSize, 0, $font, $mobile);
-            if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
-                break;
-            }
-            $mobileSize--;
-        }
+        $mobileSize = self::fitFontSize($font, $mobile, max(10, (int)$cfg['mobile_size']), $maxWidth);
         self::drawText($img, $mobileSize, (int)$cfg['mobile_x'], (int)$cfg['mobile_y'], $color, $font, $mobile);
 
         /* Custom labels */
@@ -176,14 +191,7 @@ class PluginPhonebgBackground {
             if ($labelText === '') {
                 continue;
             }
-            $labelSize = max(10, (int)($cfg["label{$n}_size"] ?? 40));
-            while ($labelSize > 10) {
-                $bbox = imagettfbbox($labelSize, 0, $font, $labelText);
-                if (($bbox[2] - $bbox[0]) < $imgWidth - 40) {
-                    break;
-                }
-                $labelSize--;
-            }
+            $labelSize = self::fitFontSize($font, $labelText, max(10, (int)($cfg["label{$n}_size"] ?? 40)), $maxWidth);
             self::drawText($img, $labelSize, (int)($cfg["label{$n}_x"] ?? 0), (int)($cfg["label{$n}_y"] ?? 0), $color, $font, $labelText);
         }
 

@@ -182,37 +182,40 @@ if (isset($_POST['delete_font'])) {
  * ========================== */
 if (isset($_POST['save_positions'])) {
 
+   $data = [];
    foreach (['name_x', 'name_y', 'mobile_x', 'mobile_y'] as $f) {
-      PluginPhonebgConfig::set($f, max(0, (int)($_POST[$f] ?? 0)));
+      $data[$f] = max(0, (int)($_POST[$f] ?? 0));
    }
    foreach (['name_size', 'mobile_size'] as $f) {
-      PluginPhonebgConfig::set($f, max(8, (int)($_POST[$f] ?? 8)));
+      $data[$f] = max(8, (int)($_POST[$f] ?? 8));
    }
 
    $color = $_POST['font_color'] ?? '#000000';
    if (!preg_match('/^#[0-9a-fA-F]{6}$/', $color)) {
       $color = '#000000';
    }
-   PluginPhonebgConfig::set('font_color', $color);
+   $data['font_color'] = $color;
 
    $selFont    = basename((string)($_POST['font_file'] ?? 'DejaVuSans.ttf'));
    $availFonts = PluginPhonebgPaths::listFonts();
    if (!array_key_exists($selFont, $availFonts)) {
       $selFont = 'DejaVuSans.ttf';
    }
-   PluginPhonebgConfig::set('font_file', $selFont);
+   $data['font_file'] = $selFont;
 
-   PluginPhonebgConfig::set('label1_enabled', isset($_POST['label1_enabled']) ? '1' : '0');
-   PluginPhonebgConfig::set('label2_enabled', isset($_POST['label2_enabled']) ? '1' : '0');
+   $data['label1_enabled'] = isset($_POST['label1_enabled']) ? '1' : '0';
+   $data['label2_enabled'] = isset($_POST['label2_enabled']) ? '1' : '0';
    foreach (['label1_text', 'label2_text'] as $f) {
-      PluginPhonebgConfig::set($f, substr(strip_tags((string)($_POST[$f] ?? '')), 0, 150));
+      $data[$f] = substr(strip_tags((string)($_POST[$f] ?? '')), 0, 150);
    }
    foreach (['label1_x', 'label1_y', 'label2_x', 'label2_y'] as $f) {
-      PluginPhonebgConfig::set($f, max(0, (int)($_POST[$f] ?? 0)));
+      $data[$f] = max(0, (int)($_POST[$f] ?? 0));
    }
    foreach (['label1_size', 'label2_size'] as $f) {
-      PluginPhonebgConfig::set($f, max(8, (int)($_POST[$f] ?? 8)));
+      $data[$f] = max(8, (int)($_POST[$f] ?? 8));
    }
+
+   PluginPhonebgConfig::saveAll($data);
 
    Session::addMessageAfterRedirect(__('Positions saved successfully', 'phonebg'), false, INFO);
    Html::redirect($self . '?tab=posiciones');

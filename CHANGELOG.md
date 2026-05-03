@@ -7,10 +7,26 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.2] — 2026-05-03
+
+### Fixed
+- **getAll() static cache.**  0 queries in batch PNG generation.
+- **set() → ON DUPLICATE KEY UPDATE.** 2 queries → 1 per field.
+- **saveAll() batch upsert.** 32 queries → 1 at save config.
+- **save_positions usa saveAll().** 32 queries → 1.
+- **Pixel limit 20MP.** Anti-DoS RAM.
+- **Remove @ in imagecreatefrompng.** Errors in GD. 
+- **fitFontSize() propottional.** ~50 iterations → 2-3.
+- **Guard imagettfbbox() !== false.** Not crash if font fails.
+
+---
+
 ## [1.5.1] — 2026-05-02
 
 ### Changed
 - Changed imagedestroy() to unset() for future PHP 8.6+ proof.
+
+---
 
 ## [1.5.0] — 2026-04-24
 

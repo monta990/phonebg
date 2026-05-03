@@ -18,7 +18,7 @@ function plugin_version_phonebg()
 {
    return [
       'name'         => 'Phone Background',
-      'version'      => '1.5.1',
+      'version'      => '1.5.2',
       'author'       => 'Edwin Elias Alvarez',
       'homepage'     => 'https://github.com/monta990/phonebg',
       'license'      => 'GPLv3+',

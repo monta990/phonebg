@@ -84,19 +84,32 @@ function phonebgOpenPreview(phoneId) {
 
    modalEl.addEventListener('shown.bs.modal', function handler() {
       modalEl.removeEventListener('shown.bs.modal', handler);
-      var img = new Image();
-      img.onload = function() {
-         body.innerHTML = '';
-         img.style.maxWidth = '100%';
-         img.style.height   = 'auto';
-         img.style.display  = 'block';
-         img.style.margin   = '0 auto';
-         body.appendChild(img);
-      };
-      img.onerror = function() {
-         body.innerHTML = '<div class="alert alert-danger">{{ __('Could not load preview.', 'phonebg')|e('js') }}</div>';
-      };
-      img.src = previewUrl + '&t=' + Date.now();
+      var url = previewUrl + '&t=' + Date.now();
+      fetch(url)
+         .then(function(res) {
+            var ct = res.headers.get('Content-Type') || '';
+            if (ct.indexOf('application/json') !== -1) {
+               return res.json().then(function(data) {
+                  body.innerHTML = '<div class="alert alert-danger text-start">' + (data.error || '{{ __('Could not load preview.', 'phonebg')|e('js') }}') + '</div>';
+               });
+            }
+            return res.blob().then(function(blob) {
+               var objectUrl = URL.createObjectURL(blob);
+               var img = new Image();
+               img.onload = function() {
+                  body.innerHTML = '';
+                  img.style.maxWidth = '100%';
+                  img.style.height   = 'auto';
+                  img.style.display  = 'block';
+                  img.style.margin   = '0 auto';
+                  body.appendChild(img);
+               };
+               img.src = objectUrl;
+            });
+         })
+         .catch(function() {
+            body.innerHTML = '<div class="alert alert-danger">{{ __('Could not load preview.', 'phonebg')|e('js') }}</div>';
+         });
    });
 }
 </script>

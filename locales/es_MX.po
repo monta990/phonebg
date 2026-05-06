@@ -224,6 +224,15 @@ msgstr "Archivo"
 msgid "You are not authorized to access this phone background."
 msgstr "No tienes autorización para acceder a este fondo de pantalla."
 
+msgid "Failed to generate background image."
+msgstr "No se pudo generar la imagen de fondo."
+
+msgid "Could not load preview."
+msgstr "No se pudo cargar la vista previa."
+
+msgid "Loading..."
+msgstr "Cargando..."
+
 msgid "Could not read base image dimensions."
 msgstr "No se pudieron leer las dimensiones de la imagen base."
 

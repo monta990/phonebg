@@ -5,6 +5,8 @@ if (!defined('GLPI_ROOT')) {
 }
 
 class PluginPhonebgBackground {
+    public static string $lastError = '';
+
     /**
      * Validate plugin requirements before generating an image.
      */
@@ -155,22 +157,16 @@ class PluginPhonebgBackground {
 
         if ($mobileRaw === null) {
             unset($img);
-            Session::addMessageAfterRedirect(
-                __('The phone has no assigned line', 'phonebg'),
-                false,
-                WARNING
-            );
+            self::$lastError = __('The phone has no assigned line', 'phonebg');
+            Session::addMessageAfterRedirect(self::$lastError, false, WARNING);
             return '';
         }
 
         $mobile = trim($mobileRaw);
         if ($mobile === '') {
             unset($img);
-            Session::addMessageAfterRedirect(
-                __('The phone line number is empty', 'phonebg'),
-                false,
-                WARNING
-            );
+            self::$lastError = __('The phone line number is empty', 'phonebg');
+            Session::addMessageAfterRedirect(self::$lastError, false, WARNING);
             return '';
         }
 

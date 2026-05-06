@@ -7,19 +7,31 @@ if (!defined('GLPI_ROOT')) {
 Session::checkLoginUser();
 global $CFG_GLPI;
 
+$is_preview = isset($_GET['preview']) && $_GET['preview'] === '1';
+
+/** Abort helper: redirects normally or emits JSON for preview requests. */
+$abort = function(string $msg) use ($is_preview, $CFG_GLPI): never {
+    if ($is_preview) {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => $msg]);
+        exit;
+    }
+    Session::addMessageAfterRedirect($msg, false, ERROR);
+    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
+    exit;
+};
+
 /* =========================
  * Obtener teléfono
  * ========================= */
  $phones_id = (int)($_GET['phoneid'] ?? 0);
 if ($phones_id <= 0) {
-    Session::addMessageAfterRedirect(__('Invalid phone', 'phonebg'), false, ERROR);
-    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
+    $abort(__('Invalid phone', 'phonebg'));
 }
 
  $phone = new Phone();
 if (!$phone->getFromDB($phones_id)) {
-    Session::addMessageAfterRedirect(__('Phone not found', 'phonebg'), false, ERROR);
-    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
+    $abort(__('Phone not found', 'phonebg'));
 }
 
 /* =========================
@@ -31,8 +43,7 @@ if (!$phone->getFromDB($phones_id)) {
  $is_owner = isset($phone->fields['users_id']) && ($phone->fields['users_id'] == $current_user_id);
 
 if (!$is_tech_or_admin && !$is_owner) {
-    Session::addMessageAfterRedirect(__('You are not authorized to access this phone background.', 'phonebg'), false, ERROR);
-    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
+    $abort(__('You are not authorized to access this phone background.', 'phonebg'));
 }
 
 /* =========================
@@ -40,6 +51,11 @@ if (!$is_tech_or_admin && !$is_owner) {
  * ========================= */
  $errors = PluginPhonebgBackground::checkRequirements();
 if (!empty($errors)) {
+    if ($is_preview) {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => implode(' ', $errors)]);
+        exit;
+    }
     foreach ($errors as $msg) {
         Session::addMessageAfterRedirect($msg, false, ERROR);
     }
@@ -51,8 +67,7 @@ if (!empty($errors)) {
  * ========================= */
  $file = PluginPhonebgBackground::generatePNG($phone);
 if (!is_file($file)) {
-    /* generatePNG already added a specific message; just redirect */
-    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
+    $abort(PluginPhonebgBackground::$lastError ?: __('Failed to generate background image.', 'phonebg'));
 }
 
 /* =========================
@@ -60,10 +75,8 @@ if (!is_file($file)) {
  * ========================= */
  $safe = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $phone->getName());
  $filename = 'background_' . $safe . '.png';
- $preview = isset($_GET['preview']) && $_GET['preview'] === '1';
-
 header('Content-Type: image/png');
-header('Content-Disposition: ' . ($preview ? 'inline' : 'attachment') . '; filename="' . $filename . '"');
+header('Content-Disposition: ' . ($is_preview ? 'inline' : 'attachment') . '; filename="' . $filename . '"');
 header('Content-Length: ' . filesize($file));
 header('Cache-Control: no-store');
 

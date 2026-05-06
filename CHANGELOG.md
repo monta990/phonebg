@@ -7,6 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.3] — 2026-05-05
+
+### Fixed
+- **Preview modal shows specific error messages.** Previously, when image generation failed (no line assigned, empty line, missing template, GD not available), the preview modal showed a generic "Could not load preview" message while the download button showed the specific error. Both now show the same specific message.
+- **`download.php` returns JSON on preview errors.** When `?preview=1` is set, validation and generation failures return `{"error": "..."}` instead of redirecting — the modal JS reads and displays the exact message.
+- **`PluginPhonebgBackground::$lastError`** static property captures the specific failure reason from `generatePNG()` so `download.php` can surface it without refactoring the return contract.
+
+---
+
 ## [1.5.2] — 2026-05-03
 
 ### Fixed

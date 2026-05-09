@@ -7,6 +7,24 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.4] — 2026-05-08
+
+### Added
+- **Email delivery from the phone tab.** A "Send by email" button now appears on each phone's Background tab. Clicking it generates the wallpaper and sends it as a PNG attachment to the default email address of the user assigned to that phone. The button is disabled when the assigned user has no email address.
+- **Email settings tab in admin config.** New "Email" tab under plugin settings lets admins configure the email subject and body. Both fields support `{name}` (assigned user's full name) and `{line}` (phone line number) tokens.
+- **Test-send button in Email config tab.** Admins can now send a test wallpaper email to their own GLPI address directly from the plugin settings. Button is disabled when GLPI mail is not configured or when subject/body are empty, with tooltip explaining why. Uses placeholder device name (admin's display name) and line number `555-0000`.
+- **GLPI mail log integration** — successful deliveries now write tagged entries to `files/_log/mail.log`, through `Toolbox::logInFile()`.
+
+### Fixed
+- **Locale coverage.** Added translations for all email-related strings in `es_MX` and `fr_FR` (send flow messages, email tab UI, test-send labels — previously untranslated).
+
+### Changed
+- **GLPI 11/12 compatibility.** Replaced `Plugin::getWebDir()` with `PluginPhonebgPaths::webDir()` (new method, falls back to `PLUGINS_WEB_DIR` constant on GLPI 12). Replaced procedural `finfo_open/close` with OOP `finfo` class.
+- **`generatePNG` refactored.** Image rendering extracted into private `renderPNG()` helper; `generatePNG()` and new `generateTestPNG()` both delegate to it. No behavior change for the existing send flow.
+- **`PluginPhonebgBackground::getPhoneLine()` made public** so it can be reused by the email send flow.
+
+---
+
 ## [1.5.3] — 2026-05-05
 
 ### Fixed

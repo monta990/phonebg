@@ -7,7 +7,7 @@ if (!defined('GLPI_ROOT')) {
 
 Session::checkRight('config', UPDATE);
 
-$self = Plugin::getWebDir('phonebg') . '/front/config.form.php';
+$self = PluginPhonebgPaths::webDir() . '/front/config.form.php';
 
 /* ==========================
  * Constants
@@ -62,9 +62,8 @@ if (isset($_POST['save']) && isset($_FILES['base'])) {
    $tmpFile = $_FILES['base']['tmp_name'];
    $size    = $_FILES['base']['size'];
 
-   $finfo = finfo_open(FILEINFO_MIME_TYPE);
-   $mime  = finfo_file($finfo, $tmpFile);
-   finfo_close($finfo);
+   $finfo = new finfo(FILEINFO_MIME_TYPE);
+   $mime  = $finfo->file($tmpFile);
 
    if ($size > $maxSize) {
       Session::addMessageAfterRedirect(
@@ -218,7 +217,19 @@ if (isset($_POST['save_positions'])) {
    PluginPhonebgConfig::saveAll($data);
 
    Session::addMessageAfterRedirect(__('Positions saved successfully', 'phonebg'), false, INFO);
-   Html::redirect($self . '?tab=posiciones');
+   Html::redirect($self . '?tab=positions');
+}
+
+/* ==========================
+ * POST: save email config
+ * ========================== */
+if (isset($_POST['save_email'])) {
+   $subject = substr(strip_tags((string)($_POST['email_subject'] ?? '')), 0, 255);
+   $body    = substr(strip_tags((string)($_POST['email_body']    ?? '')), 0, 2000);
+   $footer  = substr(strip_tags((string)($_POST['email_footer']  ?? '')), 0, 500);
+   PluginPhonebgConfig::saveAll(['email_subject' => $subject, 'email_body' => $body, 'email_footer' => $footer]);
+   Session::addMessageAfterRedirect(__('Email settings saved', 'phonebg'), false, INFO);
+   Html::redirect($self . '?tab=email');
 }
 
 /* ==========================
@@ -248,8 +259,28 @@ Html::displayMessageAfterRedirect();
 $cfg        = PluginPhonebgConfig::getAll();
 $availFonts = PluginPhonebgPaths::listFonts();
 
-$validTabs = ['plantilla', 'posiciones', 'fonts'];
-$activeTab = in_array($_GET['tab'] ?? '', $validTabs, true) ? $_GET['tab'] : 'plantilla';
+/* ==========================
+ * Test email button vars
+ * ($cfg must be loaded first)
+ * ========================== */
+global $CFG_GLPI;
+$_testUrl       = PluginPhonebgPaths::webDir() . '/front/send.php';
+$_testCsrfToken = Session::getNewCSRFToken();
+$_coreCfg       = Config::getConfigurationValues('core');
+$_mailOk        = ($_coreCfg['use_notifications']    ?? 0) == 1
+               && ($_coreCfg['notifications_mailing'] ?? 0) == 1;
+$_hasConfig     = !empty(trim((string)($cfg['email_subject'] ?? '')))
+               && !empty(trim((string)($cfg['email_body'] ?? '')));
+if (!$_mailOk) {
+   $_btnTooltip = __('GLPI mail server not configured', 'phonebg');
+} elseif (!$_hasConfig) {
+   $_btnTooltip = __('Configure the email subject and body first', 'phonebg');
+} else {
+   $_btnTooltip = __('Send a test email to your registered GLPI address', 'phonebg');
+}
+
+$validTabs = ['template', 'positions', 'fonts', 'email'];
+$activeTab = in_array($_GET['tab'] ?? '', $validTabs, true) ? $_GET['tab'] : 'template';
 
 $baseUrl   = $hasBase ? PluginPhonebgPaths::baseUrl() : '';
 $baseUrlTs = $hasBase ? $baseUrl . '&t=' . time() : '';
@@ -276,6 +307,14 @@ PluginPhonebgRenderer::display('config_form.html.twig', [
    'label1_text'    => (string)($cfg['label1_text'] ?? ''),
    'label2_text'    => (string)($cfg['label2_text'] ?? ''),
    'js_confirm'     => json_encode(__('There are unsaved changes in Positions. Continue without saving?', 'phonebg')),
+   'email_subject'    => (string)$cfg['email_subject'],
+   'email_body'       => (string)$cfg['email_body'],
+   'email_footer'     => (string)($cfg['email_footer'] ?? ''),
+   'test_url'         => $_testUrl,
+   'test_csrf_token'  => $_testCsrfToken,
+   'mail_ok'          => $_mailOk,
+   'has_email_config' => $_hasConfig,
+   'btn_tooltip'      => $_btnTooltip,
 ]);
 
 Html::footer();

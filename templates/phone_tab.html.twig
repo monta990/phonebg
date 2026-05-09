@@ -35,6 +35,21 @@
                {{ __('Download background', 'phonebg') }}
             </button>
          </form>
+
+         {% if has_assigned_user %}
+         <form method="post" action="{{ send_url }}" style="display:inline"
+               onsubmit="return confirm({{ __('Send wallpaper by email to the assigned user?', 'phonebg')|json_encode }})">
+            <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="phoneid" value="{{ phone_id }}">
+            <button type="submit" class="btn btn-outline-primary"
+                    {% if not has_base or not has_email %}disabled
+                    title="{{ not has_email ? __('Assigned user has no email address', 'phonebg') : '' }}"
+                    {% endif %}>
+               <i class="ti ti-mail me-2"></i>
+               {{ __('Send by email', 'phonebg') }}
+            </button>
+         </form>
+         {% endif %}
       </div>
    </div>
 </div>

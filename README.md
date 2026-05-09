@@ -11,6 +11,7 @@
 <p align="center">
   <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-10.0%2B-blue?style=flat-square" alt="GLPI 10 compatibility"></a>
   <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI 11 compatibility"></a>
+  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-12.0%2B-blue?style=flat-square" alt="GLPI 12 compatibility"></a>
   <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v3%2B-green?style=flat-square" alt="License"></a>
   <a href="https://php.net/" target="_blank"><img src="https://img.shields.io/badge/PHP-%3E%3D8.0-purple?style=flat-square" alt="PHP"></a>
   <a href="https://github.com/monta990/phonebg/releases" target="_blank"><img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/monta990/phonebg/total"></a>
@@ -20,7 +21,7 @@
 
 ## Overview
 
-Phone Background generates personalized PNG wallpapers for corporate phones registered in GLPI. It overlays the phone's name, assigned line number, and up to two configurable custom text labels onto a custom PNG template. Each phone record owner can download the wallpaper directly from the Phone asset tab.
+Phone Background generates personalized PNG wallpapers for corporate phones registered in GLPI. It overlays the phone's name, assigned line number, and up to two configurable custom text labels onto a custom PNG template. Each phone record owner can preview, download, or **send the wallpaper by email** directly from the Phone asset tab.
 
 ---
 
@@ -49,6 +50,17 @@ Upload a PNG image (max 500 KB) that will serve as the wallpaper background. The
 
 The **Fonts** tab lets you upload custom TrueType (TTF) or OpenType (OTF) fonts that will be available for the wallpaper text. Uploaded fonts are stored in `files/_plugins/phonebg/fonts/` and survive plugin upgrades. The bundled `DejaVuSans.ttf` is always available as a fallback.
 
+### Email tab
+
+The **Email** tab configures the message sent when a user clicks **Send by email** on the phone tab.
+
+- **Subject** — email subject line; supports `{name}` (assigned user's full name) and `{line}` (phone line number) tokens.
+- **Body** — email body; same tokens supported. Markdown formatting available: `**bold**`, `*italic*`, `__underline__`.
+- **Footer** — optional footer appended below a horizontal rule (smaller, muted text). Same tokens and markdown supported.
+- **Send test email** — sends a test message to your own GLPI address to verify delivery. Disabled if GLPI outgoing mail is not configured or if subject/body are empty.
+
+> Requires GLPI outgoing mail configured under **Setup → Notifications → Email followups**.
+
 ### Positions tab
 
 The **Positions** tab (visible once a template has been uploaded) provides a full-size visual drag-and-drop editor:
@@ -67,7 +79,7 @@ Positions are stored in the `glpi_plugin_phonebg_config` database table and surv
 1. Open any **Phone** asset in GLPI.
 2. Click the **Background** tab.
    Note on permissions: For security and privacy reasons, only GLPI Administrators, Technicians, or the specific User assigned to the phone can generate and preview/download the background.
-3. Click **Preview** to see the generated wallpaper inline, or **Download background** to save the PNG file.
+3. Click **Preview** to see the generated wallpaper inline, **Download background** to save the PNG file, or **Send by email** to deliver the wallpaper as an attachment to the assigned user's default email address.
 
 ## File structure
 
@@ -78,6 +90,7 @@ phonebg/
 ├── front/
 │   ├── config.form.php         # Admin settings page — POST handlers + data prep
 │   ├── download.php            # PNG generation, download & preview endpoint
+│   ├── send.php                # Email send endpoint (phone tab + test send)
 │   └── resource.send.php       # Authenticated template image server
 ├── inc/
 │   ├── background.class.php    # GD image generation logic

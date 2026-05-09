@@ -14,7 +14,7 @@
          <en>
 Phone Background overlays each phone's name and assigned line number onto a custom PNG template.
 Configure text positions with a visual drag-and-drop editor, adjust font size and color per field,
-and download or preview the generated wallpaper directly from the Phone asset tab.
+and preview, download, or send the wallpaper by email directly from the Phone asset tab.
 
 **Features:**
 - Upload a custom PNG template (max 500 KB)
@@ -24,13 +24,16 @@ and download or preview the generated wallpaper directly from the Phone asset ta
 - Two configurable custom text labels with enable/disable toggle
 - Custom font upload (TTF/OTF) with automatic name detection
 - Inline preview modal before downloading
+- Send wallpaper by email to the assigned user from the phone tab
+- Email tab: configurable subject, body, and footer with {name}/{line} tokens and B/I/U formatting
+- Test-send button in admin settings to verify email delivery
 - Positions stored in database, survive upgrades
 - Multilingual: es_MX, en_US, en_GB, fr_FR
          </en>
          <es>
 Phone Background superpone el nombre del telefono y el numero de linea asignado sobre una plantilla PNG personalizada.
 Configura las posiciones del texto con un editor visual de arrastrar y soltar, ajusta el tamano y color de fuente
-por campo, y descarga o previsualiza el fondo generado directamente desde la pestana del activo Telefono.
+por campo, y descarga, previsualiza o envia el fondo por correo directamente desde la pestana del activo Telefono.
 
 **Caracteristicas:**
 - Sube una plantilla PNG personalizada (max 500 KB)
@@ -40,13 +43,16 @@ por campo, y descarga o previsualiza el fondo generado directamente desde la pes
 - Dos etiquetas de texto personalizadas con interruptor de activar/desactivar
 - Carga de fuentes personalizadas (TTF/OTF) con deteccion automatica de nombre
 - Modal de vista previa antes de descargar
+- Envia el fondo de pantalla por correo al usuario asignado desde la pestana del telefono
+- Pestana Email: asunto, cuerpo y pie de pagina configurables con tokens {name}/{line} y formato N/C/S
+- Boton de correo de prueba en la configuracion de administrador
 - Posiciones almacenadas en base de datos, sobreviven actualizaciones
 - Multiidioma: es_MX, en_US, en_GB, fr_FR
          </es>
          <fr>
 Phone Background superpose le nom du telephone et le numero de ligne assigne sur un modele PNG personnalise.
 Configurez les positions du texte avec un editeur visuel par glisser-deposer, ajustez la taille et la couleur
-de police par champ, et telechargez ou previsualisez le fond d'ecran genere directement depuis l'onglet Telephone.
+de police par champ, et telechargez, visualisez ou envoyez le fond d'ecran par courriel depuis l'onglet Telephone.
 
 **Fonctionnalites :**
 - Chargez un modele PNG personnalise (max 500 Ko)
@@ -56,6 +62,9 @@ de police par champ, et telechargez ou previsualisez le fond d'ecran genere dire
 - Deux etiquettes de texte personnalisees avec commutateur activer/desactiver
 - Chargement de polices personnalisees (TTF/OTF) avec detection automatique du nom
 - Apercu en modal avant le telechargement
+- Envoi du fond d'ecran par courriel a l'utilisateur assigne depuis l'onglet telephone
+- Onglet Email : objet, corps et pied de page configurables avec les jetons {name}/{line} et mise en forme G/I/S
+- Bouton d'envoi de test dans les parametres administrateur
 - Positions stockees en base de donnees, survivent aux mises a jour
 - Multilingue : es_MX, en_US, en_GB, fr_FR
          </fr>
@@ -70,10 +79,11 @@ de police par champ, et telechargez ou previsualisez le fond d'ecran genere dire
    </authors>
    <versions>
       <version>
-         <num>1.5.2</num>
+         <num>1.5.4</num>
+         <compatibility>~12.0</compatibility>
          <compatibility>~11.0</compatibility>
          <compatibility>~10.0</compatibility>
-         <download_url>https://github.com/monta990/phonebg/releases/download/1.5.1/phonebg-1.5.2.zip</download_url>
+         <download_url>https://github.com/monta990/phonebg/releases/download/1.5.4/phonebg-1.5.4.zip</download_url>
       </version>
    </versions>
    <langs>
@@ -90,18 +100,21 @@ de police par champ, et telechargez ou previsualisez le fond d'ecran genere dire
          <tag>background</tag>
          <tag>image</tag>
          <tag>asset</tag>
+         <tag>email</tag>
       </en>
       <es>
          <tag>telefono</tag>
          <tag>fondo de pantalla</tag>
          <tag>imagen</tag>
          <tag>activo</tag>
+         <tag>correo</tag>
       </es>
       <fr>
          <tag>telephone</tag>
          <tag>fond d'ecran</tag>
          <tag>image</tag>
          <tag>actif</tag>
+         <tag>courriel</tag>
       </fr>
    </tags>
    <screenshots>

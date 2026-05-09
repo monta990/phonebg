@@ -82,14 +82,41 @@ class PluginPhonebgBackground {
      */
     public static function generatePNG(Phone $phone): string
     {
+        $name      = $phone->getName();
+        $mobileRaw = self::getPhoneLine($phone);
+
+        if ($mobileRaw === null) {
+            self::$lastError = __('The phone has no assigned line', 'phonebg');
+            Session::addMessageAfterRedirect(self::$lastError, false, WARNING);
+            return '';
+        }
+
+        $mobile = trim($mobileRaw);
+        if ($mobile === '') {
+            self::$lastError = __('The phone line number is empty', 'phonebg');
+            Session::addMessageAfterRedirect(self::$lastError, false, WARNING);
+            return '';
+        }
+
+        return self::renderPNG($name, $mobile, (string)$phone->getID());
+    }
+
+    /**
+     * Generate a test wallpaper PNG with placeholder data and return its temp path.
+     */
+    public static function generateTestPNG(string $deviceName, string $phoneLine): string
+    {
+        return self::renderPNG($deviceName, $phoneLine, 'test');
+    }
+
+    /**
+     * Render the wallpaper PNG onto the configured template and return the temp file path.
+     */
+    private static function renderPNG(string $deviceName, string $phoneLine, string $suffix): string
+    {
         $templatePath = PluginPhonebgPaths::basePath();
 
-        /* -------------------------------------------------------
-         * SEGURIDAD: Anti-DoS por descompresión de imagen
-         * Verificamos dimensiones antes de cargar en RAM.
-         * 8000x8000 permite hasta resoluciones 8K (dinámico para cualquier celular real),
-         * pero evita que un PNG malicioso de 500KB consuma gigabytes de RAM al descomprimirse.
-         * ------------------------------------------------------- */
+        /* Anti-DoS: verify dimensions before loading into RAM */
         $imgInfo = @getimagesize($templatePath);
         if ($imgInfo === false) {
             Session::addMessageAfterRedirect(__('Could not read base image dimensions.', 'phonebg'), false, ERROR);
@@ -118,11 +145,7 @@ class PluginPhonebgBackground {
 
         $img = imagecreatefrompng($templatePath);
         if (!$img instanceof GdImage) {
-            Session::addMessageAfterRedirect(
-                __('Could not load base image', 'phonebg'),
-                false,
-                ERROR
-            );
+            Session::addMessageAfterRedirect(__('Could not load base image', 'phonebg'), false, ERROR);
             return '';
         }
 
@@ -130,21 +153,16 @@ class PluginPhonebgBackground {
         imagesavealpha($img, true);
         imagealphablending($img, true);
 
-        /* Load layout config */
         $cfg = PluginPhonebgConfig::getAll();
         try {
             $font = PluginPhonebgPaths::getFontPath((string)($cfg['font_file'] ?? 'DejaVuSans.ttf'));
         } catch (RuntimeException $e) {
             unset($img);
-            Session::addMessageAfterRedirect(
-                __('Plugin directory not found', 'phonebg'),
-                false,
-                ERROR
-            );
+            Session::addMessageAfterRedirect(__('Plugin directory not found', 'phonebg'), false, ERROR);
             return '';
         }
 
-        $hex = ltrim((string)($cfg['font_color'] ?? '#000000'), '#');
+        $hex   = ltrim((string)($cfg['font_color'] ?? '#000000'), '#');
         $color = imagecolorallocate(
             $img,
             (int)hexdec(substr($hex, 0, 2)),
@@ -152,33 +170,14 @@ class PluginPhonebgBackground {
             (int)hexdec(substr($hex, 4, 2))
         );
 
-        $name = $phone->getName();
-        $mobileRaw = self::getPhoneLine($phone);
-
-        if ($mobileRaw === null) {
-            unset($img);
-            self::$lastError = __('The phone has no assigned line', 'phonebg');
-            Session::addMessageAfterRedirect(self::$lastError, false, WARNING);
-            return '';
-        }
-
-        $mobile = trim($mobileRaw);
-        if ($mobile === '') {
-            unset($img);
-            self::$lastError = __('The phone line number is empty', 'phonebg');
-            Session::addMessageAfterRedirect(self::$lastError, false, WARNING);
-            return '';
-        }
-
         $maxWidth = imagesx($img) - 40;
 
-        $nameSize = self::fitFontSize($font, $name, max(10, (int)$cfg['name_size']), $maxWidth);
-        self::drawText($img, $nameSize, (int)$cfg['name_x'], (int)$cfg['name_y'], $color, $font, $name);
+        $nameSize = self::fitFontSize($font, $deviceName, max(10, (int)$cfg['name_size']), $maxWidth);
+        self::drawText($img, $nameSize, (int)$cfg['name_x'], (int)$cfg['name_y'], $color, $font, $deviceName);
 
-        $mobileSize = self::fitFontSize($font, $mobile, max(10, (int)$cfg['mobile_size']), $maxWidth);
-        self::drawText($img, $mobileSize, (int)$cfg['mobile_x'], (int)$cfg['mobile_y'], $color, $font, $mobile);
+        $mobileSize = self::fitFontSize($font, $phoneLine, max(10, (int)$cfg['mobile_size']), $maxWidth);
+        self::drawText($img, $mobileSize, (int)$cfg['mobile_x'], (int)$cfg['mobile_y'], $color, $font, $phoneLine);
 
-        /* Custom labels */
         foreach ([1, 2] as $n) {
             if (($cfg["label{$n}_enabled"] ?? '0') !== '1') {
                 continue;
@@ -191,17 +190,56 @@ class PluginPhonebgBackground {
             self::drawText($img, $labelSize, (int)($cfg["label{$n}_x"] ?? 0), (int)($cfg["label{$n}_y"] ?? 0), $color, $font, $labelText);
         }
 
-        $out = GLPI_TMP_DIR . '/background_' . $phone->getID() . '_' . uniqid() . '.png';
+        $out = GLPI_TMP_DIR . '/background_' . $suffix . '_' . uniqid() . '.png';
         imagepng($img, $out, 6);
         unset($img);
-        
+
         return $out;
+    }
+
+    /**
+     * Build HTML email body from plain-text with markdown (** * __) and nl2br.
+     * Supports {name} and {line} token substitution.
+     */
+    public static function buildEmailHtml(
+        string $body,
+        string $footer,
+        string $name,
+        string $line,
+        bool   $isTest = false
+    ): string {
+        $render = static function (string $text) use ($name, $line): string {
+            $text = str_replace(['{name}', '{line}'], [$name, $line], $text);
+            $html = htmlspecialchars($text, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $html = preg_replace_callback('/\*\*(.+?)\*\*/s',
+                static fn(array $m): string => '<span style="font-weight:bold">' . $m[1] . '</span>', $html);
+            $html = preg_replace_callback('/\*(.+?)\*/s',
+                static fn(array $m): string => '<span style="font-style:italic">' . $m[1] . '</span>', $html);
+            $html = preg_replace_callback('/__(.+?)__/s',
+                static fn(array $m): string => '<span style="text-decoration:underline">' . $m[1] . '</span>', $html);
+            return nl2br($html);
+        };
+
+        $html = '<div style="font-family:Arial,sans-serif;font-size:14px;color:#333;">';
+        if ($isTest) {
+            $html .= '<p style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;'
+                   . 'padding:8px 12px;font-size:12px;color:#856404;margin-bottom:16px;">&#9888; '
+                   . htmlspecialchars(__('This is a test email sent from the plugin configuration.', 'phonebg'), ENT_QUOTES, 'UTF-8')
+                   . '</p>';
+        }
+        $html .= '<p>' . $render($body) . '</p>';
+        if (trim($footer) !== '') {
+            $html .= '<hr style="border:none;border-top:1px solid #ddd;margin:12px 0;">';
+            $html .= '<p style="font-size:11px;color:#999;">' . $render($footer) . '</p>';
+        }
+        $html .= '</div>';
+        return $html;
     }
 
     /**
      * Get the phone line number from GLPI database
      */
-    private static function getPhoneLine(Phone $phone): ?string
+    public static function getPhoneLine(Phone $phone): ?string
     {
         global $DB;
         $iterator = $DB->request([

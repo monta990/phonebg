@@ -9,10 +9,10 @@
       <ul class="nav nav-tabs card-header-tabs ms-5" role="tablist">
 
          <li class="nav-item" role="presentation">
-            <button class="nav-link{{ active_tab == 'plantilla' ? ' active' : '' }}"
-                    id="tab-plantilla-btn"
+            <button class="nav-link{{ active_tab == 'template' ? ' active' : '' }}"
+                    id="tab-template-btn"
                     data-bs-toggle="tab"
-                    data-bs-target="#phonebg-tab-plantilla"
+                    data-bs-target="#phonebg-tab-template"
                     type="button" role="tab">
                <i class="ti ti-photo me-1"></i>{{ __('Template', 'phonebg') }}
             </button>
@@ -20,10 +20,10 @@
 
          {% if has_base %}
          <li class="nav-item" role="presentation">
-            <button class="nav-link{{ active_tab == 'posiciones' ? ' active' : '' }}"
-                    id="tab-posiciones-btn"
+            <button class="nav-link{{ active_tab == 'positions' ? ' active' : '' }}"
+                    id="tab-positions-btn"
                     data-bs-toggle="tab"
-                    data-bs-target="#phonebg-tab-posiciones"
+                    data-bs-target="#phonebg-tab-positions"
                     type="button" role="tab">
                <i class="ti ti-adjustments-horizontal me-1"></i>{{ __('Positions', 'phonebg') }}
             </button>
@@ -40,6 +40,16 @@
             </button>
          </li>
 
+         <li class="nav-item" role="presentation">
+            <button class="nav-link{{ active_tab == 'email' ? ' active' : '' }}"
+                    id="tab-email-btn"
+                    data-bs-toggle="tab"
+                    data-bs-target="#phonebg-tab-email"
+                    type="button" role="tab">
+               <i class="ti ti-mail me-1"></i>{{ __('Email', 'phonebg') }}
+            </button>
+         </li>
+
       </ul>
    </div>{# /card-header #}
 
@@ -48,8 +58,8 @@
       {# ======================================================
          TAB 1 — Template
          ====================================================== #}
-      <div class="tab-pane fade{{ active_tab == 'plantilla' ? ' show active' : '' }}"
-           id="phonebg-tab-plantilla" role="tabpanel">
+      <div class="tab-pane fade{{ active_tab == 'template' ? ' show active' : '' }}"
+           id="phonebg-tab-template" role="tabpanel">
          <form method="post" action="{{ self_url }}" enctype="multipart/form-data">
             <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
             <div class="card-body">
@@ -92,14 +102,14 @@
                </button>
             </div>
          </form>
-      </div>{# /tab-pane plantilla #}
+      </div>{# /tab-pane template #}
 
       {# ======================================================
          TAB 2 — Positions (only when base template exists)
          ====================================================== #}
       {% if has_base %}
-      <div class="tab-pane fade{{ active_tab == 'posiciones' ? ' show active' : '' }}"
-           id="phonebg-tab-posiciones" role="tabpanel">
+      <div class="tab-pane fade{{ active_tab == 'positions' ? ' show active' : '' }}"
+           id="phonebg-tab-positions" role="tabpanel">
          <form method="post" action="{{ self_url }}">
             <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
             <div class="card-body">
@@ -315,7 +325,7 @@
                </button>
             </div>
          </form>
-      </div>{# /tab-pane posiciones #}
+      </div>{# /tab-pane positions #}
       {% endif %}
 
       {# ======================================================
@@ -395,8 +405,207 @@
          </div>{# /card-body #}
       </div>{# /tab-pane fonts #}
 
+      {# ======================================================
+         TAB 4 — Email
+         ====================================================== #}
+      <div class="tab-pane fade{{ active_tab == 'email' ? ' show active' : '' }}"
+           id="phonebg-tab-email" role="tabpanel">
+         <form method="post" action="{{ self_url }}?tab=email">
+            <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+
+            <div class="card-body">
+
+               {# ── Variables panel ── #}
+               <div class="card mb-4 border-info rounded-1" style="background:#f0f8ff;max-width:680px">
+                  <div class="card-header py-1 d-flex align-items-center justify-content-between"
+                       style="cursor:pointer;background:#e0f0ff;"
+                       data-bs-toggle="collapse"
+                       data-bs-target="#pbVarsPanel"
+                       aria-expanded="false">
+                     <span class="fw-bold text-info">
+                        <i class="ti ti-variable me-1"></i>
+                        {{ __('Available variables', 'phonebg') }}
+                     </span>
+                     <i class="ti ti-chevron-down text-info"></i>
+                  </div>
+                  <div class="collapse" id="pbVarsPanel">
+                     <div class="card-body py-2" style="font-size:0.9em;">
+                        <p class="text-muted mb-2" style="font-size:0.85em;">
+                           <i class="ti ti-hand-click me-1"></i>{{ __('Click a variable to insert it into the active field.', 'phonebg') }}
+                        </p>
+                        <table class="table table-borderless table-sm mb-0">
+                           <tbody>
+                              <tr>
+                                 <td>
+                                    <code class="pb-var-badge" data-var="{name}"
+                                          style="background:#ddeeff;padding:2px 6px;border-radius:3px;cursor:pointer;"
+                                          title="{{ __('Click to insert', 'phonebg') }}">{name}</code>
+                                 </td>
+                                 <td class="text-muted">— {{ __("Assigned user's full name", 'phonebg') }}</td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <code class="pb-var-badge" data-var="{line}"
+                                          style="background:#ddeeff;padding:2px 6px;border-radius:3px;cursor:pointer;"
+                                          title="{{ __('Click to insert', 'phonebg') }}">{line}</code>
+                                 </td>
+                                 <td class="text-muted">— {{ __('Phone line number', 'phonebg') }}</td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>{# /variables panel #}
+
+               {# ── Subject ── #}
+               <div class="mb-4" style="max-width:680px">
+                  <label class="form-label fw-bold" for="inp-email-subject">
+                     <i class="ti ti-text-size me-2"></i>{{ __('Email subject', 'phonebg') }}
+                  </label>
+                  <input type="text" id="inp-email-subject" name="email_subject"
+                         class="form-control"
+                         value="{{ email_subject }}"
+                         maxlength="255">
+                  <div class="form-text">{{ __('Use {name} for the assigned user\'s name and {line} for the phone line number.', 'phonebg') }}</div>
+               </div>
+
+               {# ── Body ── #}
+               <div class="mb-4" style="max-width:680px">
+                  <label class="form-label fw-bold" for="inp-email-body">
+                     <i class="ti ti-align-left me-2"></i>{{ __('Email body', 'phonebg') }}
+                  </label>
+                  <div class="pb-format-toolbar mb-1 d-flex gap-1 align-items-center">
+                     <button type="button" class="btn btn-sm btn-outline-secondary pb-fmt-btn" data-wrap="**"
+                             title="{{ __('Bold', 'phonebg') }}"><b>B</b>&nbsp;<small class="fw-normal opacity-75">**</small></button>
+                     <button type="button" class="btn btn-sm btn-outline-secondary pb-fmt-btn" data-wrap="*"
+                             title="{{ __('Italic', 'phonebg') }}"><i>I</i>&nbsp;<small class="fw-normal opacity-75">*</small></button>
+                     <button type="button" class="btn btn-sm btn-outline-secondary pb-fmt-btn" data-wrap="__"
+                             title="{{ __('Underline', 'phonebg') }}"><u>U</u>&nbsp;<small class="fw-normal opacity-75">__</small></button>
+                  </div>
+                  <textarea id="inp-email-body" name="email_body"
+                            class="form-control" rows="6"
+                            maxlength="2000">{{ email_body }}</textarea>
+                  <div class="form-text">{{ __('Use {name} for the assigned user\'s name and {line} for the phone line number.', 'phonebg') }}</div>
+               </div>
+
+               {# ── Footer ── #}
+               <div class="mb-4" style="max-width:680px">
+                  <label class="form-label fw-bold" for="inp-email-footer">
+                     <i class="ti ti-section me-2"></i>{{ __('Email footer', 'phonebg') }}
+                  </label>
+                  <div class="pb-format-toolbar mb-1 d-flex gap-1 align-items-center">
+                     <button type="button" class="btn btn-sm btn-outline-secondary pb-fmt-btn" data-wrap="**"
+                             title="{{ __('Bold', 'phonebg') }}"><b>B</b>&nbsp;<small class="fw-normal opacity-75">**</small></button>
+                     <button type="button" class="btn btn-sm btn-outline-secondary pb-fmt-btn" data-wrap="*"
+                             title="{{ __('Italic', 'phonebg') }}"><i>I</i>&nbsp;<small class="fw-normal opacity-75">*</small></button>
+                     <button type="button" class="btn btn-sm btn-outline-secondary pb-fmt-btn" data-wrap="__"
+                             title="{{ __('Underline', 'phonebg') }}"><u>U</u>&nbsp;<small class="fw-normal opacity-75">__</small></button>
+                  </div>
+                  <textarea id="inp-email-footer" name="email_footer"
+                            class="form-control" rows="2"
+                            maxlength="500">{{ email_footer }}</textarea>
+                  <div class="form-text">{{ __('Shown below the body separated by a line. Use {name} and {line}.', 'phonebg') }}</div>
+               </div>
+
+               {# ── Actions ── #}
+               <div class="d-flex align-items-center gap-3 flex-wrap">
+                  <button type="submit" name="save_email" class="btn btn-primary gap-2">
+                     <i class="ti ti-device-floppy"></i>{{ __('Save email settings', 'phonebg') }}
+                  </button>
+
+                  {% set btn_disabled = not mail_ok or not has_email_config %}
+                  <span data-bs-toggle="tooltip" title="{{ btn_tooltip }}" class="d-inline-block">
+                     <button type="submit" form="phonebg-test-mail-form"
+                             class="btn btn-outline-secondary gap-2{% if btn_disabled %} disabled{% endif %}"
+                             {% if btn_disabled %}aria-disabled="true" style="pointer-events:none;opacity:.65"{% endif %}>
+                        <i class="ti ti-send"></i>{{ __('Send test email', 'phonebg') }}
+                     </button>
+                  </span>
+               </div>
+               <p class="text-muted small mt-2">
+                  <i class="ti ti-info-circle me-1"></i>
+                  {{ __('The email will be sent to your registered GLPI address.', 'phonebg') }}
+               </p>
+
+            </div>{# /card-body #}
+         </form>
+      </div>{# /tab-pane email #}
+
    </div>{# /tab-content #}
 </div>{# /card #}
+
+{# Hidden test-mail form — outside email tab form, uses HTML5 form= attribute #}
+<form id="phonebg-test-mail-form" method="post" action="{{ test_url }}" style="display:none;">
+   <input type="hidden" name="_glpi_csrf_token" value="{{ test_csrf_token }}">
+   <input type="hidden" name="is_test" value="1">
+</form>
+
+<script>
+(function () {
+   var lastFocus = null;
+
+   // Track last focused email field
+   ['inp-email-subject', 'inp-email-body', 'inp-email-footer'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('focus', function () { lastFocus = el; });
+   });
+
+   // Variable badge click — insert at cursor
+   document.querySelectorAll('.pb-var-badge').forEach(function (badge) {
+      badge.addEventListener('click', function () {
+         var el = lastFocus;
+         if (!el) return;
+         var v = badge.dataset.var;
+         var s = el.selectionStart, e = el.selectionEnd;
+         el.value = el.value.slice(0, s) + v + el.value.slice(e);
+         el.selectionStart = el.selectionEnd = s + v.length;
+         el.focus();
+      });
+   });
+
+   // B/I/U toolbar — wrap/unwrap selection
+   document.addEventListener('click', function (ev) {
+      var btn = ev.target.closest('.pb-fmt-btn');
+      if (!btn) return;
+      var wrap = btn.dataset.wrap;
+      var wLen = wrap.length;
+      var ta   = (document.activeElement && document.activeElement.tagName === 'TEXTAREA')
+                 ? document.activeElement : lastFocus;
+      if (!ta || ta.tagName !== 'TEXTAREA') return;
+      ta.focus();
+      var start  = ta.selectionStart;
+      var end    = ta.selectionEnd;
+      var sel    = ta.value.substring(start, end);
+      var before = ta.value.substring(start - wLen, start);
+      var after  = ta.value.substring(end, end + wLen);
+      if (before === wrap && after === wrap) {
+         // unwrap outside
+         ta.setRangeText(sel, start - wLen, end + wLen, 'preserve');
+         ta.selectionStart = start - wLen;
+         ta.selectionEnd   = start - wLen + sel.length;
+      } else if (sel.startsWith(wrap) && sel.endsWith(wrap) && sel.length >= wLen * 2 + 1) {
+         // unwrap inside
+         var inner = sel.slice(wLen, sel.length - wLen);
+         ta.setRangeText(inner, start, end, 'preserve');
+         ta.selectionStart = start;
+         ta.selectionEnd   = start + inner.length;
+      } else {
+         var txt = sel || 'text';
+         ta.setRangeText(wrap + txt + wrap, start, end, 'preserve');
+         ta.selectionStart = start + wLen;
+         ta.selectionEnd   = start + wLen + txt.length;
+      }
+   });
+
+   // Toolbar button style
+   document.querySelectorAll('.pb-format-toolbar').forEach(function (bar) {
+      bar.style.cssText = 'user-select:none';
+   });
+   document.querySelectorAll('.pb-fmt-btn').forEach(function (b) {
+      b.style.cssText = 'padding:1px 7px;font-size:0.82em;line-height:1.4';
+   });
+})();
+</script>
 
 {# JavaScript — only emitted when a base template is uploaded #}
 {% if has_base %}
@@ -536,7 +745,7 @@ function phonebgPreviewNewBase(input) {
       }
    }
 
-   var tabBtn = document.getElementById('tab-posiciones-btn');
+   var tabBtn = document.getElementById('tab-positions-btn');
    if (tabBtn) {
       tabBtn.addEventListener('shown.bs.tab', function () {
          setTimeout(tryInit, 50);
@@ -544,7 +753,7 @@ function phonebgPreviewNewBase(input) {
    }
 
    var pbDirty = false;
-   var pbForm  = document.querySelector('#phonebg-tab-posiciones form');
+   var pbForm  = document.querySelector('#phonebg-tab-positions form');
 
    function markDirty() { pbDirty = true; }
 
@@ -556,7 +765,7 @@ function phonebgPreviewNewBase(input) {
       pbForm.addEventListener('submit', function() { pbDirty = false; });
    }
 
-   var tabPlantillaBtn = document.getElementById('tab-plantilla-btn');
+   var tabPlantillaBtn = document.getElementById('tab-template-btn');
    if (tabPlantillaBtn) {
       tabPlantillaBtn.addEventListener('click', function(e) {
          if (pbDirty) {

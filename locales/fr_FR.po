@@ -253,3 +253,114 @@ msgstr "Texte de l'étiquette"
 
 msgid "Enable"
 msgstr "Activer"
+
+msgid "Email"
+msgstr "Courriel"
+
+msgid "Subject"
+msgstr "Objet"
+
+msgid "Body"
+msgstr "Corps"
+
+msgid "Save email settings"
+msgstr "Enregistrer la configuration du courriel"
+
+msgid "Email settings saved"
+msgstr "Configuration du courriel enregistrée"
+
+msgid "Configure the email sent when a user clicks \"Send by email\" on the phone tab. Use {name} for the user's name and {line} for the phone line number."
+msgstr "Configurez le courriel envoyé lorsqu'un utilisateur clique sur « Envoyer par courriel » dans l'onglet téléphone. Utilisez {name} pour le nom de l'utilisateur et {line} pour le numéro de ligne."
+
+msgid "Send by email"
+msgstr "Envoyer par courriel"
+
+msgid "Send wallpaper by email to the assigned user?"
+msgstr "Envoyer le fond d'écran par courriel à l'utilisateur assigné ?"
+
+msgid "Assigned user has no email address"
+msgstr "L'utilisateur assigné n'a pas d'adresse courriel"
+
+msgid "No user assigned to this phone."
+msgstr "Aucun utilisateur assigné à ce téléphone."
+
+msgid "No email address found for the assigned user."
+msgstr "Aucune adresse courriel trouvée pour l'utilisateur assigné."
+
+msgid "Could not generate wallpaper. Check the GLPI log for details."
+msgstr "Impossible de générer le fond d'écran. Consultez le journal GLPI pour plus de détails."
+
+msgid "Could not generate wallpaper."
+msgstr "Impossible de générer le fond d'écran."
+
+msgid "Wallpaper sent to %s."
+msgstr "Fond d'écran envoyé à %s."
+
+msgid "Could not send the email. Check the outgoing mail configuration in GLPI."
+msgstr "Impossible d'envoyer le courriel. Vérifiez la configuration du courrier sortant dans GLPI."
+
+msgid "Send test email"
+msgstr "Envoyer un courriel de test"
+
+msgid "The email will be sent to your registered GLPI address."
+msgstr "Le courriel sera envoyé à votre adresse enregistrée dans GLPI."
+
+msgid "GLPI mail server not configured"
+msgstr "Serveur de courriel GLPI non configuré"
+
+msgid "Configure the email subject and body first"
+msgstr "Configurez d'abord l'objet et le corps du courriel"
+
+msgid "Send a test email to your registered GLPI address"
+msgstr "Envoyer un courriel de test à votre adresse enregistrée dans GLPI"
+
+msgid "No email address found in your GLPI profile."
+msgstr "Aucune adresse courriel trouvée dans votre profil GLPI."
+
+msgid "Test email sent to %s."
+msgstr "Courriel de test envoyé à %s."
+
+msgid "Could not send the test email. Check the outgoing mail configuration in GLPI."
+msgstr "Impossible d'envoyer le courriel de test. Vérifiez la configuration du courrier sortant dans GLPI."
+
+msgid "Available variables"
+msgstr "Variables disponibles"
+
+msgid "Click a variable to insert it into the active field."
+msgstr "Cliquez sur une variable pour l'insérer dans le champ actif."
+
+msgid "Click to insert"
+msgstr "Cliquer pour insérer"
+
+msgid "Assigned user's full name"
+msgstr "Nom complet de l'utilisateur assigné"
+
+msgid "Phone line number"
+msgstr "Numéro de ligne téléphonique"
+
+msgid "Email subject"
+msgstr "Objet du courriel"
+
+msgid "Email body"
+msgstr "Corps du courriel"
+
+msgid "Use {name} for the assigned user's name and {line} for the phone line number."
+msgstr "Utilisez {name} pour le nom de l'utilisateur assigné et {line} pour le numéro de ligne."
+
+msgid "Email footer"
+msgstr "Pied de page du courriel"
+
+msgid "Shown below the body separated by a line. Use {name} and {line}."
+msgstr "Affiché sous le corps, séparé par une ligne. Utilisez {name} et {line}."
+
+msgid "Bold"
+msgstr "Gras"
+
+msgid "Italic"
+msgstr "Italique"
+
+msgid "Underline"
+msgstr "Souligné"
+
+msgid "This is a test email sent from the plugin configuration."
+msgstr "Ceci est un courriel de test envoyé depuis la configuration du plugin."

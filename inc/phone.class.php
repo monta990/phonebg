@@ -49,23 +49,39 @@ class PluginPhonebgPhone extends CommonGLPI {
    {
       $basefile    = PluginPhonebgPaths::basePath();
       $hasBase     = is_readable($basefile);
-      $downloadUrl = Plugin::getWebDir('phonebg') . '/front/download.php';
+      $pluginUrl   = PluginPhonebgPaths::webDir();
+      $downloadUrl = $pluginUrl . '/front/download.php';
+      $sendUrl     = $pluginUrl . '/front/send.php';
       $phoneId     = (int)$phone->getID();
       $previewUrl  = $downloadUrl . '?phoneid=' . $phoneId . '&preview=1';
+      $assignedUserId = (int)($phone->fields['users_id'] ?? 0);
+      $hasEmail    = false;
+      if ($assignedUserId > 0) {
+         global $DB;
+         $hasEmail = (bool)$DB->request([
+            'COUNT' => 'cnt',
+            'FROM'  => 'glpi_useremails',
+            'WHERE' => ['users_id' => $assignedUserId, 'is_default' => 1],
+         ])->current()['cnt'];
+      }
 
       Html::displayMessageAfterRedirect();
 
       echo PluginPhonebgRenderer::render('phone_tab.html.twig', [
-         'has_base'        => $hasBase,
-         'phone_id'        => $phoneId,
+         'has_base'         => $hasBase,
+         'phone_id'         => $phoneId,
          'phone_line_label' => sprintf(
             __('Generate background for: %s', 'phonebg'),
             $phone->getName()
          ),
-         'download_url'    => $downloadUrl,
-         'preview_url'     => $previewUrl,
-         'preview_url_js'  => json_encode($previewUrl),
-         'modal_id'        => 'pb-preview-modal-' . $phoneId,
+         'download_url'     => $downloadUrl,
+         'send_url'         => $sendUrl,
+         'preview_url'      => $previewUrl,
+         'preview_url_js'   => json_encode($previewUrl),
+         'modal_id'         => 'pb-preview-modal-' . $phoneId,
+         'has_assigned_user' => $assignedUserId > 0,
+         'has_email'        => $hasEmail,
+         'csrf_token'       => Session::getNewCSRFToken(),
       ]);
    }
 }

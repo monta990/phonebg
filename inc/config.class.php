@@ -31,6 +31,9 @@ class PluginPhonebgConfig {
       'label2_x'       => 0,
       'label2_y'       => 720,
       'label2_size'    => 40,
+      'email_subject'  => 'Phone wallpaper — {name}',
+      'email_body'     => 'Please find your phone wallpaper attached.',
+      'email_footer'   => '',
    ];
 
    /* -------------------------------------------------------

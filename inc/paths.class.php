@@ -3,6 +3,19 @@
 class PluginPhonebgPaths {
 
    /**
+    * Public web URL for the plugin root (GLPI 11/12 compatible).
+    */
+   public static function webDir(): string
+   {
+      if (defined('PLUGINS_WEB_DIR')) {
+         return PLUGINS_WEB_DIR . '/phonebg';
+      }
+
+      global $CFG_GLPI;
+      return rtrim($CFG_GLPI['root_doc'] ?? '', '/') . '/plugins/phonebg';
+   }
+
+   /**
     * Physical plugin directory (plugins/ or marketplace/)
     */
    public static function pluginDir(): string
@@ -248,6 +261,6 @@ class PluginPhonebgPaths {
     */
    public static function baseUrl(): string
    {
-      return Plugin::getWebDir('phonebg') . '/front/resource.send.php?resource=base';
+      return self::webDir() . '/front/resource.send.php?resource=base';
    }
 }

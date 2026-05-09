@@ -24,10 +24,10 @@ function plugin_version_phonebg()
       'license'      => 'GPLv3+',
       'requirements' => [
          'glpi' => [
-            'min' => '10.0',
+            'min' => '11.0',
          ],
          'php'  => [
-            'min' => '8.0',
+            'min' => '8.2',
          ],
       ]
    ];

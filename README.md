@@ -9,7 +9,6 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-10.0%2B-blue?style=flat-square" alt="GLPI 10 compatibility"></a>
   <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-11.0%2B-blue?style=flat-square" alt="GLPI 11 compatibility"></a>
   <a href="https://github.com/glpi-project/glpi" target="_blank"><img src="https://img.shields.io/badge/GLPI-12.0%2B-blue?style=flat-square" alt="GLPI 12 compatibility"></a>
   <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank"><img src="https://img.shields.io/badge/License-GPL%20v3%2B-green?style=flat-square" alt="License"></a>
@@ -29,8 +28,8 @@ Phone Background generates personalized PNG wallpapers for corporate phones regi
 
 | Requirement     | Minimum version        |
 |-----------------|------------------------|
-| GLPI            | ≥ 10.0                 |
-| PHP             | ≥ 8.0                  |
+| GLPI            | ≥ 11.0                 |
+| PHP             | ≥ 8.2                  |
 | PHP extension   | GD (image processing)  |
 
 ## Installation

@@ -66,7 +66,7 @@
 
                {% if has_base %}
                <div class="mb-4">
-                  <label class="form-label fw-semibold">{{ __('Current template', 'phonebg') }}</label>
+                  <p class="form-label fw-semibold">{{ __('Current template', 'phonebg') }}</p>
                   <div class="border rounded overflow-auto d-inline-block mb-3" style="max-width:100%">
                      <a href="{{ base_url }}" download title="{{ __('Download current template', 'phonebg') }}">
                         <img src="{{ base_url_ts }}"
@@ -82,14 +82,14 @@
                {% endif %}
 
                <div class="mb-3">
-                  <label class="form-label fw-semibold">{{ __('Upload new template', 'phonebg') }}</label>
-                  <input type="file" name="base" class="form-control" accept="image/png"
+                  <label class="form-label fw-semibold" for="inp-base-file">{{ __('Upload new template', 'phonebg') }}</label>
+                  <input type="file" name="base" id="inp-base-file" class="form-control" accept="image/png"
                          onchange="phonebgPreviewNewBase(this)">
                   <div class="small mt-1">{{ __('Accepted format: PNG · Max 500 KB', 'phonebg') }}</div>
                </div>
 
                <div id="pb-new-preview-wrap" class="mb-3 d-none">
-                  <label class="form-label fw-semibold">{{ __('Preview new template', 'phonebg') }}</label>
+                  <p class="form-label fw-semibold">{{ __('Preview new template', 'phonebg') }}</p>
                   <div class="border rounded overflow-auto d-inline-block" style="max-width:100%">
                      <img id="pb-new-preview" style="display:block;width:auto;height:auto;max-width:none">
                   </div>

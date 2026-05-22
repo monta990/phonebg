@@ -7,6 +7,13 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.5] — 2026-05-22
+
+### Fixed
+- **Accessibility: label-input association warnings.** Three `<label>` elements in the Template config tab that were not associated with form fields now use the correct element (`<p>` for display-only captions, `for`/`id` pair for the file upload input).
+
+---
+
 ## [1.5.4] — 2026-05-08
 
 ### Added

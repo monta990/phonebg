@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.5.2\n"
+"Project-Id-Version: phonebg 1.5.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-03\n"
 "PO-Revision-Date: 2026-05-03\n"
@@ -172,6 +172,9 @@ msgstr "Fuente eliminada correctamente"
 
 msgid "Could not delete font"
 msgstr "No se pudo eliminar la fuente"
+
+msgid "Could not read uploaded font file"
+msgstr "No se pudo leer el archivo de fuente subido"
 
 msgid "Invalid font format, TTF or OTF only"
 msgstr "Formato de fuente inválido, solo TTF u OTF"

@@ -191,7 +191,10 @@ class PluginPhonebgBackground {
         }
 
         $out = GLPI_TMP_DIR . '/background_' . $suffix . '_' . uniqid() . '.png';
-        imagepng($img, $out, 6);
+        if (imagepng($img, $out, 6) === false) {
+            unset($img);
+            return '';
+        }
         unset($img);
 
         return $out;

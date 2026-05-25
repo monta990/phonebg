@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.5.2\n"
+"Project-Id-Version: phonebg 1.5.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-03\n"
 "PO-Revision-Date: 2026-05-03\n"
@@ -172,6 +172,9 @@ msgstr "Police supprimée avec succès"
 
 msgid "Could not delete font"
 msgstr "Impossible de supprimer la police"
+
+msgid "Could not read uploaded font file"
+msgstr "Impossible de lire le fichier de police téléversé"
 
 msgid "Invalid font format, TTF or OTF only"
 msgstr "Format de police invalide, TTF ou OTF uniquement"

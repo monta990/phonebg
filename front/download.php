@@ -40,7 +40,7 @@ if (!$phone->getFromDB($phones_id)) {
  * ========================= */
  $current_user_id = Session::getLoginUserID();
  $is_tech_or_admin = $phone->canViewItem();
- $is_owner = isset($phone->fields['users_id']) && ($phone->fields['users_id'] == $current_user_id);
+ $is_owner = isset($phone->fields['users_id']) && ((int)$phone->fields['users_id'] === (int)$current_user_id);
 
 if (!$is_tech_or_admin && !$is_owner) {
     $abort(__('You are not authorized to access this phone background.', 'phonebg'));

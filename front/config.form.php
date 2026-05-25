@@ -122,6 +122,14 @@ if (isset($_POST['upload_font']) && isset($_FILES['font_file'])) {
    }
 
    $handle = fopen($tmpFile, 'rb');
+   if ($handle === false) {
+      Session::addMessageAfterRedirect(
+         __('Could not read uploaded font file', 'phonebg'),
+         false,
+         ERROR
+      );
+      Html::redirect($self . '?tab=fonts');
+   }
    $magic  = fread($handle, 4);
    fclose($handle);
    $validMagic = in_array($magic, [
@@ -267,8 +275,8 @@ global $CFG_GLPI;
 $_testUrl       = PluginPhonebgPaths::webDir() . '/front/send.php';
 $_testCsrfToken = Session::getNewCSRFToken();
 $_coreCfg       = Config::getConfigurationValues('core');
-$_mailOk        = ($_coreCfg['use_notifications']    ?? 0) == 1
-               && ($_coreCfg['notifications_mailing'] ?? 0) == 1;
+$_mailOk        = (int)($_coreCfg['use_notifications']    ?? 0) === 1
+               && (int)($_coreCfg['notifications_mailing'] ?? 0) === 1;
 $_hasConfig     = !empty(trim((string)($cfg['email_subject'] ?? '')))
                && !empty(trim((string)($cfg['email_body'] ?? '')));
 if (!$_mailOk) {

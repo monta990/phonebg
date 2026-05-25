@@ -7,6 +7,16 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.6] — 2026-05-24
+
+### Fixed
+- **Font upload crash.** `fopen()` return value not checked before `fread()`; now redirects with error message if the uploaded font file cannot be opened.
+- **Silent PNG generation failure.** `imagepng()` return value not checked; failed renders now return empty string instead of a path to a non-existent file.
+- **Auth type-juggling in download.php.** Owner check used loose `==` between DB string and session int; now uses strict `===` with explicit `(int)` cast on both sides.
+- **Notification config loose comparison.** Mail-enabled check used `== 1` instead of `=== 1` for GLPI core config values.
+
+---
+
 ## [1.5.5] — 2026-05-22
 
 ### Fixed

@@ -130,15 +130,54 @@ if (isset($_POST['upload_font']) && isset($_FILES['font_file'])) {
       );
       Html::redirect($self . '?tab=fonts');
    }
-   $magic  = fread($handle, 4);
-   fclose($handle);
-   $validMagic = in_array($magic, [
-      "\x00\x01\x00\x00",
-      "\x74\x72\x75\x65",
-      "\x4F\x54\x54\x4F",
-   ], true);
+   $fontFileSize = filesize($tmpFile);
+   $header       = fread($handle, 12);
+   $validFont    = is_int($fontFileSize)
+      && $fontFileSize >= 12
+      && strlen($header) === 12;
 
-   if (!$validMagic) {
+   if ($validFont) {
+      $magic = substr($header, 0, 4);
+      $validFont = in_array($magic, [
+         "\x00\x01\x00\x00",
+         "\x74\x72\x75\x65",
+         "\x4F\x54\x54\x4F",
+      ], true);
+   }
+
+   // Validate the SFNT table directory before accepting the font.  This keeps
+   // malformed TTF/OTF files from declaring excessive table counts or offsets
+   // outside the uploaded file while preserving the formats already accepted.
+   if ($validFont) {
+      $numTables = unpack('n', substr($header, 4, 2))[1] ?? 0;
+      $validFont = $numTables >= 1
+         && $numTables <= 256
+         && (12 + ($numTables * 16)) <= $fontFileSize;
+   }
+
+   if ($validFont) {
+      for ($i = 0; $i < $numTables; $i++) {
+         $record = fread($handle, 16);
+         if ($record === false || strlen($record) !== 16) {
+            $validFont = false;
+            break;
+         }
+
+         $table = unpack('Nchecksum/Noffset/Nlength', substr($record, 4, 12));
+         $offset = $table['offset'] ?? -1;
+         $length = $table['length'] ?? -1;
+
+         if ($offset < 0 || $length < 0 || $offset > $fontFileSize
+             || $length > ($fontFileSize - $offset)) {
+            $validFont = false;
+            break;
+         }
+      }
+   }
+
+   fclose($handle);
+
+   if (!$validFont) {
       Session::addMessageAfterRedirect(
          __('Invalid font format, TTF or OTF only', 'phonebg'),
          false,
@@ -290,6 +329,8 @@ if (!$_mailOk) {
 $validTabs = ['template', 'positions', 'fonts', 'email'];
 $activeTab = in_array($_GET['tab'] ?? '', $validTabs, true) ? $_GET['tab'] : 'template';
 
+$versionStatus = PluginPhonebgVersion::getStatus();
+
 $baseUrl   = $hasBase ? PluginPhonebgPaths::baseUrl() : '';
 $baseUrlTs = $hasBase ? $baseUrl . '&t=' . time() : '';
 
@@ -323,6 +364,7 @@ PluginPhonebgRenderer::display('config_form.html.twig', [
    'mail_ok'          => $_mailOk,
    'has_email_config' => $_hasConfig,
    'btn_tooltip'      => $_btnTooltip,
+   'version_status'   => $versionStatus,
 ]);
 
 Html::footer();

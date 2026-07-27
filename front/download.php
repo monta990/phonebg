@@ -17,7 +17,7 @@ $abort = function(string $msg) use ($is_preview, $CFG_GLPI): never {
         exit;
     }
     Session::addMessageAfterRedirect($msg, false, ERROR);
-    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
+    Html::redirect($CFG_GLPI['root_doc'] . '/front/phone.php');
     exit;
 };
 
@@ -59,7 +59,7 @@ if (!empty($errors)) {
     foreach ($errors as $msg) {
         Session::addMessageAfterRedirect($msg, false, ERROR);
     }
-    Html::redirect($_SERVER['HTTP_REFERER'] ?? $CFG_GLPI['root_doc']);
+    Html::redirect($CFG_GLPI['root_doc'] . '/front/phone.php');
 }
 
 /* =========================

@@ -1,12 +1,9 @@
-# phonebg — GLPI plugin
-# Copyright (C) 2025 Edwin Elias Alvarez
-# This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.5.5\n"
+"Project-Id-Version: Phone Background 1.5.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-03\n"
-"PO-Revision-Date: 2026-05-03\n"
+"POT-Creation-Date: 2026-07-27 12:59-0700\n"
+"PO-Revision-Date: 2026-07-27 12:59-0700\n"
 "Last-Translator: Edwin Elias Alvarez\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -14,356 +11,475 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Background"
-msgstr "Fond d'écran"
-
-msgid "Background preview"
-msgstr "Aperçu du fond d'écran"
-
-msgid "Background saved successfully"
-msgstr "Fond d'écran enregistré avec succès"
-
-msgid "Close"
-msgstr "Fermer"
-
-msgid "Could not delete template"
-msgstr "Impossible de supprimer le modèle"
-
-msgid "Could not generate image"
-msgstr "Impossible de générer l'image"
-
-msgid "Could not load base image"
-msgstr "Impossible de charger l'image de base"
-
-msgid "Could not save template"
-msgstr "Impossible d'enregistrer le modèle"
-
-msgid "Current template"
-msgstr "Modèle actuel"
-
-msgid "Delete template"
-msgstr "Supprimer le modèle"
-
-msgid "Device name"
-msgstr "Nom de l'appareil"
-
-msgid "Download background"
-msgstr "Télécharger le fond"
-
-msgid "Download current template"
-msgstr "Télécharger le modèle actuel"
-
-msgid "Drag each label to set its position. X = 0 centers the text automatically."
-msgstr "Faites glisser chaque étiquette pour définir sa position. X = 0 centre le texte automatiquement."
-
-msgid "Field"
-msgstr "Champ"
-
-msgid "File too large (max 500 KB)"
-msgstr "Fichier trop volumineux (max 500 Ko)"
-
-msgid "Font color"
-msgstr "Couleur de police"
-
-msgid "Font size (px)"
-msgstr "Taille de police (px)"
-
-msgid "Generate background for: %s"
-msgstr "Générer le fond pour : %s"
-
-msgid "Invalid format, PNG only"
-msgstr "Format invalide, PNG uniquement"
-
-msgid "Invalid phone"
-msgstr "Téléphone invalide"
-
-msgid "Line number"
-msgstr "Numéro de ligne"
-
-msgid "No base template found."
-msgstr "Aucun modèle de base trouvé."
-
-msgid "PHP GD extension is required"
-msgstr "L'extension PHP GD est requise"
-
-msgid "Phone Background"
-msgstr "Fond d'écran du téléphone"
-
-msgid "Phone Wallpapers"
-msgstr "Fond d'écran téléphones"
-
-msgid "Phone not found"
-msgstr "Téléphone introuvable"
-
-msgid "Phone wallpaper generator"
-msgstr "Générateur de fond d'écran pour téléphone"
-
-msgid "Please upload a base PNG image in the plugin settings."
-msgstr "Veuillez télécharger une image PNG de base dans les paramètres du plugin."
-
-msgid "Plugin directory not found"
-msgstr "Répertoire du plugin introuvable"
-
-msgid "Plugin directory not found, unable to verify TTF font"
-msgstr "Répertoire du plugin introuvable, impossible de vérifier la police TTF"
-
-msgid "Positions"
-msgstr "Positions"
-
-msgid "Positions reset to default values"
-msgstr "Positions réinitialisées aux valeurs par défaut"
-
-msgid "Positions saved successfully"
-msgstr "Positions enregistrées avec succès"
-
-msgid "Preview"
-msgstr "Aperçu"
-
-msgid "Preview new template"
-msgstr "Aperçu du nouveau modèle"
-
-msgid "Reset to defaults"
-msgstr "Réinitialiser les valeurs par défaut"
-
-msgid "Save"
-msgstr "Enregistrer"
-
-msgid "TTF font not found: %s"
-msgstr "Police TTF introuvable : %s"
-
-msgid "Template"
-msgstr "Modèle"
-
-msgid "Template deleted successfully"
-msgstr "Modèle supprimé avec succès"
-
-msgid "Template not found"
-msgstr "Modèle introuvable"
-
-msgid "The phone has no assigned line"
-msgstr "Le téléphone n'a pas de ligne assignée"
-
-msgid "The phone line number is empty"
-msgstr "Le numéro de ligne du téléphone est vide"
-
-msgid "There are unsaved changes in Positions. Continue without saving?"
-msgstr "Il y a des modifications non enregistrées dans Positions. Continuer sans enregistrer ?"
-
-msgid "Upload new template"
-msgstr "Charger un nouveau modèle"
-
-msgid "Fonts"
-msgstr "Polices"
-
-msgid "Installed fonts"
-msgstr "Polices installées"
-
-msgid "Upload font"
-msgstr "Télécharger une police"
-
-msgid "Font saved successfully"
-msgstr "Police enregistrée avec succès"
-
-msgid "Could not save font"
-msgstr "Impossible d'enregistrer la police"
-
-msgid "Font deleted successfully"
-msgstr "Police supprimée avec succès"
-
-msgid "Could not delete font"
-msgstr "Impossible de supprimer la police"
-
-msgid "Could not read uploaded font file"
-msgstr "Impossible de lire le fichier de police téléversé"
-
-msgid "Invalid font format, TTF or OTF only"
-msgstr "Format de police invalide, TTF ou OTF uniquement"
-
-msgid "Font file too large (max 2 MB)"
-msgstr "Fichier de police trop volumineux (max 2 Mo)"
-
-msgid "Font"
-msgstr "Police"
-
-msgid "Font file"
-msgstr "Fichier de police"
-
-msgid "No fonts uploaded yet"
-msgstr "Aucune police chargée"
-
-msgid "Delete this font?"
-msgstr "Supprimer cette police ?"
-
-msgid "The default font cannot be deleted"
-msgstr "La police par défaut ne peut pas être supprimée"
-
-msgid "Default fallback font — cannot be deleted"
-msgstr "Police de secours par défaut — ne peut pas être supprimée"
-
-msgid "User uploaded font"
-msgstr "Police téléchargée par l'utilisateur"
-
-msgid "Description"
-msgstr "Description"
-
-msgid "Accepted formats: TTF · OTF · Max 2 MB"
-msgstr "Formats acceptés : TTF · OTF · Max 2 Mo"
-
+#: templates/config_form.html.twig:127
 msgid "Accepted format: PNG · Max 500 KB"
 msgstr "Format accepté : PNG · Max 500 Ko"
 
-msgid "Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted."
-msgstr "La police intégrée (DejaVu Sans) est toujours disponible en secours et ne peut pas être supprimée."
+#: templates/config_form.html.twig:379
+msgid "Accepted formats: TTF · OTF · Max 2 MB"
+msgstr "Formats acceptés : TTF · OTF · Max 2 Mo"
 
-msgid "Upload"
-msgstr "Télécharger"
-
-msgid "Font name"
-msgstr "Nom de la police"
-
-msgid "File"
-msgstr "Fichier"
-
-msgid "You are not authorized to access this phone background."
-msgstr "Vous n'êtes pas autorisé à accéder à ce fond d'écran."
-
-msgid "Failed to generate background image."
-msgstr "Impossible de générer l'image de fond."
-
-msgid "Could not load preview."
-msgstr "Impossible de charger l'aperçu."
-
-msgid "Loading..."
-msgstr "Chargement..."
-
-msgid "Could not read base image dimensions."
-msgstr "Impossible de lire les dimensions de l'image de base."
-
-msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
-msgstr "Les dimensions de l'image (%1$d x %2$d) dépassent le maximum autorisé (%3$d x %3$d) pour des raisons de sécurité."
-
-msgid "Image too large (%1$d x %2$d px). Maximum 20 megapixels allowed."
-msgstr "Immagine troppo grande (%1$d x %2$d px). Massimo 20 megapixel consentiti."
-
-msgid "Label 1"
-msgstr "Étiquette 1"
-
-msgid "Label 2"
-msgstr "Étiquette 2"
-
-msgid "Label text"
-msgstr "Texte de l'étiquette"
-
-msgid "Enable"
-msgstr "Activer"
-
-msgid "Email"
-msgstr "Courriel"
-
-msgid "Subject"
-msgstr "Objet"
-
-msgid "Body"
-msgstr "Corps"
-
-msgid "Save email settings"
-msgstr "Enregistrer la configuration du courriel"
-
-msgid "Email settings saved"
-msgstr "Configuration du courriel enregistrée"
-
-msgid "Configure the email sent when a user clicks \"Send by email\" on the phone tab. Use {name} for the user's name and {line} for the phone line number."
-msgstr "Configurez le courriel envoyé lorsqu'un utilisateur clique sur « Envoyer par courriel » dans l'onglet téléphone. Utilisez {name} pour le nom de l'utilisateur et {line} pour le numéro de ligne."
-
-msgid "Send by email"
-msgstr "Envoyer par courriel"
-
-msgid "Send wallpaper by email to the assigned user?"
-msgstr "Envoyer le fond d'écran par courriel à l'utilisateur assigné ?"
-
+#: templates/phone_tab.html.twig:46
 msgid "Assigned user has no email address"
 msgstr "L'utilisateur assigné n'a pas d'adresse courriel"
 
-msgid "No user assigned to this phone."
-msgstr "Aucun utilisateur assigné à ce téléphone."
-
-msgid "No email address found for the assigned user."
-msgstr "Aucune adresse courriel trouvée pour l'utilisateur assigné."
-
-msgid "Could not generate wallpaper. Check the GLPI log for details."
-msgstr "Impossible de générer le fond d'écran. Consultez le journal GLPI pour plus de détails."
-
-msgid "Could not generate wallpaper."
-msgstr "Impossible de générer le fond d'écran."
-
-msgid "Wallpaper sent to %s."
-msgstr "Fond d'écran envoyé à %s."
-
-msgid "Could not send the email. Check the outgoing mail configuration in GLPI."
-msgstr "Impossible d'envoyer le courriel. Vérifiez la configuration du courrier sortant dans GLPI."
-
-msgid "Send test email"
-msgstr "Envoyer un courriel de test"
-
-msgid "The email will be sent to your registered GLPI address."
-msgstr "Le courriel sera envoyé à votre adresse enregistrée dans GLPI."
-
-msgid "GLPI mail server not configured"
-msgstr "Serveur de courriel GLPI non configuré"
-
-msgid "Configure the email subject and body first"
-msgstr "Configurez d'abord l'objet et le corps du courriel"
-
-msgid "Send a test email to your registered GLPI address"
-msgstr "Envoyer un courriel de test à votre adresse enregistrée dans GLPI"
-
-msgid "No email address found in your GLPI profile."
-msgstr "Aucune adresse courriel trouvée dans votre profil GLPI."
-
-msgid "Test email sent to %s."
-msgstr "Courriel de test envoyé à %s."
-
-msgid "Could not send the test email. Check the outgoing mail configuration in GLPI."
-msgstr "Impossible d'envoyer le courriel de test. Vérifiez la configuration du courrier sortant dans GLPI."
-
-msgid "Available variables"
-msgstr "Variables disponibles"
-
-msgid "Click a variable to insert it into the active field."
-msgstr "Cliquez sur une variable pour l'insérer dans le champ actif."
-
-msgid "Click to insert"
-msgstr "Cliquer pour insérer"
-
+#: templates/config_form.html.twig:483
 msgid "Assigned user's full name"
 msgstr "Nom complet de l'utilisateur assigné"
 
-msgid "Phone line number"
-msgstr "Numéro de ligne téléphonique"
+#: templates/config_form.html.twig:466
+msgid "Available variables"
+msgstr "Variables disponibles"
 
-msgid "Email subject"
-msgstr "Objet du courriel"
+#: inc/phone.class.php:26
+msgid "Background"
+msgstr "Fond d'écran"
 
-msgid "Email body"
-msgstr "Corps du courriel"
+#: templates/phone_tab.html.twig:63
+msgid "Background preview"
+msgstr "Aperçu du fond d'écran"
 
-msgid "Use {name} for the assigned user's name and {line} for the phone line number."
-msgstr "Utilisez {name} pour le nom de l'utilisateur assigné et {line} pour le numéro de ligne."
+#: front/config.form.php:83
+msgid "Background saved successfully"
+msgstr "Fond d'écran enregistré avec succès"
 
-msgid "Email footer"
-msgstr "Pied de page du courriel"
-
-msgid "Shown below the body separated by a line. Use {name} and {line}."
-msgstr "Affiché sous le corps, séparé par une ligne. Utilisez {name} et {line}."
-
+#: templates/config_form.html.twig:518 templates/config_form.html.twig:537
 msgid "Bold"
 msgstr "Gras"
 
+#: templates/config_form.html.twig:393
+msgid "Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted."
+msgstr "La police intégrée (DejaVu Sans) est toujours disponible en secours et ne peut pas être supprimée."
+
+#: templates/config_form.html.twig:473
+msgid "Click a variable to insert it into the active field."
+msgstr "Cliquez sur une variable pour l'insérer dans le champ actif."
+
+#: templates/config_form.html.twig:481 templates/config_form.html.twig:489
+msgid "Click to insert"
+msgstr "Cliquer pour insérer"
+
+#: templates/phone_tab.html.twig:82
+msgid "Close"
+msgstr "Fermer"
+
+#: front/config.form.php:285
+msgid "Configure the email subject and body first"
+msgstr "Configurez d'abord l'objet et le corps du courriel"
+
+#: front/config.form.php:180
+msgid "Could not delete font"
+msgstr "Impossible de supprimer la police"
+
+#: front/config.form.php:48
+msgid "Could not delete template"
+msgstr "Impossible de supprimer le modèle"
+
+#: front/send.php:210 front/send.php:78
+msgid "Could not generate wallpaper."
+msgstr "Impossible de générer le fond d'écran."
+
+#: front/send.php:202 front/send.php:70
+msgid "Could not generate wallpaper. Check the GLPI log for details."
+msgstr "Impossible de générer le fond d'écran. Consultez le journal GLPI pour plus de détails."
+
+#: inc/background.class.php:148
+msgid "Could not load base image"
+msgstr "Impossible de charger l'image de base"
+
+#: templates/phone_tab.html.twig:108 templates/phone_tab.html.twig:126
+msgid "Could not load preview."
+msgstr "Impossible de charger l'aperçu."
+
+#: inc/background.class.php:122
+msgid "Could not read base image dimensions."
+msgstr "Impossible de lire les dimensions de l'image de base."
+
+#: front/config.form.php:127
+msgid "Could not read uploaded font file"
+msgstr "Impossible de lire le fichier de police téléversé"
+
+#: front/config.form.php:157
+msgid "Could not save font"
+msgstr "Impossible d'enregistrer la police"
+
+#: front/config.form.php:85
+msgid "Could not save template"
+msgstr "Impossible d'enregistrer le modèle"
+
+#: front/send.php:250
+msgid "Could not send the email. Check the outgoing mail configuration in GLPI."
+msgstr "Impossible d'envoyer le courriel. Vérifiez la configuration du courrier sortant dans GLPI."
+
+#: front/send.php:115
+msgid "Could not send the test email. Check the outgoing mail configuration in GLPI."
+msgstr "Impossible d'envoyer le courriel de test. Vérifiez la configuration du courrier sortant dans GLPI."
+
+#: templates/config_form.html.twig:108
+msgid "Current template"
+msgstr "Modèle actuel"
+
+#: templates/config_form.html.twig:413
+msgid "Default fallback font — cannot be deleted"
+msgstr "Police de secours par défaut — ne peut pas être supprimée"
+
+#: templates/config_form.html.twig:117
+msgid "Delete template"
+msgstr "Supprimer le modèle"
+
+#: templates/config_form.html.twig:429
+msgid "Delete this font?"
+msgstr "Supprimer cette police ?"
+
+#: templates/config_form.html.twig:401
+msgid "Description"
+msgstr "Description"
+
+#: templates/config_form.html.twig:170 templates/config_form.html.twig:202
+msgid "Device name"
+msgstr "Nom de l'appareil"
+
+#: templates/phone_tab.html.twig:35 templates/phone_tab.html.twig:79
+msgid "Download background"
+msgstr "Télécharger le fond"
+
+#: templates/config_form.html.twig:110
+msgid "Download current template"
+msgstr "Télécharger le modèle actuel"
+
+#: templates/config_form.html.twig:158
+msgid "Drag each label to set its position. X = 0 centers the text automatically."
+msgstr "Faites glisser chaque étiquette pour définir sa position. X = 0 centre le texte automatiquement."
+
+#: templates/config_form.html.twig:49
+msgid "Email"
+msgstr "Courriel"
+
+#: templates/config_form.html.twig:514
+msgid "Email body"
+msgstr "Corps du courriel"
+
+#: templates/config_form.html.twig:533
+msgid "Email footer"
+msgstr "Pied de page du courriel"
+
+#: front/config.form.php:239
+msgid "Email settings saved"
+msgstr "Configuration du courriel enregistrée"
+
+#: templates/config_form.html.twig:502
+msgid "Email subject"
+msgstr "Objet du courriel"
+
+#: front/download.php:70
+msgid "Failed to generate background image."
+msgstr "Impossible de générer l'image de fond."
+
+#: templates/config_form.html.twig:190
+msgid "Field"
+msgstr "Champ"
+
+#: templates/config_form.html.twig:400
+msgid "File"
+msgstr "Fichier"
+
+#: front/config.form.php:70
+msgid "File too large (max 500 KB)"
+msgstr "Fichier trop volumineux (max 500 Ko)"
+
+#: templates/config_form.html.twig:337
+msgid "Font"
+msgstr "Police"
+
+#: templates/config_form.html.twig:320
+msgid "Font color"
+msgstr "Couleur de police"
+
+#: front/config.form.php:178
+msgid "Font deleted successfully"
+msgstr "Police supprimée avec succès"
+
+#: front/config.form.php:117
+msgid "Font file too large (max 2 MB)"
+msgstr "Fichier de police trop volumineux (max 2 Mo)"
+
+#: templates/config_form.html.twig:399
+msgid "Font name"
+msgstr "Nom de la police"
+
+#: front/config.form.php:155
+msgid "Font saved successfully"
+msgstr "Police enregistrée avec succès"
+
+#: templates/config_form.html.twig:191
+msgid "Font size (px)"
+msgstr "Taille de police (px)"
+
+#: templates/config_form.html.twig:39
+msgid "Fonts"
+msgstr "Polices"
+
+#: inc/phone.class.php:74
+msgid "Generate background for: %s"
+msgstr "Générer le fond pour : %s"
+
+#: templates/config_form.html.twig:81
+msgid "GitHub unavailable"
+msgstr "GitHub indisponible"
+
+#: front/config.form.php:283
+msgid "GLPI mail server not configured"
+msgstr "Serveur de courriel GLPI non configuré"
+
+#: inc/background.class.php:129
+msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
+msgstr "Les dimensions de l'image (%1$d x %2$d) dépassent le maximum autorisé (%3$d x %3$d) pour des raisons de sécurité."
+
+#: inc/background.class.php:139
+msgid "Image too large (%1$d x %2$d px). Maximum 20 megapixels allowed."
+msgstr "Immagine troppo grande (%1$d x %2$d px). Massimo 20 megapixel consentiti."
+
+#: templates/config_form.html.twig:392
+msgid "Installed fonts"
+msgstr "Polices installées"
+
+#: templates/config_form.html.twig:66
+msgid "Installed version"
+msgstr "Version installée"
+
+#: front/config.form.php:108 front/config.form.php:143
+msgid "Invalid font format, TTF or OTF only"
+msgstr "Format de police invalide, TTF ou OTF uniquement"
+
+#: front/config.form.php:76
+msgid "Invalid format, PNG only"
+msgstr "Format invalide, PNG uniquement"
+
+#: front/download.php:29
+msgid "Invalid phone"
+msgstr "Téléphone invalide"
+
+#: templates/config_form.html.twig:520 templates/config_form.html.twig:539
 msgid "Italic"
 msgstr "Italique"
 
+#: templates/config_form.html.twig:178 templates/config_form.html.twig:254
+msgid "Label 1"
+msgstr "Étiquette 1"
+
+#: templates/config_form.html.twig:182 templates/config_form.html.twig:291
+msgid "Label 2"
+msgstr "Étiquette 2"
+
+#: templates/config_form.html.twig:259 templates/config_form.html.twig:296
+msgid "Label text"
+msgstr "Texte de l'étiquette"
+
+#: templates/config_form.html.twig:71
+msgid "Latest stable version on GitHub"
+msgstr "Dernière version stable sur GitHub"
+
+#: templates/config_form.html.twig:174 templates/config_form.html.twig:225
+msgid "Line number"
+msgstr "Numéro de ligne"
+
+#: templates/phone_tab.html.twig:70
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: templates/phone_tab.html.twig:15
+msgid "No base template found."
+msgstr "Aucun modèle de base trouvé."
+
+#: front/send.php:171
+msgid "No email address found for the assigned user."
+msgstr "Aucune adresse courriel trouvée pour l'utilisateur assigné."
+
+#: front/send.php:35
+msgid "No email address found in your GLPI profile."
+msgstr "Aucune adresse courriel trouvée dans votre profil GLPI."
+
+#: templates/config_form.html.twig:349 templates/config_form.html.twig:440
+msgid "No fonts uploaded yet"
+msgstr "Aucune police chargée"
+
+#: front/send.php:157
+msgid "No user assigned to this phone."
+msgstr "Aucun utilisateur assigné à ce téléphone."
+
+#: inc/phone.class.php:11
+msgid "Phone Background"
+msgstr "Fond d'écran du téléphone"
+
+#: templates/config_form.html.twig:491
+msgid "Phone line number"
+msgstr "Numéro de ligne téléphonique"
+
+#: front/download.php:34
+msgid "Phone not found"
+msgstr "Téléphone introuvable"
+
+#: templates/phone_tab.html.twig:8
+msgid "Phone wallpaper generator"
+msgstr "Générateur de fond d'écran pour téléphone"
+
+#: front/config.form.php:256
+msgid "Phone Wallpapers"
+msgstr "Fond d'écran téléphones"
+
+#: inc/background.class.php:17
+msgid "PHP GD extension is required"
+msgstr "L'extension PHP GD est requise"
+
+#: templates/phone_tab.html.twig:16
+msgid "Please upload a base PNG image in the plugin settings."
+msgstr "Veuillez télécharger une image PNG de base dans les paramètres du plugin."
+
+#: inc/background.class.php:161
+msgid "Plugin directory not found"
+msgstr "Répertoire du plugin introuvable"
+
+#: inc/background.class.php:31
+msgid "Plugin directory not found, unable to verify TTF font"
+msgstr "Répertoire du plugin introuvable, impossible de vérifier la police TTF"
+
+#: templates/config_form.html.twig:62
+msgid "Plugin version"
+msgstr "Version du plugin"
+
+#: templates/config_form.html.twig:28
+msgid "Positions"
+msgstr "Positions"
+
+#: front/config.form.php:248
+msgid "Positions reset to default values"
+msgstr "Positions réinitialisées aux valeurs par défaut"
+
+#: front/config.form.php:227
+msgid "Positions saved successfully"
+msgstr "Positions enregistrées avec succès"
+
+#: templates/phone_tab.html.twig:28
+msgid "Preview"
+msgstr "Aperçu"
+
+#: templates/config_form.html.twig:131
+msgid "Preview new template"
+msgstr "Aperçu du nouveau modèle"
+
+#: templates/config_form.html.twig:90
+msgid "Releases"
+msgstr "Versions"
+
+#: templates/config_form.html.twig:360
+msgid "Reset to defaults"
+msgstr "Réinitialiser les valeurs par défaut"
+
+#: templates/config_form.html.twig:140 templates/config_form.html.twig:363
+msgid "Save"
+msgstr "Enregistrer"
+
+#: templates/config_form.html.twig:552
+msgid "Save email settings"
+msgstr "Enregistrer la configuration du courriel"
+
+#: front/config.form.php:287
+msgid "Send a test email to your registered GLPI address"
+msgstr "Envoyer un courriel de test à votre adresse enregistrée dans GLPI"
+
+#: templates/phone_tab.html.twig:49
+msgid "Send by email"
+msgstr "Envoyer par courriel"
+
+#: templates/config_form.html.twig:560
+msgid "Send test email"
+msgstr "Envoyer un courriel de test"
+
+#: templates/phone_tab.html.twig:41
+msgid "Send wallpaper by email to the assigned user?"
+msgstr "Envoyer le fond d'écran par courriel à l'utilisateur assigné ?"
+
+#: templates/config_form.html.twig:546
+msgid "Shown below the body separated by a line. Use {name} and {line}."
+msgstr "Affiché sous le corps, séparé par une ligne. Utilisez {name} et {line}."
+
+#: templates/config_form.html.twig:17
+msgid "Template"
+msgstr "Modèle"
+
+#: front/config.form.php:46
+msgid "Template deleted successfully"
+msgstr "Modèle supprimé avec succès"
+
+#: inc/background.class.php:20
+msgid "Template not found"
+msgstr "Modèle introuvable"
+
+#: front/send.php:108
+msgid "Test email sent to %s."
+msgstr "Courriel de test envoyé à %s."
+
+#: front/config.form.php:171 templates/config_form.html.twig:421
+msgid "The default font cannot be deleted"
+msgstr "La police par défaut ne peut pas être supprimée"
+
+#: templates/config_form.html.twig:566
+msgid "The email will be sent to your registered GLPI address."
+msgstr "Le courriel sera envoyé à votre adresse enregistrée dans GLPI."
+
+#: inc/background.class.php:89
+msgid "The phone has no assigned line"
+msgstr "Le téléphone n'a pas de ligne assignée"
+
+#: inc/background.class.php:96
+msgid "The phone line number is empty"
+msgstr "Le numéro de ligne du téléphone est vide"
+
+#: front/config.form.php:319
+msgid "There are unsaved changes in Positions. Continue without saving?"
+msgstr "Il y a des modifications non enregistrées dans Positions. Continuer sans enregistrer ?"
+
+#: inc/background.class.php:230
+msgid "This is a test email sent from the plugin configuration."
+msgstr "Ceci est un courriel de test envoyé depuis la configuration du plugin."
+
+#: inc/background.class.php:26
+msgid "TTF font not found: %s"
+msgstr "Police TTF introuvable : %s"
+
+#: templates/config_form.html.twig:522 templates/config_form.html.twig:541
 msgid "Underline"
 msgstr "Souligné"
 
-msgid "This is a test email sent from the plugin configuration."
-msgstr "Ceci est un courriel de test envoyé depuis la configuration du plugin."
+#: templates/config_form.html.twig:85
+msgid "Update available"
+msgstr "Mise à jour disponible"
+
+#: templates/config_form.html.twig:385
+msgid "Upload"
+msgstr "Télécharger"
+
+#: templates/config_form.html.twig:378
+msgid "Upload font"
+msgstr "Télécharger une police"
+
+#: templates/config_form.html.twig:124
+msgid "Upload new template"
+msgstr "Charger un nouveau modèle"
+
+#: templates/config_form.html.twig:508 templates/config_form.html.twig:527
+msgid "Use {name} for the assigned user's name and {line} for the phone line number."
+msgstr "Utilisez {name} pour le nom de l'utilisateur assigné et {line} pour le numéro de ligne."
+
+#: templates/config_form.html.twig:415
+msgid "User uploaded font"
+msgstr "Police téléchargée par l'utilisateur"
+
+#: front/send.php:243
+msgid "Wallpaper sent to %s."
+msgstr "Fond d'écran envoyé à %s."
+
+#: front/download.php:46
+msgid "You are not authorized to access this phone background."
+msgstr "Vous n'êtes pas autorisé à accéder à ce fond d'écran."
+

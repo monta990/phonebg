@@ -50,8 +50,47 @@
             </button>
          </li>
 
+
       </ul>
    </div>{# /card-header #}
+
+   {# Version checker — always visible, not a tab #}
+   <div class="card-body py-2 border-bottom">
+      <div class="d-flex flex-wrap align-items-center gap-3">
+         <div class="d-flex align-items-center me-2">
+            <i class="ti ti-brand-github fs-2 me-2 text-primary"></i>
+            <span class="fw-semibold">{{ __('Plugin version', 'phonebg') }}</span>
+         </div>
+
+         <div class="small">
+            <span class="text-muted">{{ __('Installed version', 'phonebg') }}</span>
+            <span class="badge bg-blue-lt ms-1">v{{ version_status.current_version }}</span>
+         </div>
+
+         <div class="small">
+            <span class="text-muted">{{ __('Latest stable version on GitHub', 'phonebg') }}</span>
+            {% if version_status.latest_version %}
+               <span class="badge {{ version_status.update_available ? 'bg-yellow-lt' : 'bg-green-lt' }} ms-1">v{{ version_status.latest_version }}</span>
+            {% else %}
+               <span class="badge bg-secondary-lt ms-1">—</span>
+            {% endif %}
+         </div>
+
+         {% if not version_status.github_available %}
+            <span class="badge bg-yellow-lt">
+               <i class="ti ti-alert-triangle me-1"></i>{{ __('GitHub unavailable', 'phonebg') }}
+            </span>
+         {% elseif version_status.update_available %}
+            <span class="badge bg-yellow-lt">
+               <i class="ti ti-download me-1"></i>{{ __('Update available', 'phonebg') }}
+            </span>
+         {% endif %}
+
+         <a class="btn btn-sm btn-outline-warning ms-auto" href="{{ version_status.releases_url }}" target="_blank" rel="noopener noreferrer">
+            <i class="ti ti-external-link me-1"></i>{{ __('Releases', 'phonebg') }}
+         </a>
+      </div>
+   </div>
 
    <div class="tab-content">
 
@@ -530,6 +569,7 @@
             </div>{# /card-body #}
          </form>
       </div>{# /tab-pane email #}
+
 
    </div>{# /tab-content #}
 </div>{# /card #}

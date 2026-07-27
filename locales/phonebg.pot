@@ -1,248 +1,480 @@
-# phonebg — GLPI plugin
-# Copyright (C) 2025 Edwin Elias Alvarez
-# This file is distributed under the same license as the phonebg package.
 msgid ""
 msgstr ""
-"Project-Id-Version: phonebg 1.5.5\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-03\n"
-"PO-Revision-Date: 2026-05-03\n"
-"Last-Translator: Edwin Elias Alvarez\n"
-"Language-Team: phonebg\n"
+"Project-Id-Version: Phone Background 1.5.7\n"
+"POT-Creation-Date: 2026-07-27 12:59-0700\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Background"
-msgstr ""
-
-msgid "Background preview"
-msgstr ""
-
-msgid "Background saved successfully"
-msgstr ""
-
-msgid "Close"
-msgstr ""
-
-msgid "Could not delete template"
-msgstr ""
-
-msgid "Could not generate image"
-msgstr ""
-
-msgid "Could not load base image"
-msgstr ""
-
-msgid "Could not save template"
-msgstr ""
-
-msgid "Current template"
-msgstr ""
-
-msgid "Delete template"
-msgstr ""
-
-msgid "Device name"
-msgstr ""
-
-msgid "Download background"
-msgstr ""
-
-msgid "Download current template"
-msgstr ""
-
-msgid "Drag each label to set its position. X = 0 centers the text automatically."
-msgstr ""
-
-msgid "Field"
-msgstr ""
-
-msgid "File too large (max 500 KB)"
-msgstr ""
-
-msgid "Font color"
-msgstr ""
-
-msgid "Font size (px)"
-msgstr ""
-
-msgid "Generate background for: %s"
-msgstr ""
-
-msgid "Invalid format, PNG only"
-msgstr ""
-
-msgid "Invalid phone"
-msgstr ""
-
-msgid "Line number"
-msgstr ""
-
-msgid "No base template found."
-msgstr ""
-
-msgid "PHP GD extension is required"
-msgstr ""
-
-msgid "Phone Background"
-msgstr ""
-
-msgid "Phone Wallpapers"
-msgstr ""
-
-msgid "Phone not found"
-msgstr ""
-
-msgid "Phone wallpaper generator"
-msgstr ""
-
-msgid "Please upload a base PNG image in the plugin settings."
-msgstr ""
-
-msgid "Plugin directory not found"
-msgstr ""
-
-msgid "Plugin directory not found, unable to verify TTF font"
-msgstr ""
-
-msgid "Positions"
-msgstr ""
-
-msgid "Positions reset to default values"
-msgstr ""
-
-msgid "Positions saved successfully"
-msgstr ""
-
-msgid "Preview"
-msgstr ""
-
-msgid "Preview new template"
-msgstr ""
-
-msgid "Reset to defaults"
-msgstr ""
-
-msgid "Save"
-msgstr ""
-
-msgid "TTF font not found: %s"
-msgstr ""
-
-msgid "Template"
-msgstr ""
-
-msgid "Template deleted successfully"
-msgstr ""
-
-msgid "Template not found"
-msgstr ""
-
-msgid "The phone has no assigned line"
-msgstr ""
-
-msgid "The phone line number is empty"
-msgstr ""
-
-msgid "There are unsaved changes in Positions. Continue without saving?"
-msgstr ""
-
-msgid "Upload new template"
-msgstr ""
-
-msgid "Fonts"
-msgstr ""
-
-msgid "Installed fonts"
-msgstr ""
-
-msgid "Upload font"
-msgstr ""
-
-msgid "Font saved successfully"
-msgstr ""
-
-msgid "Could not save font"
-msgstr ""
-
-msgid "Font deleted successfully"
-msgstr ""
-
-msgid "Could not delete font"
-msgstr ""
-
-msgid "Could not read uploaded font file"
-msgstr ""
-
-msgid "Invalid font format, TTF or OTF only"
-msgstr ""
-
-msgid "Font file too large (max 2 MB)"
-msgstr ""
-
-msgid "Font"
-msgstr ""
-
-msgid "Font file"
-msgstr ""
-
-msgid "No fonts uploaded yet"
-msgstr ""
-
-msgid "Delete this font?"
-msgstr ""
-
-msgid "The default font cannot be deleted"
-msgstr ""
-
-msgid "Default fallback font — cannot be deleted"
-msgstr ""
-
-msgid "User uploaded font"
-msgstr ""
-
-msgid "Description"
-msgstr ""
-
-msgid "Accepted formats: TTF · OTF · Max 2 MB"
-msgstr ""
-
+#: templates/config_form.html.twig:127
 msgid "Accepted format: PNG · Max 500 KB"
 msgstr ""
 
+#: templates/config_form.html.twig:379
+msgid "Accepted formats: TTF · OTF · Max 2 MB"
+msgstr ""
+
+#: templates/phone_tab.html.twig:46
+msgid "Assigned user has no email address"
+msgstr ""
+
+#: templates/config_form.html.twig:483
+msgid "Assigned user's full name"
+msgstr ""
+
+#: templates/config_form.html.twig:466
+msgid "Available variables"
+msgstr ""
+
+#: inc/phone.class.php:26
+msgid "Background"
+msgstr ""
+
+#: templates/phone_tab.html.twig:63
+msgid "Background preview"
+msgstr ""
+
+#: front/config.form.php:83
+msgid "Background saved successfully"
+msgstr ""
+
+#: templates/config_form.html.twig:518 templates/config_form.html.twig:537
+msgid "Bold"
+msgstr ""
+
+#: templates/config_form.html.twig:393
 msgid "Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted."
 msgstr ""
 
-msgid "Upload"
+#: templates/config_form.html.twig:473
+msgid "Click a variable to insert it into the active field."
 msgstr ""
 
-msgid "Font name"
+#: templates/config_form.html.twig:481 templates/config_form.html.twig:489
+msgid "Click to insert"
 msgstr ""
 
-msgid "File"
+#: templates/phone_tab.html.twig:82
+msgid "Close"
 msgstr ""
 
-msgid "You are not authorized to access this phone background."
+#: front/config.form.php:285
+msgid "Configure the email subject and body first"
 msgstr ""
 
+#: front/config.form.php:180
+msgid "Could not delete font"
+msgstr ""
+
+#: front/config.form.php:48
+msgid "Could not delete template"
+msgstr ""
+
+#: front/send.php:210 front/send.php:78
+msgid "Could not generate wallpaper."
+msgstr ""
+
+#: front/send.php:202 front/send.php:70
+msgid "Could not generate wallpaper. Check the GLPI log for details."
+msgstr ""
+
+#: inc/background.class.php:148
+msgid "Could not load base image"
+msgstr ""
+
+#: templates/phone_tab.html.twig:108 templates/phone_tab.html.twig:126
+msgid "Could not load preview."
+msgstr ""
+
+#: inc/background.class.php:122
 msgid "Could not read base image dimensions."
 msgstr ""
 
+#: front/config.form.php:127
+msgid "Could not read uploaded font file"
+msgstr ""
+
+#: front/config.form.php:157
+msgid "Could not save font"
+msgstr ""
+
+#: front/config.form.php:85
+msgid "Could not save template"
+msgstr ""
+
+#: front/send.php:250
+msgid "Could not send the email. Check the outgoing mail configuration in GLPI."
+msgstr ""
+
+#: front/send.php:115
+msgid "Could not send the test email. Check the outgoing mail configuration in GLPI."
+msgstr ""
+
+#: templates/config_form.html.twig:108
+msgid "Current template"
+msgstr ""
+
+#: templates/config_form.html.twig:413
+msgid "Default fallback font — cannot be deleted"
+msgstr ""
+
+#: templates/config_form.html.twig:117
+msgid "Delete template"
+msgstr ""
+
+#: templates/config_form.html.twig:429
+msgid "Delete this font?"
+msgstr ""
+
+#: templates/config_form.html.twig:401
+msgid "Description"
+msgstr ""
+
+#: templates/config_form.html.twig:170 templates/config_form.html.twig:202
+msgid "Device name"
+msgstr ""
+
+#: templates/phone_tab.html.twig:35 templates/phone_tab.html.twig:79
+msgid "Download background"
+msgstr ""
+
+#: templates/config_form.html.twig:110
+msgid "Download current template"
+msgstr ""
+
+#: templates/config_form.html.twig:158
+msgid "Drag each label to set its position. X = 0 centers the text automatically."
+msgstr ""
+
+#: templates/config_form.html.twig:49
+msgid "Email"
+msgstr ""
+
+#: templates/config_form.html.twig:514
+msgid "Email body"
+msgstr ""
+
+#: templates/config_form.html.twig:533
+msgid "Email footer"
+msgstr ""
+
+#: front/config.form.php:239
+msgid "Email settings saved"
+msgstr ""
+
+#: templates/config_form.html.twig:502
+msgid "Email subject"
+msgstr ""
+
+#: front/download.php:70
+msgid "Failed to generate background image."
+msgstr ""
+
+#: templates/config_form.html.twig:190
+msgid "Field"
+msgstr ""
+
+#: templates/config_form.html.twig:400
+msgid "File"
+msgstr ""
+
+#: front/config.form.php:70
+msgid "File too large (max 500 KB)"
+msgstr ""
+
+#: templates/config_form.html.twig:337
+msgid "Font"
+msgstr ""
+
+#: templates/config_form.html.twig:320
+msgid "Font color"
+msgstr ""
+
+#: front/config.form.php:178
+msgid "Font deleted successfully"
+msgstr ""
+
+#: front/config.form.php:117
+msgid "Font file too large (max 2 MB)"
+msgstr ""
+
+#: templates/config_form.html.twig:399
+msgid "Font name"
+msgstr ""
+
+#: front/config.form.php:155
+msgid "Font saved successfully"
+msgstr ""
+
+#: templates/config_form.html.twig:191
+msgid "Font size (px)"
+msgstr ""
+
+#: templates/config_form.html.twig:39
+msgid "Fonts"
+msgstr ""
+
+#: inc/phone.class.php:74
+msgid "Generate background for: %s"
+msgstr ""
+
+#: templates/config_form.html.twig:81
+msgid "GitHub unavailable"
+msgstr ""
+
+#: front/config.form.php:283
+msgid "GLPI mail server not configured"
+msgstr ""
+
+#: inc/background.class.php:129
 msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
 msgstr ""
 
+#: inc/background.class.php:139
 msgid "Image too large (%1$d x %2$d px). Maximum 20 megapixels allowed."
 msgstr ""
 
+#: templates/config_form.html.twig:392
+msgid "Installed fonts"
+msgstr ""
+
+#: templates/config_form.html.twig:66
+msgid "Installed version"
+msgstr ""
+
+#: front/config.form.php:108 front/config.form.php:143
+msgid "Invalid font format, TTF or OTF only"
+msgstr ""
+
+#: front/config.form.php:76
+msgid "Invalid format, PNG only"
+msgstr ""
+
+#: front/download.php:29
+msgid "Invalid phone"
+msgstr ""
+
+#: templates/config_form.html.twig:520 templates/config_form.html.twig:539
+msgid "Italic"
+msgstr ""
+
+#: templates/config_form.html.twig:178 templates/config_form.html.twig:254
 msgid "Label 1"
 msgstr ""
 
+#: templates/config_form.html.twig:182 templates/config_form.html.twig:291
 msgid "Label 2"
 msgstr ""
 
+#: templates/config_form.html.twig:259 templates/config_form.html.twig:296
 msgid "Label text"
 msgstr ""
 
-msgid "Enable"
+#: templates/config_form.html.twig:71
+msgid "Latest stable version on GitHub"
 msgstr ""
+
+#: templates/config_form.html.twig:174 templates/config_form.html.twig:225
+msgid "Line number"
+msgstr ""
+
+#: templates/phone_tab.html.twig:70
+msgid "Loading..."
+msgstr ""
+
+#: templates/phone_tab.html.twig:15
+msgid "No base template found."
+msgstr ""
+
+#: front/send.php:171
+msgid "No email address found for the assigned user."
+msgstr ""
+
+#: front/send.php:35
+msgid "No email address found in your GLPI profile."
+msgstr ""
+
+#: templates/config_form.html.twig:349 templates/config_form.html.twig:440
+msgid "No fonts uploaded yet"
+msgstr ""
+
+#: front/send.php:157
+msgid "No user assigned to this phone."
+msgstr ""
+
+#: inc/phone.class.php:11
+msgid "Phone Background"
+msgstr ""
+
+#: templates/config_form.html.twig:491
+msgid "Phone line number"
+msgstr ""
+
+#: front/download.php:34
+msgid "Phone not found"
+msgstr ""
+
+#: templates/phone_tab.html.twig:8
+msgid "Phone wallpaper generator"
+msgstr ""
+
+#: front/config.form.php:256
+msgid "Phone Wallpapers"
+msgstr ""
+
+#: inc/background.class.php:17
+msgid "PHP GD extension is required"
+msgstr ""
+
+#: templates/phone_tab.html.twig:16
+msgid "Please upload a base PNG image in the plugin settings."
+msgstr ""
+
+#: inc/background.class.php:161
+msgid "Plugin directory not found"
+msgstr ""
+
+#: inc/background.class.php:31
+msgid "Plugin directory not found, unable to verify TTF font"
+msgstr ""
+
+#: templates/config_form.html.twig:62
+msgid "Plugin version"
+msgstr ""
+
+#: templates/config_form.html.twig:28
+msgid "Positions"
+msgstr ""
+
+#: front/config.form.php:248
+msgid "Positions reset to default values"
+msgstr ""
+
+#: front/config.form.php:227
+msgid "Positions saved successfully"
+msgstr ""
+
+#: templates/phone_tab.html.twig:28
+msgid "Preview"
+msgstr ""
+
+#: templates/config_form.html.twig:131
+msgid "Preview new template"
+msgstr ""
+
+#: templates/config_form.html.twig:90
+msgid "Releases"
+msgstr ""
+
+#: templates/config_form.html.twig:360
+msgid "Reset to defaults"
+msgstr ""
+
+#: templates/config_form.html.twig:140 templates/config_form.html.twig:363
+msgid "Save"
+msgstr ""
+
+#: templates/config_form.html.twig:552
+msgid "Save email settings"
+msgstr ""
+
+#: front/config.form.php:287
+msgid "Send a test email to your registered GLPI address"
+msgstr ""
+
+#: templates/phone_tab.html.twig:49
+msgid "Send by email"
+msgstr ""
+
+#: templates/config_form.html.twig:560
+msgid "Send test email"
+msgstr ""
+
+#: templates/phone_tab.html.twig:41
+msgid "Send wallpaper by email to the assigned user?"
+msgstr ""
+
+#: templates/config_form.html.twig:546
+msgid "Shown below the body separated by a line. Use {name} and {line}."
+msgstr ""
+
+#: templates/config_form.html.twig:17
+msgid "Template"
+msgstr ""
+
+#: front/config.form.php:46
+msgid "Template deleted successfully"
+msgstr ""
+
+#: inc/background.class.php:20
+msgid "Template not found"
+msgstr ""
+
+#: front/send.php:108
+msgid "Test email sent to %s."
+msgstr ""
+
+#: front/config.form.php:171 templates/config_form.html.twig:421
+msgid "The default font cannot be deleted"
+msgstr ""
+
+#: templates/config_form.html.twig:566
+msgid "The email will be sent to your registered GLPI address."
+msgstr ""
+
+#: inc/background.class.php:89
+msgid "The phone has no assigned line"
+msgstr ""
+
+#: inc/background.class.php:96
+msgid "The phone line number is empty"
+msgstr ""
+
+#: front/config.form.php:319
+msgid "There are unsaved changes in Positions. Continue without saving?"
+msgstr ""
+
+#: inc/background.class.php:230
+msgid "This is a test email sent from the plugin configuration."
+msgstr ""
+
+#: inc/background.class.php:26
+msgid "TTF font not found: %s"
+msgstr ""
+
+#: templates/config_form.html.twig:522 templates/config_form.html.twig:541
+msgid "Underline"
+msgstr ""
+
+#: templates/config_form.html.twig:85
+msgid "Update available"
+msgstr ""
+
+#: templates/config_form.html.twig:385
+msgid "Upload"
+msgstr ""
+
+#: templates/config_form.html.twig:378
+msgid "Upload font"
+msgstr ""
+
+#: templates/config_form.html.twig:124
+msgid "Upload new template"
+msgstr ""
+
+#: templates/config_form.html.twig:508 templates/config_form.html.twig:527
+msgid "Use {name} for the assigned user's name and {line} for the phone line number."
+msgstr ""
+
+#: templates/config_form.html.twig:415
+msgid "User uploaded font"
+msgstr ""
+
+#: front/send.php:243
+msgid "Wallpaper sent to %s."
+msgstr ""
+
+#: front/download.php:46
+msgid "You are not authorized to access this phone background."
+msgstr ""
+

@@ -7,6 +7,21 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.5.7] — 2026-07-27
+
+### Added
+- **GitHub version checker in plugin configuration.** The configuration page now shows the installed version and the latest stable version published on GitHub, following the same presentation used by the Responsivas plugin.
+- **Version status and Releases access.** The configuration header indicates whether the installed version is current and provides direct access to the plugin's GitHub Releases page.
+- **Resilient version lookup.** GitHub checks use a short timeout, a bounded response size, six-hour caching, atomic cache writes, and fall back to the last known version if GitHub is temporarily unavailable.
+
+### Changed
+- **Translations reviewed and synchronized.** Updated the translation template and synchronized the Spanish and French catalogs with the current plugin strings; regenerated the compiled `.mo` files.
+- **Security hardening.** Strengthened TTF/OTF structural validation with bounded table counts and file-offset checks, and disabled unnecessary HTTP redirects in the fixed GitHub API version check.
+- **Internal error redirects hardened.** Removed reliance on the client-controlled `HTTP_REFERER` header from background download error handling; failures now redirect to a fixed internal GLPI phone page.
+- **Font metadata parser hardened.** `parseFontName()` now bounds SFNT/name-table record counts and validates every declared offset and length against the actual font file before seeking or reading.
+
+---
+
 ## [1.5.6] — 2026-05-24
 
 ### Fixed
@@ -23,6 +38,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - **Accessibility: label-input association warnings.** Three `<label>` elements in the Template config tab that were not associated with form fields now use the correct element (`<p>` for display-only captions, `for`/`id` pair for the file upload input).
 
 ---
+
 
 ## [1.5.4] — 2026-05-08
 

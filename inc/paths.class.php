@@ -125,121 +125,146 @@ class PluginPhonebgPaths {
    }
 
    /**
-    * Parse the "Full font name" (nameID 4) or family name (nameID 1)
+    * Parse the "Full font name" (nameID 16) or family name (nameID 1)
     * from a TTF/OTF binary without any external dependencies.
     * Returns null if the file is not a valid font or has no readable name.
     */
    private static function parseFontName(string $path): ?string
    {
-      if (!is_readable($path)) {
+      $fileSize = @filesize($path);
+      if (!is_int($fileSize) || $fileSize < 12) {
          return null;
       }
 
       $f = fopen($path, 'rb');
-      if (!$f) {
+      if ($f === false) {
          return null;
       }
 
       try {
-         /* Offset table: sfVersion(4), numTables(2), searchRange(2), entrySelector(2), rangeShift(2) */
          $header = fread($f, 12);
-         if (strlen($header) < 12) {
+         if ($header === false || strlen($header) !== 12) {
             return null;
          }
 
-         $sfVersion = substr($header, 0, 4);
-         $valid     = ["\x00\x01\x00\x00", 'true', 'OTTO', 'ttcf'];
-         if (!in_array($sfVersion, $valid, true)) {
+         $magic = substr($header, 0, 4);
+         if (!in_array($magic, [
+            "\x00\x01\x00\x00",
+            "\x74\x72\x75\x65",
+            "\x4F\x54\x54\x4F",
+         ], true)) {
             return null;
          }
 
-         $numTables = unpack('n', substr($header, 4, 2))[1];
+         $numTables = unpack('n', substr($header, 4, 2))[1] ?? 0;
+         if ($numTables < 1 || $numTables > 256 || (12 + ($numTables * 16)) > $fileSize) {
+            return null;
+         }
 
-         /* Table directory: 16 bytes per entry (tag, checksum, offset, length) */
          $nameOffset = null;
+         $nameLength = null;
          for ($i = 0; $i < $numTables; $i++) {
-            $entry = fread($f, 16);
-            if (strlen($entry) < 16) {
-               break;
+            $record = fread($f, 16);
+            if ($record === false || strlen($record) !== 16) {
+               return null;
             }
-            $tag    = substr($entry, 0, 4);
-            $offset = unpack('N', substr($entry, 8, 4))[1];
+            $tag = substr($record, 0, 4);
+            $table = unpack('Nchecksum/Noffset/Nlength', substr($record, 4, 12));
+            $offset = $table['offset'] ?? -1;
+            $length = $table['length'] ?? -1;
+            if ($offset < 0 || $length < 0 || $offset > $fileSize
+                || $length > ($fileSize - $offset)) {
+               return null;
+            }
             if ($tag === 'name') {
                $nameOffset = $offset;
-               break;
+               $nameLength = $length;
             }
          }
 
-         if ($nameOffset === null) {
+         if ($nameOffset === null || $nameLength === null || $nameLength < 6) {
+            return null;
+         }
+         if (fseek($f, $nameOffset, SEEK_SET) !== 0) {
             return null;
          }
 
-         /* name table header: format(2), count(2), stringOffset(2) */
-         fseek($f, $nameOffset);
          $nameHeader = fread($f, 6);
-         if (strlen($nameHeader) < 6) {
+         if ($nameHeader === false || strlen($nameHeader) !== 6) {
             return null;
          }
-         $count        = unpack('n', substr($nameHeader, 2, 2))[1];
-         $stringOffset = unpack('n', substr($nameHeader, 4, 2))[1];
-         $storage      = $nameOffset + $stringOffset;
+         $nameInfo = unpack('nformat/ncount/nstringOffset', $nameHeader);
+         $count = $nameInfo['count'] ?? 0;
+         $stringOffset = $nameInfo['stringOffset'] ?? 0;
 
-         /* Read all name records: platformID(2), encodingID(2), languageID(2), nameID(2), length(2), offset(2) */
+         if ($count < 1 || $count > 4096
+             || 6 + ($count * 12) > $nameLength
+             || $stringOffset < 6 + ($count * 12)
+             || $stringOffset > $nameLength) {
+            return null;
+         }
+
          $records = [];
          for ($i = 0; $i < $count; $i++) {
-            $rec = fread($f, 12);
-            if (strlen($rec) < 12) {
-               break;
+            $record = fread($f, 12);
+            if ($record === false || strlen($record) !== 12) {
+               return null;
             }
-            $u = unpack('nplatform/nencoding/nlanguage/nnameID/nlength/nstrOffset', $rec);
-            if (in_array($u['nameID'], [1, 4], true)) {
-               $records[] = $u;
+            $r = unpack('nplatform/nencoding/nlanguage/nnameId/nlength/nstrOffset', $record);
+            $length = $r['length'] ?? -1;
+            $strOffset = $r['strOffset'] ?? -1;
+            if ($length < 0 || $strOffset < 0
+                || $strOffset > ($nameLength - $stringOffset)
+                || $length > ($nameLength - $stringOffset - $strOffset)) {
+               continue;
+            }
+            if (($r['nameId'] ?? 0) === 16 || ($r['nameId'] ?? 0) === 1) {
+               $records[] = $r;
             }
          }
 
-         /* Extract strings, preferring Windows platform (3) with English (0x0409) */
-         $fullName = null;
-         $family   = null;
-
-         /* Two passes: first English Windows, then any platform */
-         foreach ([true, false] as $preferEnglish) {
+         foreach ([16, 1] as $wantedNameId) {
             foreach ($records as $r) {
-               if ($preferEnglish && !($r['platform'] === 3 && $r['language'] === 0x0409)) {
+               if (($r['nameId'] ?? 0) !== $wantedNameId || ($r['length'] ?? 0) < 1) {
                   continue;
                }
-
-               fseek($f, $storage + $r['strOffset']);
+               $relative = $stringOffset + $r['strOffset'];
+               if ($relative < 0 || $relative > $nameLength
+                   || $r['length'] > ($nameLength - $relative)) {
+                  continue;
+               }
+               $absolute = $nameOffset + $relative;
+               if ($absolute < 0 || $absolute > $fileSize
+                   || $r['length'] > ($fileSize - $absolute)
+                   || fseek($f, $absolute, SEEK_SET) !== 0) {
+                  continue;
+               }
                $raw = fread($f, $r['length']);
-               if ($raw === false || $raw === '') {
+               if ($raw === false || strlen($raw) !== $r['length']) {
                   continue;
                }
 
-               /* Windows platform uses UTF-16 BE; Mac/others use Latin-1 */
-               if ($r['platform'] === 3) {
-                  $text = mb_convert_encoding($raw, 'UTF-8', 'UTF-16BE');
+               if (($r['platform'] ?? 0) === 0 || ($r['platform'] ?? 0) === 3) {
+                  if (function_exists('mb_convert_encoding')) {
+                     $name = mb_convert_encoding($raw, 'UTF-8', 'UTF-16BE');
+                  } elseif (function_exists('iconv')) {
+                     $name = iconv('UTF-16BE', 'UTF-8//IGNORE', $raw);
+                  } else {
+                     $name = '';
+                  }
                } else {
-                  $text = mb_convert_encoding($raw, 'UTF-8', 'ISO-8859-1');
-               }
-               $text = trim((string)$text);
-               if ($text === '') {
-                  continue;
+                  $name = $raw;
                }
 
-               if ($r['nameID'] === 4 && $fullName === null) {
-                  $fullName = $text;
-               } elseif ($r['nameID'] === 1 && $family === null) {
-                  $family = $text;
+               if (is_string($name)) {
+                  $name = trim(str_replace("\0", '', $name));
+                  if ($name !== '') {
+                     return $name;
+                  }
                }
-            }
-
-            /* Stop after first pass if we found what we need */
-            if ($fullName !== null || $family !== null) {
-               break;
             }
          }
-
-         return $fullName ?? $family;
-
+         return null;
       } finally {
          fclose($f);
       }

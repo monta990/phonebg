@@ -1,0 +1,89 @@
+{# phonebg — Phone tab content #}
+
+<div class="card mt-3 shadow-sm">
+   <div class="card-header pt-2 position-relative">
+      <div class="ribbon ribbon-bookmark ribbon-top ribbon-start bg-blue s-1">
+         <i class="fs-2x ti ti-photo"></i>
+      </div>
+      <h4 class="card-title ms-5 mb-0">{{ __('Phone wallpaper generator', 'phonebg') }}</h4>
+   </div>
+
+   <div class="card-body text-center">
+      {% if not has_base %}
+      <div class="alert alert-warning text-start">
+         <i class="ti ti-alert-triangle me-2"></i>
+         <strong>{{ __('No base template found.', 'phonebg') }}</strong><br>
+         {{ __('Please upload a base PNG image in the plugin settings.', 'phonebg') }}
+      </div>
+      {% endif %}
+
+      <p class="text-muted mb-3">{{ phone_line_label }}</p>
+
+      <div class="mt-4 d-flex justify-content-center gap-3">
+         <button type="button"
+                 class="btn btn-outline-secondary"
+                 {% if not has_base %}disabled{% endif %}
+                 data-phonebg-preview data-phone-id="{{ phone_id }}" data-preview-url="{{ preview_url }}">
+            <i class="ti ti-eye me-2"></i>
+            {{ __('Preview', 'phonebg') }}
+         </button>
+
+         <form method="get" action="{{ download_url }}" style="display:inline">
+            <input type="hidden" name="phoneid" value="{{ phone_id }}">
+            <button type="submit" class="btn btn-primary" {% if not has_base %}disabled{% endif %}>
+               <i class="ti ti-download me-2"></i>
+               {{ __('Download background', 'phonebg') }}
+            </button>
+         </form>
+
+         {% if has_assigned_user %}
+         <form method="post" action="{{ send_url }}" style="display:inline"
+               data-phonebg-confirm="{{ __('Send wallpaper by email to the assigned user?', 'phonebg') }}">
+            <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="phoneid" value="{{ phone_id }}">
+            <button type="submit" class="btn btn-outline-primary"
+                    {% if not has_base or not has_email %}disabled
+                    title="{{ not has_email ? __('Assigned user has no email address', 'phonebg') : '' }}"
+                    {% endif %}>
+               <i class="ti ti-mail me-2"></i>
+               {{ __('Send by email', 'phonebg') }}
+            </button>
+         </form>
+         {% endif %}
+      </div>
+   </div>
+</div>
+
+{# Preview modal #}
+<div class="modal fade" id="{{ modal_id }}" tabindex="-1" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title">
+               <i class="ti ti-photo me-2"></i>{{ __('Background preview', 'phonebg') }}
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+         </div>
+         <div class="modal-body text-center" id="pb-modal-body-{{ phone_id }}">
+            <div class="pb-modal-spinner">
+               <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">{{ __('Loading...', 'phonebg') }}</span>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer">
+            <a id="pb-modal-download-{{ phone_id }}"
+               href="{{ download_url }}?phoneid={{ phone_id }}"
+               class="btn btn-primary gap-2">
+               <i class="ti ti-download"></i>
+               {{ __('Download background', 'phonebg') }}
+            </a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+               <i class="ti ti-x me-1"></i>{{ __('Close', 'phonebg') }}
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+
+<script src="{{ js_url }}"></script>

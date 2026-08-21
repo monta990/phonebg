@@ -1,0 +1,483 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Phone Background 1.5.9\n"
+"POT-Creation-Date: 2026-08-21 07:32-0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: templates/config_form.html.twig:127
+msgid "Accepted format: PNG · Max 500 KB"
+msgstr ""
+
+#: templates/config_form.html.twig:379
+msgid "Accepted formats: TTF · OTF · Max 2 MB"
+msgstr ""
+
+#: templates/phone_tab.html.twig:46
+msgid "Assigned user has no email address"
+msgstr ""
+
+#: templates/config_form.html.twig:483
+msgid "Assigned user's full name"
+msgstr ""
+
+#: templates/config_form.html.twig:466
+msgid "Available variables"
+msgstr ""
+
+#: src/Model/Phone.php:32
+msgid "Background"
+msgstr ""
+
+#: templates/phone_tab.html.twig:63
+msgid "Background preview"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:502
+msgid "Background saved successfully"
+msgstr ""
+
+#: templates/config_form.html.twig:518 templates/config_form.html.twig:537
+msgid "Bold"
+msgstr ""
+
+#: templates/config_form.html.twig:393
+msgid "Built-in font (DejaVu Sans) is always available as fallback and cannot be deleted."
+msgstr ""
+
+#: templates/config_form.html.twig:473
+msgid "Click a variable to insert it into the active field."
+msgstr ""
+
+#: templates/config_form.html.twig:481 templates/config_form.html.twig:489
+msgid "Click to insert"
+msgstr ""
+
+#: templates/phone_tab.html.twig:82
+msgid "Close"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:662
+msgid "Configure the email subject and body first"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:572
+msgid "Could not delete font"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:464
+msgid "Could not delete template"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:253 src/Controller/PhonebgController.php:370
+msgid "Could not generate wallpaper."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:244 src/Controller/PhonebgController.php:361
+msgid "Could not generate wallpaper. Check the GLPI log for details."
+msgstr ""
+
+#: src/Service/Background.php:151
+msgid "Could not load base image"
+msgstr ""
+
+#: templates/phone_tab.html.twig:108 templates/phone_tab.html.twig:126
+msgid "Could not load preview."
+msgstr ""
+
+#: src/Service/Background.php:125
+msgid "Could not read base image dimensions."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:515 src/Controller/PhonebgController.php:542 src/Controller/PhonebgController.php:551
+msgid "Could not save font"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:472 src/Controller/PhonebgController.php:496 src/Controller/PhonebgController.php:504
+msgid "Could not save template"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:287
+msgid "Could not send the email. Check the outgoing mail configuration in GLPI."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:399
+msgid "Could not send the test email. Check the outgoing mail configuration in GLPI."
+msgstr ""
+
+#: templates/config_form.html.twig:108
+msgid "Current template"
+msgstr ""
+
+#: templates/config_form.html.twig:413
+msgid "Default fallback font — cannot be deleted"
+msgstr ""
+
+#: templates/config_form.html.twig:117
+msgid "Delete template"
+msgstr ""
+
+#: templates/config_form.html.twig:429
+msgid "Delete this font?"
+msgstr ""
+
+#: templates/config_form.html.twig:401
+msgid "Description"
+msgstr ""
+
+#: templates/config_form.html.twig:170 templates/config_form.html.twig:202
+msgid "Device name"
+msgstr ""
+
+#: templates/phone_tab.html.twig:35 templates/phone_tab.html.twig:79
+msgid "Download background"
+msgstr ""
+
+#: templates/config_form.html.twig:110
+msgid "Download current template"
+msgstr ""
+
+#: templates/config_form.html.twig:158
+msgid "Drag each label to set its position. X = 0 centers the text automatically."
+msgstr ""
+
+#: templates/config_form.html.twig:49
+msgid "Email"
+msgstr ""
+
+#: templates/config_form.html.twig:514
+msgid "Email body"
+msgstr ""
+
+#: templates/config_form.html.twig:533
+msgid "Email footer"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:628
+msgid "Email settings saved"
+msgstr ""
+
+#: templates/config_form.html.twig:502
+msgid "Email subject"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:98
+msgid "Failed to generate background image."
+msgstr ""
+
+#: templates/config_form.html.twig:190
+msgid "Field"
+msgstr ""
+
+#: templates/config_form.html.twig:400
+msgid "File"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:480
+msgid "File too large (max 500 KB)"
+msgstr ""
+
+#: templates/config_form.html.twig:337
+msgid "Font"
+msgstr ""
+
+#: templates/config_form.html.twig:320
+msgid "Font color"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:570
+msgid "Font deleted successfully"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:529
+msgid "Font file too large (max 2 MB)"
+msgstr ""
+
+#: templates/config_form.html.twig:399
+msgid "Font name"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:549
+msgid "Font saved successfully"
+msgstr ""
+
+#: templates/config_form.html.twig:191
+msgid "Font size (px)"
+msgstr ""
+
+#: templates/config_form.html.twig:39
+msgid "Fonts"
+msgstr ""
+
+#: src/Model/Phone.php:79
+msgid "Generate background for: %s"
+msgstr ""
+
+#: templates/config_form.html.twig:81
+msgid "GitHub unavailable"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:660
+msgid "GLPI mail server not configured"
+msgstr ""
+
+#: src/Service/Background.php:132
+msgid "Image dimensions (%1$d x %2$d) exceed the maximum allowed (%3$d x %3$d) for security reasons."
+msgstr ""
+
+#: src/Service/Background.php:142
+msgid "Image too large (%1$d x %2$d px). Maximum 20 megapixels allowed."
+msgstr ""
+
+#: templates/config_form.html.twig:392
+msgid "Installed fonts"
+msgstr ""
+
+#: templates/config_form.html.twig:66
+msgid "Installed version"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:524 src/Controller/PhonebgController.php:534
+msgid "Invalid font format, TTF or OTF only"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:485
+msgid "Invalid format, PNG only"
+msgstr ""
+
+#: templates/config_form.html.twig:520 templates/config_form.html.twig:539
+msgid "Italic"
+msgstr ""
+
+#: templates/config_form.html.twig:178 templates/config_form.html.twig:254
+msgid "Label 1"
+msgstr ""
+
+#: templates/config_form.html.twig:182 templates/config_form.html.twig:291
+msgid "Label 2"
+msgstr ""
+
+#: templates/config_form.html.twig:259 templates/config_form.html.twig:296
+msgid "Label text"
+msgstr ""
+
+#: templates/config_form.html.twig:71
+msgid "Latest stable version on GitHub"
+msgstr ""
+
+#: templates/config_form.html.twig:174 templates/config_form.html.twig:225
+msgid "Line number"
+msgstr ""
+
+#: templates/phone_tab.html.twig:70
+msgid "Loading..."
+msgstr ""
+
+#: templates/phone_tab.html.twig:15
+msgid "No base template found."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:211
+msgid "No email address found for the assigned user."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:319
+msgid "No email address found in your GLPI profile."
+msgstr ""
+
+#: templates/config_form.html.twig:349 templates/config_form.html.twig:440
+msgid "No fonts uploaded yet"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:193
+msgid "No user assigned to this phone."
+msgstr ""
+
+#: src/Model/Phone.php:17
+msgid "Phone Background"
+msgstr ""
+
+#: templates/config_form.html.twig:491
+msgid "Phone line number"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:50
+msgid "Phone not found."
+msgstr ""
+
+#: templates/phone_tab.html.twig:8
+msgid "Phone wallpaper generator"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:672
+msgid "Phone Wallpapers"
+msgstr ""
+
+#: src/Service/Background.php:20
+msgid "PHP GD extension is required"
+msgstr ""
+
+#: templates/phone_tab.html.twig:16
+msgid "Please upload a base PNG image in the plugin settings."
+msgstr ""
+
+#: src/Service/Background.php:164
+msgid "Plugin directory not found"
+msgstr ""
+
+#: src/Service/Background.php:34
+msgid "Plugin directory not found, unable to verify TTF font"
+msgstr ""
+
+#: templates/config_form.html.twig:62
+msgid "Plugin version"
+msgstr ""
+
+#: templates/config_form.html.twig:28
+msgid "Positions"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:634
+msgid "Positions reset to default values"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:614
+msgid "Positions saved successfully"
+msgstr ""
+
+#: templates/phone_tab.html.twig:28
+msgid "Preview"
+msgstr ""
+
+#: templates/config_form.html.twig:131
+msgid "Preview new template"
+msgstr ""
+
+#: templates/config_form.html.twig:90
+msgid "Releases"
+msgstr ""
+
+#: templates/config_form.html.twig:360
+msgid "Reset to defaults"
+msgstr ""
+
+#: templates/config_form.html.twig:140 templates/config_form.html.twig:363
+msgid "Save"
+msgstr ""
+
+#: templates/config_form.html.twig:552
+msgid "Save email settings"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:664
+msgid "Send a test email to your registered GLPI address"
+msgstr ""
+
+#: templates/phone_tab.html.twig:49
+msgid "Send by email"
+msgstr ""
+
+#: templates/config_form.html.twig:560
+msgid "Send test email"
+msgstr ""
+
+#: templates/phone_tab.html.twig:41
+msgid "Send wallpaper by email to the assigned user?"
+msgstr ""
+
+#: templates/config_form.html.twig:546
+msgid "Shown below the body separated by a line. Use {name} and {line}."
+msgstr ""
+
+#: templates/config_form.html.twig:17
+msgid "Template"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:462
+msgid "Template deleted successfully"
+msgstr ""
+
+#: src/Service/Background.php:23
+msgid "Template not found"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:392
+msgid "Test email sent to %s."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:563 templates/config_form.html.twig:421
+msgid "The default font cannot be deleted"
+msgstr ""
+
+#: templates/config_form.html.twig:566
+msgid "The email will be sent to your registered GLPI address."
+msgstr ""
+
+#: src/Service/Background.php:92
+msgid "The phone has no assigned line"
+msgstr ""
+
+#: src/Service/Background.php:99
+msgid "The phone line number is empty"
+msgstr ""
+
+#: setup.php:36
+msgid "The PHP GD extension is required."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:695
+msgid "There are unsaved changes in Positions. Continue without saving?"
+msgstr ""
+
+#: src/Service/Background.php:233
+msgid "This is a test email sent from the plugin configuration."
+msgstr ""
+
+#: setup.php:34
+msgid "This plugin requires GLPI >= %1$s and < %2$s."
+msgstr ""
+
+#: setup.php:35
+msgid "This plugin requires PHP 8.2 or later."
+msgstr ""
+
+#: src/Service/Background.php:29
+msgid "TTF font not found: %s"
+msgstr ""
+
+#: templates/config_form.html.twig:522 templates/config_form.html.twig:541
+msgid "Underline"
+msgstr ""
+
+#: templates/config_form.html.twig:85
+msgid "Update available"
+msgstr ""
+
+#: templates/config_form.html.twig:385
+msgid "Upload"
+msgstr ""
+
+#: templates/config_form.html.twig:378
+msgid "Upload font"
+msgstr ""
+
+#: templates/config_form.html.twig:124
+msgid "Upload new template"
+msgstr ""
+
+#: templates/config_form.html.twig:508 templates/config_form.html.twig:527
+msgid "Use {name} for the assigned user's name and {line} for the phone line number."
+msgstr ""
+
+#: templates/config_form.html.twig:415
+msgid "User uploaded font"
+msgstr ""
+
+#: src/Controller/PhonebgController.php:275
+msgid "Wallpaper sent to %s."
+msgstr ""
+
+#: src/Controller/PhonebgController.php:61
+msgid "You are not allowed to access this phone background."
+msgstr ""

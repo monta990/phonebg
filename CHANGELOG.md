@@ -1,9 +1,29 @@
-
 # Changelog — Phone Background (phonebg)
 
 All notable changes to this project are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
+
+## [1.6.0] — 2026-08-21
+
+### Changed
+- **Modern GLPI 11/12 architecture.** Migrated the plugin to PSR-4 classes, Symfony Controllers, native `TemplateRenderer`, Symfony Mailer/Mime, GLPI lifecycle migrations, and native cache invalidation.
+- **Configuration lifecycle refactored.** Configuration persistence uses GLPI database APIs, while table creation and structural changes are owned by the plugin lifecycle and `Migration`.
+- **GitHub update checker integrated.** The installed version is sourced from `PLUGIN_PHONEBG_VERSION`, with stable-release checking, caching, limits, timeout handling and fallback behavior.
+- **JavaScript architecture modernized.** Plugin JavaScript is served through an authenticated Symfony asset route and loaded externally, removing inline scripts and inline event handlers.
+- **Template and wallpaper generation hardened.** PNG templates are validated and re-encoded before persistence; TTF/OTF parsing validates SFNT tables, offsets, lengths and name records.
+- **Preview and error handling improved.** Preview requests now expose the same specific generation errors used by the download flow instead of generic HTTP-only messages.
+- **Email delivery updated.** Wallpaper and test emails use Symfony Mailer with the transport configured by GLPI.
+- **GLPI cache is cleared on plugin installation and update lifecycle.**
+- **Translations reviewed and synchronized** for the distributed `es_MX` and `fr_FR` catalogs.
+
+### Fixed
+- Symfony Controller route registration and plugin configuration routing.
+- Template resource responses returning the wrong value from `isNotModified()`.
+- Current-template cache-busting query string.
+- Namespaced `GdImage` type check during PNG generation.
+- Preview JSON error handling.
+- Symfony Mailer Controller dependency resolution.
 
 ---
 
@@ -14,13 +34,15 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - **Version status and Releases access.** The configuration header indicates whether the installed version is current and provides direct access to the plugin's GitHub Releases page.
 - **Resilient version lookup.** GitHub checks use a short timeout, a bounded response size, six-hour caching, atomic cache writes, and fall back to the last known version if GitHub is temporarily unavailable.
 
+
 ### Changed
 - **Translations reviewed and synchronized.** Updated the translation template and synchronized the Spanish and French catalogs with the current plugin strings; regenerated the compiled `.mo` files.
 - **Security hardening.** Strengthened TTF/OTF structural validation with bounded table counts and file-offset checks, and disabled unnecessary HTTP redirects in the fixed GitHub API version check.
 - **Internal error redirects hardened.** Removed reliance on the client-controlled `HTTP_REFERER` header from background download error handling; failures now redirect to a fixed internal GLPI phone page.
-- **Font metadata parser hardened.** `parseFontName()` now bounds SFNT/name-table record counts and validates every declared offset and length against the actual font file before seeking or reading.
 
 ---
+- **Font metadata parser hardened.** `parseFontName()` now bounds SFNT/name-table record counts and validates every declared offset and length against the actual font file before seeking or reading.
+
 
 ## [1.5.6] — 2026-05-24
 

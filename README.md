@@ -82,29 +82,34 @@ Positions are stored in the `glpi_plugin_phonebg_config` database table and surv
 
 ## File structure
 
-```
+```text
 phonebg/
-├── fonts/
-│   └── DejaVuSans.ttf          # Bundled TrueType font
-├── front/
-│   ├── config.form.php         # Admin settings page — POST handlers + data prep
-│   ├── download.php            # PNG generation, download & preview endpoint
-│   ├── send.php                # Email send endpoint (phone tab + test send)
-│   └── resource.send.php       # Authenticated template image server
-├── inc/
-│   ├── background.class.php    # GD image generation logic
-│   ├── config.class.php        # DB-backed layout configuration
-│   ├── paths.class.php         # Centralized paths & URLs
-│   ├── phone.class.php         # Phone asset tab integration
-│   └── renderer.class.php      # Twig template renderer helper
+├── src/
+│   ├── Controller/
+│   │   └── PhonebgController.php   # Symfony routes: config, preview/download, resource and email
+│   ├── Model/
+│   │   └── Phone.php               # Phone asset tab integration
+│   └── Service/
+│       ├── Background.php           # GD image generation logic
+│       ├── Cache.php                # GLPI native cache cleanup on install/update
+│       ├── Mail.php                 # Native Symfony Mailer integration
+│       ├── Config.php               # DB-backed layout configuration
+│       ├── Paths.php                # Centralized filesystem paths and controller URLs
+│       ├── Renderer.php             # Namespaced Twig renderer
+│       └── VersionChecker.php       # GitHub stable-release checker with cache/fallback
+├── config.php              # GLPI config_page bridge
 ├── templates/
-│   ├── config_form.html.twig   # Admin settings page HTML
-│   └── phone_tab.html.twig     # Phone asset tab HTML + preview modal
-├── locales/                    # i18n: es_MX, en_US, en_GB, fr_FR
-├── logo.png                    # Plugin icon (128×128, transparent background)
-├── setup.php                   # Registration, hooks, install/uninstall
-├── LICENSE                     # GPLv3
-└── README.md                   # This file
+│   ├── config_form.html.twig        # Admin settings page HTML
+│   └── phone_tab.html.twig          # Phone asset tab HTML + preview modal
+├── locales/                         # i18n: es_MX, en_US, en_GB, fr_FR
+├── fonts/
+│   └── DejaVuSans.ttf               # Bundled TrueType font
+├── hook.php                         # Idempotent install/uninstall lifecycle
+├── setup.php                        # Plugin metadata, hooks and registration
+├── plugin.xml                       # Marketplace metadata
+├── logo.png                         # Plugin icon
+├── LICENSE                          # GPLv3
+└── README.md                        # This file
 ```
 
 ## Uninstallation

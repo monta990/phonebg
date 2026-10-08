@@ -100,7 +100,9 @@
       <div class="tab-pane fade{{ active_tab == 'template' ? ' show active' : '' }}"
            id="phonebg-tab-template" role="tabpanel">
          <form method="post" action="{{ self_url }}" enctype="multipart/form-data">
+            {% if csrf_token %}
             <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            {% endif %}
             <div class="card-body">
 
                {% if has_base %}
@@ -150,7 +152,9 @@
       <div class="tab-pane fade{{ active_tab == 'positions' ? ' show active' : '' }}"
            id="phonebg-tab-positions" role="tabpanel">
          <form method="post" action="{{ self_url }}">
+            {% if csrf_token %}
             <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            {% endif %}
             <div class="card-body">
 
                <p class="small mb-3">
@@ -378,7 +382,9 @@
                <p class="fw-semibold mb-1">{{ __('Upload font', 'phonebg') }}</p>
                <p class="small mb-2">{{ __('Accepted formats: TTF · OTF · Max 2 MB', 'phonebg') }}</p>
                <form method="post" action="{{ self_url }}" enctype="multipart/form-data">
+                  {% if csrf_token %}
                   <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+                  {% endif %}
                   <div class="input-group" style="max-width:480px">
                      <input type="file" name="font_file" class="form-control" accept=".ttf,.otf">
                      <button type="submit" name="upload_font" class="btn btn-primary gap-1">
@@ -423,7 +429,9 @@
                            </button>
                            {% else %}
                            <form method="post" action="{{ self_url }}" style="display:inline">
+                              {% if csrf_token %}
                               <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+                              {% endif %}
                               <input type="hidden" name="delete_font" value="{{ fname }}">
                               <button type="submit" class="btn btn-sm btn-outline-danger"
                                       data-phonebg-confirm="{{ __('Delete this font?', 'phonebg') }}">
@@ -450,7 +458,9 @@
       <div class="tab-pane fade{{ active_tab == 'email' ? ' show active' : '' }}"
            id="phonebg-tab-email" role="tabpanel">
          <form method="post" action="{{ self_url }}?tab=email">
+            {% if csrf_token %}
             <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            {% endif %}
 
             <div class="card-body">
 
@@ -576,7 +586,9 @@
 
 {# Hidden test-mail form — outside email tab form, uses HTML5 form= attribute #}
 <form id="phonebg-test-mail-form" method="post" action="{{ test_url }}" style="display:none;">
+   {% if test_csrf_token %}
    <input type="hidden" name="_glpi_csrf_token" value="{{ test_csrf_token }}">
+   {% endif %}
    <input type="hidden" name="is_test" value="1">
 </form>
 

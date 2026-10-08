@@ -28,7 +28,7 @@ Phone Background generates personalized PNG wallpapers for corporate phones regi
 
 | Requirement     | Minimum version        |
 |-----------------|------------------------|
-| GLPI            | ≥ 11.0                 |
+| GLPI            | 11.x / 12.x            |
 | PHP             | ≥ 8.2                  |
 | PHP extension   | GD (image processing)  |
 
@@ -77,7 +77,7 @@ Positions are stored in the `glpi_plugin_phonebg_config` database table and surv
 
 1. Open any **Phone** asset in GLPI.
 2. Click the **Background** tab.
-   Note on permissions: For security and privacy reasons, only GLPI Administrators, Technicians, or the specific User assigned to the phone can generate and preview/download the background.
+   Note on permissions: For security and privacy reasons, access is limited to GLPI Administrators, the specific User assigned to the phone, or users with the Phone READ permission.
 3. Click **Preview** to see the generated wallpaper inline, **Download background** to save the PNG file, or **Send by email** to deliver the wallpaper as an attachment to the assigned user's default email address.
 
 ## File structure
@@ -87,7 +87,7 @@ phonebg/
 ├── src/
 │   ├── Controller/
 │   │   └── PhonebgController.php   # Symfony routes: config, preview/download, resource and email
-│   ├── Model/
+│   │   ├── Model/
 │   │   └── Phone.php               # Phone asset tab integration
 │   └── Service/
 │       ├── Background.php           # GD image generation logic
@@ -97,7 +97,6 @@ phonebg/
 │       ├── Paths.php                # Centralized filesystem paths and controller URLs
 │       ├── Renderer.php             # Namespaced Twig renderer
 │       └── VersionChecker.php       # GitHub stable-release checker with cache/fallback
-├── config.php              # GLPI config_page bridge
 ├── templates/
 │   ├── config_form.html.twig        # Admin settings page HTML
 │   └── phone_tab.html.twig          # Phone asset tab HTML + preview modal

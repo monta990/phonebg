@@ -9,7 +9,7 @@ if (!defined('GLPI_ROOT')) {
    die('Direct access not allowed');
 }
 
-define('PLUGIN_PHONEBG_VERSION', '1.6.0');
+define('PLUGIN_PHONEBG_VERSION', '1.6.1');
 define('PLUGIN_PHONEBG_MIN_GLPI_VERSION', '11.0.0');
 define('PLUGIN_PHONEBG_MAX_GLPI_VERSION', '13.0.0');
 

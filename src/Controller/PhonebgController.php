@@ -684,7 +684,7 @@ final class PhonebgController extends AbstractController
       \Html::displayMessageAfterRedirect();
       echo Renderer::render('config_form.html.twig', [
          'self_url' => Paths::configUrl(),
-         'csrf_token' => \Session::getNewCSRFToken(),
+         'csrf_token' => $this->getLegacyCsrfToken(),
          'has_base' => $has_base,
          'base_url' => $base_url,
          'base_url_ts' => $base_url_ts,
@@ -707,7 +707,7 @@ final class PhonebgController extends AbstractController
          'email_body' => (string) $config['email_body'],
          'email_footer' => (string) ($config['email_footer'] ?? ''),
          'test_url' => Paths::sendUrl(),
-         'test_csrf_token' => \Session::getNewCSRFToken(),
+         'test_csrf_token' => $this->getLegacyCsrfToken(),
          'mail_ok' => $mail_ok,
          'has_email_config' => $has_email_config,
          'btn_tooltip' => $button_tooltip,
@@ -726,8 +726,25 @@ final class PhonebgController extends AbstractController
          return true;
       }
 
-      return (int) ($phone->fields['users_id'] ?? 0) === $current_user_id
-         || $phone->canViewItem();
+      // The assigned user may access their own phone background even when
+      // they do not have the global Phone READ right. For all other users,
+      // require the actual Phone READ permission in addition to entity access.
+      if ((int) ($phone->fields['users_id'] ?? 0) === $current_user_id) {
+         return true;
+      }
+
+      return $phone->can($phone->getID(), READ);
+   }
+
+   /**
+    * GLPI 11 still requires the legacy session CSRF token on plugin forms.
+    * GLPI 12+ performs CSRF protection natively and deprecated the token API.
+    */
+   private function getLegacyCsrfToken(): ?string
+   {
+      return version_compare(GLPI_VERSION, '12.0.0', '<')
+         ? \Session::getNewCSRFToken()
+         : null;
    }
 
    private function phoneBackUrl(int $phone_id): string

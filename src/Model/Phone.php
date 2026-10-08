@@ -83,7 +83,9 @@ class Phone extends \CommonGLPI {
          'modal_id'         => 'pb-preview-modal-' . $phoneId,
          'has_assigned_user' => $assignedUserId > 0,
          'has_email'        => $hasEmail,
-         'csrf_token'       => \Session::getNewCSRFToken(),
+         'csrf_token'       => version_compare(GLPI_VERSION, '12.0.0', '<')
+            ? \Session::getNewCSRFToken()
+            : null,
       ]);
    }
 }

@@ -4,9 +4,23 @@ All notable changes to this project are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [1.6.1] — 2026-10-08
+
+### Security
+
+- **Authorization bypass fixed.** Phone background generation and preview now require the actual Phone READ permission for non-admin users instead of relying only on entity visibility. The explicitly assigned user exception is preserved.
+
+### Fixed
+
+- **GLPI 11/12 CSRF compatibility.** GLPI 11 continues to receive the legacy `_glpi_csrf_token`; GLPI 12 no longer calls the deprecated `Session::getNewCSRFToken()` API or renders legacy CSRF hidden fields, relying on GLPI 12 native CSRF protection.
+- **Documentation consistency.** Removed stale `config.php` and corrected the documented permission model and file structure.
+
+---
+
 ## [1.6.0] — 2026-08-21
 
 ### Changed
+
 - **Modern GLPI 11/12 architecture.** Migrated the plugin to PSR-4 classes, Symfony Controllers, native `TemplateRenderer`, Symfony Mailer/Mime, GLPI lifecycle migrations, and native cache invalidation.
 - **Configuration lifecycle refactored.** Configuration persistence uses GLPI database APIs, while table creation and structural changes are owned by the plugin lifecycle and `Migration`.
 - **GitHub update checker integrated.** The installed version is sourced from `PLUGIN_PHONEBG_VERSION`, with stable-release checking, caching, limits, timeout handling and fallback behavior.
@@ -18,6 +32,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - **Translations reviewed and synchronized** for the distributed `es_MX` and `fr_FR` catalogs.
 
 ### Fixed
+
 - Symfony Controller route registration and plugin configuration routing.
 - Template resource responses returning the wrong value from `isNotModified()`.
 - Current-template cache-busting query string.
@@ -30,23 +45,25 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.5.7] — 2026-07-27
 
 ### Added
+
 - **GitHub version checker in plugin configuration.** The configuration page now shows the installed version and the latest stable version published on GitHub, following the same presentation used by the Responsivas plugin.
 - **Version status and Releases access.** The configuration header indicates whether the installed version is current and provides direct access to the plugin's GitHub Releases page.
 - **Resilient version lookup.** GitHub checks use a short timeout, a bounded response size, six-hour caching, atomic cache writes, and fall back to the last known version if GitHub is temporarily unavailable.
 
 
 ### Changed
+
 - **Translations reviewed and synchronized.** Updated the translation template and synchronized the Spanish and French catalogs with the current plugin strings; regenerated the compiled `.mo` files.
 - **Security hardening.** Strengthened TTF/OTF structural validation with bounded table counts and file-offset checks, and disabled unnecessary HTTP redirects in the fixed GitHub API version check.
 - **Internal error redirects hardened.** Removed reliance on the client-controlled `HTTP_REFERER` header from background download error handling; failures now redirect to a fixed internal GLPI phone page.
-
----
 - **Font metadata parser hardened.** `parseFontName()` now bounds SFNT/name-table record counts and validates every declared offset and length against the actual font file before seeking or reading.
 
+---
 
 ## [1.5.6] — 2026-05-24
 
 ### Fixed
+
 - **Font upload crash.** `fopen()` return value not checked before `fread()`; now redirects with error message if the uploaded font file cannot be opened.
 - **Silent PNG generation failure.** `imagepng()` return value not checked; failed renders now return empty string instead of a path to a non-existent file.
 - **Auth type-juggling in download.php.** Owner check used loose `==` between DB string and session int; now uses strict `===` with explicit `(int)` cast on both sides.
@@ -57,23 +74,26 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.5.5] — 2026-05-22
 
 ### Fixed
+
 - **Accessibility: label-input association warnings.** Three `<label>` elements in the Template config tab that were not associated with form fields now use the correct element (`<p>` for display-only captions, `for`/`id` pair for the file upload input).
 
 ---
 
-
 ## [1.5.4] — 2026-05-08
 
 ### Added
+
 - **Email delivery from the phone tab.** A "Send by email" button now appears on each phone's Background tab. Clicking it generates the wallpaper and sends it as a PNG attachment to the default email address of the user assigned to that phone. The button is disabled when the assigned user has no email address.
 - **Email settings tab in admin config.** New "Email" tab under plugin settings lets admins configure the email subject and body. Both fields support `{name}` (assigned user's full name) and `{line}` (phone line number) tokens.
 - **Test-send button in Email config tab.** Admins can now send a test wallpaper email to their own GLPI address directly from the plugin settings. Button is disabled when GLPI mail is not configured or when subject/body are empty, with tooltip explaining why. Uses placeholder device name (admin's display name) and line number `555-0000`.
 - **GLPI mail log integration** — successful deliveries now write tagged entries to `files/_log/mail.log`, through `Toolbox::logInFile()`.
 
 ### Fixed
+
 - **Locale coverage.** Added translations for all email-related strings in `es_MX` and `fr_FR` (send flow messages, email tab UI, test-send labels — previously untranslated).
 
 ### Changed
+
 - **GLPI 11/12 compatibility.** Replaced `Plugin::getWebDir()` with `PluginPhonebgPaths::webDir()` (new method, falls back to `PLUGINS_WEB_DIR` constant on GLPI 12). Replaced procedural `finfo_open/close` with OOP `finfo` class.
 - **`generatePNG` refactored.** Image rendering extracted into private `renderPNG()` helper; `generatePNG()` and new `generateTestPNG()` both delegate to it. No behavior change for the existing send flow.
 - **`PluginPhonebgBackground::getPhoneLine()` made public** so it can be reused by the email send flow.
@@ -83,6 +103,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.5.3] — 2026-05-05
 
 ### Fixed
+
 - **Preview modal shows specific error messages.** Previously, when image generation failed (no line assigned, empty line, missing template, GD not available), the preview modal showed a generic "Could not load preview" message while the download button showed the specific error. Both now show the same specific message.
 - **`download.php` returns JSON on preview errors.** When `?preview=1` is set, validation and generation failures return `{"error": "..."}` instead of redirecting — the modal JS reads and displays the exact message.
 - **`PluginPhonebgBackground::$lastError`** static property captures the specific failure reason from `generatePNG()` so `download.php` can surface it without refactoring the return contract.
@@ -92,6 +113,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.5.2] — 2026-05-03
 
 ### Fixed
+
 - **getAll() static cache.**  0 queries in batch PNG generation.
 - **set() → ON DUPLICATE KEY UPDATE.** 2 queries → 1 per field.
 - **saveAll() batch upsert.** 32 queries → 1 at save config.
@@ -106,6 +128,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.5.1] — 2026-05-02
 
 ### Changed
+
 - Changed imagedestroy() to unset() for future PHP 8.6+ proof.
 
 ---
@@ -113,16 +136,19 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.5.0] — 2026-04-24
 
 ### Added
+
 - **Twig templates.** HTML output migrated from inline PHP `echo` strings to Twig templates (`templates/config_form.html.twig`, `templates/phone_tab.html.twig`). All business logic, POST handlers, and redirects remain in PHP — only the HTML layer moved to Twig.
 - **`inc/renderer.class.php`** (`PluginPhonebgRenderer`): helper class that resolves template paths relative to `GLPI_ROOT` (handles both `plugins/` and `marketplace/` installation locations) and wraps `TemplateRenderer::getInstance()`.
 - **GLPI 10.0+ compatibility.** Plugin now works with GLPI 10.0, 11.x, and is ready for 12+. `TemplateRenderer` (used internally by this plugin since this version) has been available since GLPI 10.0.0.
 
 ### Changed
+
 - Minimum GLPI version lowered from `11.0` to `10.0`.
 - Minimum PHP version lowered from `8.2` to `8.0` (actual minimum imposed by `mixed` return type and `GdImage` type hint).
 - `plugin.xml`: added `1.5.0` version entry with `>=10.0` compatibility range.
 
 ### Upgrade notes
+
 - **Safe to upgrade from any previous version.** No database changes — `glpi_plugin_phonebg_config` table is unchanged. No data migration needed. All existing configuration, uploaded templates, and uploaded fonts are preserved.
 - New files added: `inc/renderer.class.php`, `templates/config_form.html.twig`, `templates/phone_tab.html.twig`. No files removed.
 
@@ -131,10 +157,12 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.4.2] — 2026-04-19
 
 ### Added
+
 - **Custom labels.** Two fully configurable text labels (Label 1, Label 2) can be overlaid on the wallpaper. Each label has its own text content, X/Y position, font size, and an enable/disable toggle in the **Positions** tab. Disabled labels are excluded from image generation entirely.
 - **Improved no-line warning.** When a phone has no assigned line, the download correctly aborts. The user-facing warning is now the only message shown — previously `download.php` also added a redundant generic "Could not generate image" error on top of the specific warning, causing two conflicting messages to appear.
 
 ### Changed
+
 - 4 new translatable strings added across all locales (es_MX, fr_FR, en_US, en_GB): `Label 1`, `Label 2`, `Label text`, `Enable`.
 - `PluginPhonebgConfig`: added 10 new config keys with defaults — `label1_enabled` / `label2_enabled` (default `0`), `label1_text` / `label2_text` (default empty), `label1_x` / `label2_x` (default `0`), `label1_y` / `label2_y` (defaults `650` / `720`), `label1_size` / `label2_size` (default `40`).
 
@@ -143,8 +171,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.4.1] — 2026-04-05
 
 ### Added
-**Security**
-- Strict access control on download: Added permission validation in front/download.php. Only administrators, technicians (with access to the asset's entity), or the specific user assigned to the phone can now generate and download the wallpaper. (Fixes potential unauthorized cross-entity access / IDOR).
+
+- Security - Strict access control on download: Added permission validation in front/download.php. Only administrators, technicians (with access to the asset's entity), or the specific user assigned to the phone can now generate and download the wallpaper. (Fixes potential unauthorized cross-entity access / IDOR).
 - DoS prevention on image processing: Implemented dimension validation in inc/background.class.php using getimagesize() before loading the template into memory with GD. Images exceeding 8000x8000 pixels are now rejected (a generous limit for any real device), preventing Denial of Service attacks via RAM exhaustion caused by highly compressed malicious PNG files.
 
 ---
@@ -152,6 +180,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.4.0] — 2026-03-27
 
 ### Added
+
 - **Custom font support.** Users can upload TrueType (TTF) or OpenType (OTF) fonts from a new **Fonts** tab in the plugin settings. Uploaded fonts are stored in `files/_plugins/phonebg/fonts/` and survive plugin upgrades.
 - Font selector in the **Positions** tab — choose any installed font from a dropdown; the selection is applied to both text fields when generating the wallpaper.
 - Font validation: file size (max 2 MB), extension allowlist (`.ttf`, `.otf`), and magic-byte check (`00 01 00 00`, `true`, `OTTO`) to reject non-font binaries regardless of filename.
@@ -160,6 +189,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - 13 new translatable strings across all locales (es_MX full, fr_FR full, en_US/en_GB base).
 
 ### Changed
+
 - `PluginPhonebgPaths`: added `fontsDir()`, `listFonts()`, and `getFontPath(string $filename)`. The old `getFontDejaVuSans()` is replaced — font resolution now goes through `getFontPath()` which checks the user fonts directory first and falls back to the bundled font.
 - `PluginPhonebgConfig`: added `font_file` key with default `DejaVuSans.ttf`.
 - Positions tab dirty-change detection now also watches `<select>` elements.
@@ -169,6 +199,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.3.0] — 2026-03-23
 
 ### Changed
+
 - **Base language changed from Spanish to English.** All translatable strings (`__()` calls) now use English as the msgid. GLPI installations without a matching locale now display English instead of Spanish.
 - `es_MX.po`: updated to translate English msgids → Spanish msgstr (full coverage, 51 strings).
 - `fr_FR.po`: updated to translate English msgids → French msgstr (full coverage, 51 strings).
@@ -183,6 +214,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.2.2] — 2026-03-22
 
 ### Fixed
+
 - README: removed GLPI maximum version (12.0) — GLPI 12 does not exist; compatibility is declared as 11.0+.
 - README (ES): removed leftover `Versión: 1.2.0` badge from the Spanish section.
 - `setup.php`: removed `max` GLPI version requirement — plugin is no longer artificially capped at 12.0.
@@ -195,6 +227,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.2.1] — 2026-03-13
 
 ### Fixed
+
 - Position editor: draggable labels now render at the actual configured font size instead of a hardcoded 12 px, giving an accurate visual preview of text proportions on the template.
 - Position editor: changing the font size input now immediately updates the label size in the editor and recalculates its position, keeping X/Y values in sync.
 - Config page: hint text ("PNG · Máx 500 KB") was invisible on dark themes; now inherits the theme text color and is always readable.
@@ -203,6 +236,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Color picker: replaced GLPI's custom `form-control-color` widget (whose RGB slider did not update values) with a native browser color swatch paired with a hex text input; both stay in sync in real time.
 
 ### Improved
+
 - Image generation: auto-shrink now also applies to the line number text, not just the phone name — prevents long numbers from overflowing the image border.
 - Image generation: distinguished between a phone with no line assigned (`null`) and a phone whose line number is stored but empty, providing a more descriptive warning message in each case.
 - Position editor UX: switching to the Template tab while there are unsaved position or font changes triggers a confirmation dialog.
@@ -212,17 +246,20 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.2.0] — 2026-03-08
 
 ### Added
+
 - `plugin.xml` following the GLPI marketplace schema — enables listing in the official GLPI plugin directory. Includes multilingual descriptions (en/es), version history, download URLs pointing to GitHub releases, and language/tag metadata.
 - Configuration page now uses Bootstrap tabs: **Plantilla** (upload/delete) and **Posiciones** (position editor), matching GLPI's native tab style.
 - Preview button in Phone asset tab opens a modal with the generated wallpaper inline before downloading.
 - `download.php` supports `?preview=1` parameter to serve the PNG inline (`Content-Disposition: inline`).
 
 ### Fixed
+
 - Drag-and-drop position editor: labels are now fully draggable without accidentally selecting or dragging the background image (`pointer-events:none` on `<img>`, `draggable="false"`, `user-select:none` on container).
 - Position editor image is now displayed at its real pixel dimensions (no `max-height` constraint); the outer container scrolls if needed.
 - Draggable labels initialize at the correct position on page load, reading saved X/Y values from the plugin configuration.
 
 ### Changed
+
 - Folder distributed as `phonebg` (no suffix).
 - Plugin logo redesigned: phone icon with a landscape wallpaper in the foreground, transparent background, no text. Replaces the previous blue-background version.
 - README updated to display the logo as a centered header in both English and Spanish sections, and reflects all v1.2.0 features.
@@ -232,6 +269,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.1.0] — 2025-03-08 *(unreleased — changes merged into v1.2.0)*
 
 ### Added
+
 - **Visual position editor** in the settings page: drag-and-drop labels directly over the template preview to position device name and line number text.
 - **`PluginPhonebgConfig` class** (`inc/config.class.php`): DB-backed layout configuration stored in `glpi_plugin_phonebg_config`. Survives plugin upgrades.
 - **Per-field controls**: font size (px), X coordinate, Y coordinate, and font color (`<input type="color">`) for each text field.
@@ -245,12 +283,14 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - New `CHANGELOG.md`.
 
 ### Changed
+
 - `background.class.php`: `drawCenteredText()` replaced by `drawText()` which accepts an explicit X coordinate (0 = auto-center).
 - `setup.php`: version bumped to `1.1.0`; `plugin_phonebg_install()` calls `PluginPhonebgConfig::createTable()`.
 - `phone.class.php`: removed stale commented-out `require_once` line.
 - `config.form.php`: removed unused `global $CFG_GLPI` declaration.
 
 ### Locales
+
 - 12 new translatable strings added across all four locales (es_MX, en_US, en_GB, fr_FR).
 - All `.po` and `.mo` files updated to version 1.1.0 with 43 strings total.
 
@@ -259,9 +299,11 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.0.1] — 2025-03-08
 
 ### Added
+
 - Official plugin logo `logo.png` (128 × 128 px) for display in the GLPI Marketplace.
 
 ### Changed
+
 - Version bumped to `1.0.1` in `setup.php` and `README.md`.
 
 ---
@@ -269,6 +311,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ## [1.0.0] — 2025-02-26
 
 ### Added
+
 - Initial release.
 - Generates personalized PNG wallpapers for GLPI Phone assets using a custom PNG template.
 - Overlays phone name and assigned line number (from `glpi_items_lines`) onto the template using GD + DejaVu Sans TTF.

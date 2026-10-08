@@ -39,7 +39,9 @@
          {% if has_assigned_user %}
          <form method="post" action="{{ send_url }}" style="display:inline"
                data-phonebg-confirm="{{ __('Send wallpaper by email to the assigned user?', 'phonebg') }}">
+            {% if csrf_token %}
             <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token }}">
+            {% endif %}
             <input type="hidden" name="phoneid" value="{{ phone_id }}">
             <button type="submit" class="btn btn-outline-primary"
                     {% if not has_base or not has_email %}disabled

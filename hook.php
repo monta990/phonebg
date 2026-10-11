@@ -21,21 +21,21 @@ function plugin_phonebg_install(): bool
       $charset = \DBConnection::getDefaultCharset();
       $collation = \DBConnection::getDefaultCollation();
 
-      $DB->doQuery(
-         "CREATE TABLE `" . $table . "` (
-            `id` int unsigned NOT NULL AUTO_INCREMENT,
-            `name` varchar(100) NOT NULL,
-            `value` text,
-            PRIMARY KEY (`id`),
-            UNIQUE KEY `name` (`name`)
-         ) ENGINE=InnoDB DEFAULT CHARSET=" . $charset . " COLLATE=" . $collation . " ROW_FORMAT=DYNAMIC"
-      );
+      $query = "CREATE TABLE `" . $table . "` (
+         `id` int unsigned NOT NULL AUTO_INCREMENT,
+         `name` varchar(100) NOT NULL,
+         `value` text,
+         PRIMARY KEY (`id`),
+         UNIQUE KEY `name` (`name`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=" . $charset . " COLLATE=" . $collation . " ROW_FORMAT=DYNAMIC";
+
+      // Defer schema creation to GLPI's migration lifecycle.
+      $migration->addPostQuery($query);
    }
 
-   // Future structural changes belong here on the Migration instance.
-   Config::ensureDefaults();
-
+   // Execute the schema query before Config accesses the table.
    $migration->executeMigration();
+   Config::ensureDefaults();
    Paths::ensureBundledFont();
    Cache::clearOnLifecycle();
    return true;

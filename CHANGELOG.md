@@ -4,6 +4,15 @@ All notable changes to this project are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [1.6.2] — 2026-10-11
+
+### Fixed
+
+- **Migration lifecycle.** Configuration-table creation is now queued with `Migration::addPostQuery()` instead of executing `$DB->doQuery()` directly.
+- **Installation order.** The migration is executed before configuration defaults are inserted, ensuring the table exists when `Config::ensureDefaults()` runs.
+
+---
+
 ## [1.6.1] — 2026-10-08
 
 ### Security

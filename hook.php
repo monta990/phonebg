@@ -12,30 +12,30 @@ if (!defined('GLPI_ROOT')) {
 
 function plugin_phonebg_install(): bool
 {
-   global $DB;
-
-   $migration = new Migration(PLUGIN_PHONEBG_VERSION);
-   $table = Config::TABLE;
-
-   if (!$DB->tableExists($table)) {
-      $charset = \DBConnection::getDefaultCharset();
-      $collation = \DBConnection::getDefaultCollation();
-
-      $query = "CREATE TABLE `" . $table . "` (
-         `id` int unsigned NOT NULL AUTO_INCREMENT,
-         `name` varchar(100) NOT NULL,
-         `value` text,
-         PRIMARY KEY (`id`),
-         UNIQUE KEY `name` (`name`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=" . $charset . " COLLATE=" . $collation . " ROW_FORMAT=DYNAMIC";
-
-      // Defer schema creation to GLPI's migration lifecycle.
-      $migration->addPostQuery($query);
+   // Move old table-backed settings first. If verification fails, preserve the
+   // legacy table and abort instead of silently reverting the user's settings.
+   if (!Config::migrateLegacyStorage()) {
+      return false;
    }
 
-   // Execute the schema query before Config accesses the table.
+   try {
+      Config::ensureDefaults();
+   } catch (Throwable $e) {
+      \Toolbox::logInFile(
+         'phonebg',
+         'Unable to initialize native plugin configuration; legacy storage was preserved. ' . $e->getMessage(),
+         false,
+         false
+      );
+      return false;
+   }
+
+   // The old table is dropped only after migration and default initialization
+   // have succeeded. The plugin does not create its own configuration table.
+   $migration = new Migration(PLUGIN_PHONEBG_VERSION);
+   $migration->dropTable(Config::LEGACY_TABLE);
    $migration->executeMigration();
-   Config::ensureDefaults();
+
    Paths::ensureBundledFont();
    Cache::clearOnLifecycle();
    return true;
@@ -43,9 +43,14 @@ function plugin_phonebg_install(): bool
 
 function plugin_phonebg_uninstall(): bool
 {
+   // Remove only this plugin's namespaced entries from glpi_configs.
+   Config::removeConfiguration();
+
+   // Compatibility cleanup for installations being upgraded from older releases.
    $migration = new Migration(PLUGIN_PHONEBG_VERSION);
-   $migration->dropTable(Config::TABLE);
+   $migration->dropTable(Config::LEGACY_TABLE);
    $migration->executeMigration();
+
    Cache::clearOnLifecycle();
    return true;
 }

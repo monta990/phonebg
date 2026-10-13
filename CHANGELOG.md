@@ -4,12 +4,23 @@ All notable changes to this project are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
 
+## [1.6.3] — 2026-10-13
+
+### Fixed
+
+- **Removed custom configuration-table creation.** Plugin settings now use GLPI’s native `\Config` API in the dedicated `plugin:phonebg` context; the plugin no longer contains a `CREATE TABLE` statement.
+- **Safe legacy configuration migration.** Existing values are copied to native storage and verified before the legacy table is removed. Existing native values take precedence, and a failed verification aborts installation/update while preserving the old table.
+- **Configuration lifecycle.** Default initialization now verifies persisted keys, reset and uninstall operate only on this plugin’s configuration context, and uninstallation cleans up any remaining legacy table.
+- **Documentation updated** to describe native configuration storage and the legacy migration path.
+
+---
+
 ## [1.6.2] — 2026-10-11
 
 ### Fixed
 
-- **Migration lifecycle.** Configuration-table creation is now queued with `Migration::addPostQuery()` instead of executing `$DB->doQuery()` directly.
-- **Installation order.** The migration is executed before configuration defaults are inserted, ensuring the table exists when `Config::ensureDefaults()` runs.
+- **Migration lifecycle.** Configuration-table creation was queued with `Migration::addPostQuery()` instead of executing `$DB->doQuery()` directly. This intermediate approach was superseded in 1.6.3 by removing the plugin-owned configuration table entirely.
+- **Installation order.** The migration was executed before configuration defaults were inserted, ensuring the table existed when `Config::ensureDefaults()` ran.
 
 ---
 

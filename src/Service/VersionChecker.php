@@ -11,8 +11,8 @@ if (!defined('GLPI_ROOT')) {
 /**
  * GitHub release checker for phonebg.
  *
- * The checker is deliberately isolated from the plugin configuration table:
- * a GitHub/network failure can never affect the normal plugin configuration.
+ * The checker is independent of configuration persistence:
+ * a GitHub/network failure can never affect the plugin's saved settings.
  */
 class VersionChecker {
 

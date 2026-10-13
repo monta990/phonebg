@@ -1,8 +1,17 @@
 # Changelog — Phone Background (phonebg)
 
+
 All notable changes to this project are documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 Versioning follows [Semantic Versioning](https://semver.org/).
+
+## [1.6.4] — 2026-10-13
+
+### Fixed
+
+- **Font deletion crash.** Replaced the call to the nonexistent `Config::set()` method with `Config::saveAll()`, persisting the fallback font (`DejaVuSans.ttf`) through GLPI's native `plugin:phonebg` configuration context when the active custom font is deleted.
+
+---
 
 ## [1.6.3] — 2026-10-13
 

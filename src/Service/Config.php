@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace GlpiPlugin\Phonebg\Service;
 
+use Throwable;
+
 final class Config
 {
-   public const TABLE = 'glpi_plugin_phonebg_config';
+   /** Legacy table retained only for a one-time, verified migration. */
+   public const LEGACY_TABLE = 'glpi_plugin_phonebg_config';
+   private const CONTEXT = 'plugin:phonebg';
+
    private static ?array $cache = null;
 
    /** Default values for supported plugin configuration keys. */
@@ -40,25 +45,27 @@ final class Config
       return $all[$name] ?? null;
    }
 
+   /**
+    * Read only this plugin's values through GLPI's native configuration API.
+    */
    public static function getAll(): array
    {
       if (self::$cache !== null) {
          return self::$cache;
       }
 
-      global $DB;
       $result = self::$defaults;
-      $iterator = $DB->request(['FROM' => self::TABLE]);
-      foreach ($iterator as $row) {
-         $name = (string) ($row['name'] ?? '');
-         if ($name !== '' && array_key_exists($name, $result)) {
-            $result[$name] = (string) ($row['value'] ?? '');
+      $stored = \Config::getConfigurationValues(self::CONTEXT, array_keys(self::$defaults));
+      foreach ($stored as $name => $value) {
+         if (array_key_exists($name, $result)) {
+            $result[$name] = (string) ($value ?? '');
          }
       }
 
       return self::$cache = $result;
    }
 
+   /** Save only known plugin settings via GLPI's native configuration API. */
    public static function saveAll(array $data): void
    {
       $data = array_intersect_key($data, self::$defaults);
@@ -66,27 +73,18 @@ final class Config
          return;
       }
 
-      global $DB;
       foreach ($data as $name => $value) {
-         $DB->updateOrInsert(
-            self::TABLE,
-            [
-               'name'  => (string) $name,
-               'value' => (string) $value,
-            ],
-            [
-               'name' => (string) $name,
-            ]
-         );
+         $data[$name] = (string) $value;
       }
 
+      \Config::setConfigurationValues(self::CONTEXT, $data);
       self::$cache = null;
    }
 
+   /** Remove all current settings so calls read the built-in defaults. */
    public static function resetToDefaults(): void
    {
-      global $DB;
-      $DB->delete(self::TABLE, ['name' => array_keys(self::$defaults)]);
+      \Config::deleteConfigurationValues(self::CONTEXT, array_keys(self::$defaults));
       self::$cache = null;
    }
 
@@ -95,26 +93,100 @@ final class Config
       return self::$defaults;
    }
 
+   /** Ensure every supported setting has a value in GLPI's configuration store. */
    public static function ensureDefaults(): void
    {
-      global $DB;
-      $existing = [];
-      $iterator = $DB->request(['SELECT' => ['name'], 'FROM' => self::TABLE]);
-      foreach ($iterator as $row) {
-         $existing[(string) $row['name']] = true;
-      }
-
-      $missing = [];
-      foreach (self::$defaults as $name => $value) {
-         if (!isset($existing[$name])) {
-            $missing[$name] = $value;
-         }
-      }
+      $existing = \Config::getConfigurationValues(self::CONTEXT, array_keys(self::$defaults));
+      $missing = array_diff_key(self::$defaults, $existing);
 
       if ($missing !== []) {
          self::saveAll($missing);
       }
+
+      // Do not silently accept failed writes during install/update.
+      $stored = \Config::getConfigurationValues(self::CONTEXT, array_keys(self::$defaults));
+      foreach (self::$defaults as $name => $_default) {
+         if (!array_key_exists($name, $stored)) {
+            throw new \RuntimeException('Unable to initialize Phone Background configuration key: ' . $name);
+         }
+      }
+
+      self::$cache = null;
    }
 
+   /**
+    * Migrate supported values from the legacy plugin-owned table.
+    * Existing native values win, making repeated/partial migrations idempotent.
+    * The caller may drop the legacy table only after this method returns true.
+    */
+   public static function migrateLegacyStorage(): bool
+   {
+      global $DB;
 
+      try {
+         if (!$DB->tableExists(self::LEGACY_TABLE)) {
+            return true;
+         }
+
+         $legacyValues = [];
+         foreach ($DB->request(['FROM' => self::LEGACY_TABLE]) as $row) {
+            $name = (string) ($row['name'] ?? '');
+            if ($name !== '' && array_key_exists($name, self::$defaults)) {
+               $legacyValues[$name] = (string) ($row['value'] ?? '');
+            }
+         }
+
+         $existing = \Config::getConfigurationValues(self::CONTEXT, array_keys(self::$defaults));
+         $toSave = [];
+         $expected = [];
+
+         foreach ($legacyValues as $name => $legacyValue) {
+            if (array_key_exists($name, $existing)) {
+               // If a previous migration wrote this key, preserve that newer value.
+               $expected[$name] = (string) ($existing[$name] ?? '');
+            } else {
+               $toSave[$name] = $legacyValue;
+               $expected[$name] = $legacyValue;
+            }
+         }
+
+         if ($toSave !== []) {
+            \Config::setConfigurationValues(self::CONTEXT, $toSave);
+         }
+
+         $persisted = \Config::getConfigurationValues(self::CONTEXT, array_keys($expected));
+         foreach ($expected as $name => $value) {
+            if (!array_key_exists($name, $persisted)
+                || (string) ($persisted[$name] ?? '') !== $value) {
+               \Toolbox::logInFile(
+                  'phonebg',
+                  'Legacy configuration migration verification failed for key: ' . $name,
+                  false,
+                  false
+               );
+               return false;
+            }
+         }
+
+         return true;
+      } catch (Throwable $e) {
+         \Toolbox::logInFile(
+            'phonebg',
+            'Legacy configuration migration failed; the legacy table was preserved. ' . $e->getMessage(),
+            false,
+            false
+         );
+         return false;
+      }
+   }
+
+   /** Remove every key in this plugin's dedicated GLPI configuration context. */
+   public static function removeConfiguration(): void
+   {
+      $existing = \Config::getConfigurationValues(self::CONTEXT);
+      if ($existing !== []) {
+         \Config::deleteConfigurationValues(self::CONTEXT, array_keys($existing));
+      }
+      self::$cache = null;
+   }
 }

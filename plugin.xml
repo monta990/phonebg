@@ -27,7 +27,7 @@ and preview, download, or send the wallpaper by email directly from the Phone as
 - Send wallpaper by email to the assigned user from the phone tab
 - Email tab: configurable subject, body, and footer with {name}/{line} tokens and B/I/U formatting
 - Test-send button in admin settings to verify email delivery
-- Positions stored in database, survive upgrades
+- Positions stored through GLPI native configuration storage, survive upgrades
 - Multilingual: es_MX, en_US, en_GB, fr_FR
          </en>
          <es>
@@ -78,6 +78,12 @@ de police par champ, et telechargez, visualisez ou envoyez le fond d'ecran par c
       <author>Edwin Elias Alvarez</author>
    </authors>
    <versions>
+      <version>
+         <num>1.6.3</num>
+         <compatibility>~12.0</compatibility>
+         <compatibility>~11.0</compatibility>
+         <download_url>https://github.com/monta990/phonebg/releases/download/1.6.3/phonebg-1.6.3.zip</download_url>
+      </version>
       <version>
          <num>1.6.2</num>
          <compatibility>~12.0</compatibility>

@@ -71,7 +71,7 @@ The **Positions** tab (visible once a template has been uploaded) provides a ful
 - **Label 1 / Label 2**: enter custom static text, enable the toggle, and position the label. Disabled labels are not rendered.
 - Click **Save** to persist the settings, or **Reset to defaults** to restore the original values.
 
-Positions are stored in the `glpi_plugin_phonebg_config` database table and survive plugin upgrades.
+Positions are stored through GLPI’s native configuration API in the plugin-specific `plugin:phonebg` context and survive plugin upgrades. When upgrading from older releases, the plugin migrates existing settings and verifies them before removing the legacy table.
 
 ## Usage
 
@@ -93,7 +93,7 @@ phonebg/
 │       ├── Background.php           # GD image generation logic
 │       ├── Cache.php                # GLPI native cache cleanup on install/update
 │       ├── Mail.php                 # Native Symfony Mailer integration
-│       ├── Config.php               # DB-backed layout configuration
+│       ├── Config.php               # GLPI native configuration API and legacy migration
 │       ├── Paths.php                # Centralized filesystem paths and controller URLs
 │       ├── Renderer.php             # Namespaced Twig renderer
 │       └── VersionChecker.php       # GitHub stable-release checker with cache/fallback
@@ -113,7 +113,7 @@ phonebg/
 
 ## Uninstallation
 
-Disabling and uninstalling via **Setup → Plugins** drops the `glpi_plugin_phonebg_config` table. The uploaded template and generated files in `files/_plugins/phonebg/` are intentionally preserved.
+Uninstalling via **Setup → Plugins** removes the plugin’s entries from GLPI’s native configuration store and cleans up the legacy `glpi_plugin_phonebg_config` table if it remains from an older release. The uploaded template and generated files in `files/_plugins/phonebg/` are intentionally preserved.
 
 ---
 

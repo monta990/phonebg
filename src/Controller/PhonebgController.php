@@ -576,7 +576,7 @@ final class PhonebgController extends AbstractController
             if (@unlink($font_path)) {
                Paths::deleteFontMeta($font_name);
                if (Config::get('font_file') === $font_name) {
-                  Config::set('font_file', 'DejaVuSans.ttf');
+                  Config::saveAll(['font_file' => 'DejaVuSans.ttf']);
                }
                \Session::addMessageAfterRedirect(__('Font deleted successfully', 'phonebg'), false, INFO);
             } else {

@@ -1,0 +1,40 @@
+name: Phone Background Code Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  php-style:
+    name: PHP style (test suite)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up PHP tools
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1
+        with:
+          php-version: '8.2'
+          tools: php-cs-fixer
+          coverage: none
+
+      - name: Check test code style
+        run: php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php
+
+      - name: Check JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+          done < <(find js -type f -name '*.js' -print0)
+
+      - name: Check patch whitespace
+        run: git diff --check

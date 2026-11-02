@@ -23,7 +23,6 @@ final class BackgroundTest extends TestCase
 
         $image = imagecreatetruecolor(320, 240);
         imagepng($image, Paths::basePath());
-        imagedestroy($image);
     }
 
     public function testGeneratesAValidPngWallpaper(): void
@@ -44,7 +43,6 @@ final class BackgroundTest extends TestCase
     {
         $image = imagecreatetruecolor(8001, 1);
         imagepng($image, Paths::basePath());
-        imagedestroy($image);
 
         self::assertSame('', Background::generateTestPNG('Office Phone', '555-0100'));
         self::assertStringContainsString('exceed the maximum allowed', Background::$lastError);

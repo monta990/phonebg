@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 0
 
       - name: Set up PHP tools
         uses: shivammathur/setup-php@73aede52cb368fb5bfc2956c593eb40704b51cca
@@ -37,4 +39,4 @@ jobs:
           done < <(find js -type f -name '*.js' -print0)
 
       - name: Check patch whitespace
-        run: git diff --check
+        run: git diff --check origin/main...HEAD

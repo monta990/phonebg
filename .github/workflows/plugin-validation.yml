@@ -50,11 +50,11 @@ jobs:
           mkdir -p "$package_root/phonebg"
           git archive "$GITHUB_SHA" | tar -x -C "$package_root/phonebg"
           cd "$package_root"
-          zip --quiet --recurse-paths phonebg-ci.zip phonebg \
-            --exclude 'phonebg/.github/*' \
-            --exclude 'phonebg/tests/*' \
-            --exclude 'phonebg/.phpunit.xml' \
-            --exclude 'phonebg/.php-cs-fixer.dist.php'
+          zip -q -r phonebg-ci.zip phonebg \
+            -x 'phonebg/.github/*' \
+            'phonebg/tests/*' \
+            'phonebg/.phpunit.xml' \
+            'phonebg/.php-cs-fixer.dist.php'
           unzip -Z1 phonebg-ci.zip > archive-files.txt
           for required in \
             phonebg/setup.php \

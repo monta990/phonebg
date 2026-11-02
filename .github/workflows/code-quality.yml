@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
 
       - name: Set up PHP tools
-        uses: shivammathur/setup-php@73aede52cb368fb5bfc2956c593eb40704b51cca
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
           php-version: '8.2'
           tools: php-cs-fixer
@@ -29,6 +29,11 @@ jobs:
 
       - name: Check test code style
         run: php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '24'
 
       - name: Check JavaScript syntax
         shell: bash

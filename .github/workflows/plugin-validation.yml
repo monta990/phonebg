@@ -1,0 +1,74 @@
+name: Phone Background Plugin Validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  metadata-and-translations:
+    name: Plugin metadata and translations
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1
+        with:
+          php-version: '8.2'
+          extensions: gd, mbstring, simplexml
+          coverage: none
+
+      - name: Validate plugin metadata and PSR-4 layout
+        run: php tests/validate-plugin.php
+
+      - name: Install gettext and ZIP tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes gettext zip unzip
+
+      - name: Validate translation catalogs
+        shell: bash
+        run: |
+          set -euo pipefail
+          for catalog in locales/*.po; do
+            echo "Checking $catalog"
+            msgfmt --check --check-format --output-file=/dev/null "$catalog"
+          done
+
+      - name: Build installable plugin archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          package_root="$RUNNER_TEMP/phonebg-package"
+          mkdir -p "$package_root/phonebg"
+          git archive "$GITHUB_SHA" | tar -x -C "$package_root/phonebg"
+          cd "$package_root"
+          zip --quiet --recurse-paths phonebg-ci.zip phonebg \
+            --exclude 'phonebg/.github/*' \
+            --exclude 'phonebg/tests/*' \
+            --exclude 'phonebg/.phpunit.xml' \
+            --exclude 'phonebg/.php-cs-fixer.dist.php'
+          unzip -Z1 phonebg-ci.zip > archive-files.txt
+          for required in \
+            phonebg/setup.php \
+            phonebg/hook.php \
+            phonebg/plugin.xml \
+            phonebg/src/Controller/PhonebgController.php \
+            phonebg/src/Model/Phone.php \
+            phonebg/src/Service/Background.php \
+            phonebg/templates/config_form.html.twig \
+            phonebg/templates/phone_tab.html.twig \
+            phonebg/fonts/DejaVuSans.ttf; do
+            grep --fixed-strings --line-regexp --quiet "$required" archive-files.txt
+          done
+          if grep --extended-regexp --quiet '^phonebg/(\.github|tests)/' archive-files.txt; then
+            echo 'Development files must not be included in the plugin archive.'
+            exit 1
+          fi

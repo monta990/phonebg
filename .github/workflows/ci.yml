@@ -1,0 +1,81 @@
+name: Phone Background CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phonebg-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: PHP ${{ matrix.php }} / PHPUnit ${{ matrix.phpunit }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.2'
+            phpunit: '11'
+          - php: '8.3'
+            phpunit: '12'
+          - php: '8.4'
+            phpunit: '12'
+          - php: '8.5'
+            phpunit: '12'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, gd, mbstring, zip
+          tools: phpunit:${{ matrix.phpunit }}
+          coverage: none
+
+      - name: Validate PHP syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            php -l "$file"
+          done < <(find . -type f -name '*.php' -not -path './.git/*' -print0)
+
+      - name: Run unit tests
+        run: phpunit --configuration .phpunit.xml
+
+  php-8-6-nightly:
+    name: PHP 8.6 nightly (experimental)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Set up PHP 8.6 nightly
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1
+        with:
+          php-version: '8.6'
+          extensions: curl, gd, mbstring, zip
+          tools: phpunit:12
+          coverage: none
+
+      - name: Validate PHP syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' file; do
+            php -l "$file"
+          done < <(find . -type f -name '*.php' -not -path './.git/*' -print0)
+
+      - name: Run unit tests
+        run: phpunit --configuration .phpunit.xml

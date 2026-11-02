@@ -51,7 +51,7 @@ jobs:
           done < <(find . -type f -name '*.php' -not -path './.git/*' -print0)
 
       - name: Run unit tests
-        run: phpunit --configuration .phpunit.xml
+        run: phpunit --display-deprecations --configuration .phpunit.xml
 
   php-8-6-nightly:
     name: PHP 8.6 nightly (experimental)

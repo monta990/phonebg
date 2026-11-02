@@ -6,49 +6,68 @@ namespace Tests\Unit;
 
 use GlpiPlugin\Phonebg\Service\VersionChecker;
 use PHPUnit\Framework\TestCase;
-use ReflectionMethod;
 
 final class VersionCheckerTest extends TestCase
 {
-    public function testBuildStatusDetectsNewerStableVersion(): void
+    protected function setUp(): void
     {
-        $method = new ReflectionMethod(VersionChecker::class, 'buildStatus');
-        $method->setAccessible(true);
+        $cacheFile = GLPI_CACHE_DIR . '/phonebg/release_cache.json';
+        if (is_file($cacheFile)) {
+            unlink($cacheFile);
+        }
+    }
 
-        $status = $method->invoke(null, [
+    public function testCachedStatusDetectsNewerStableVersion(): void
+    {
+        $this->writeCache([
             'latest_version' => 'v1.6.5',
-            'checked_at' => 123456,
-        ], true);
+            'checked_at' => time(),
+        ]);
+
+        $status = VersionChecker::getStatus();
 
         self::assertSame('1.6.4', $status['current_version']);
         self::assertSame('1.6.5', $status['latest_version']);
         self::assertTrue($status['update_available']);
         self::assertTrue($status['from_cache']);
-        self::assertSame(123456, $status['checked_at']);
+        self::assertTrue($status['github_available']);
     }
 
-    public function testBuildStatusDoesNotOfferUpdateForSameVersion(): void
+    public function testCachedStatusDoesNotOfferUpdateForSameVersion(): void
     {
-        $method = new ReflectionMethod(VersionChecker::class, 'buildStatus');
-        $method->setAccessible(true);
-
-        $status = $method->invoke(null, [
+        $this->writeCache([
             'latest_version' => '1.6.4',
-            'checked_at' => 123456,
-        ], false);
+            'checked_at' => time(),
+        ]);
 
+        $status = VersionChecker::getStatus();
+
+        self::assertSame('1.6.4', $status['latest_version']);
         self::assertFalse($status['update_available']);
-        self::assertFalse($status['from_cache']);
+        self::assertTrue($status['from_cache']);
     }
 
-    public function testBuildStatusHandlesMissingVersion(): void
+    public function testCachedStatusHandlesMissingVersion(): void
     {
-        $method = new ReflectionMethod(VersionChecker::class, 'buildStatus');
-        $method->setAccessible(true);
+        $this->writeCache(['checked_at' => time()]);
 
-        $status = $method->invoke(null, [], true);
+        $status = VersionChecker::getStatus();
 
         self::assertNull($status['latest_version']);
         self::assertFalse($status['update_available']);
+        self::assertTrue($status['from_cache']);
+    }
+
+    private function writeCache(array $data): void
+    {
+        $directory = GLPI_CACHE_DIR . '/phonebg';
+        if (!is_dir($directory)) {
+            mkdir($directory, 0775, true);
+        }
+
+        file_put_contents(
+            $directory . '/release_cache.json',
+            json_encode($data, JSON_THROW_ON_ERROR)
+        );
     }
 }

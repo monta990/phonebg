@@ -32,10 +32,10 @@ jobs:
             phpunit: '12'
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Set up PHP
-        uses: shivammathur/setup-php@73aede52cb368fb5bfc2956c593eb40704b51cca
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
           php-version: ${{ matrix.php }}
           extensions: curl, gd, mbstring, zip
@@ -59,10 +59,10 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Set up PHP 8.6 nightly
-        uses: shivammathur/setup-php@73aede52cb368fb5bfc2956c593eb40704b51cca
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240
         with:
           php-version: '8.6'
           extensions: curl, gd, mbstring, zip
